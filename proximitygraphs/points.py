@@ -54,27 +54,108 @@ class SetPoints:
         return SetPoints(self.points)
 
     @classmethod
-    def uniform_square(cls, n=10, dims=2):
-        points = np.random.rand(n, dims)
+    def uniform_square(cls, n=10, dims=2, seed=73):
+        '''
+        Generate a random uniform sample from a sphere of radius 1 in n dimensions.
+        The points are uniformly distributed over the surface of a square.
+        The use of a seed is recommended to ensure reproducibility.
+        
+        Parameters:
+        ----------
+        n = number of points: integer
+        dims = number of dimensions: integer
+        seed = random seed: integer
+        '''
+        try:
+            if n <= 0 or dims <= 0:
+                raise ValueError("n and dims must be positive integers")
+        except ValueError as e:
+            print(e)
+        try:
+            if not isinstance(seed, int):
+                raise ValueError("seed must be an integer")
+        except ValueError as e:
+            print(e)
+        
+        rng = np.random.default_rng(seed=seed)
+        points = rng.random((n, dims))
         return cls(points)
     
     @classmethod
-    def uniform_over_sphere(cls, n=10, dims=2):
-        points = points_on_sphere(n, dims)
+    def uniform_over_sphere(cls, n=10, dims=2, seed=73):
+        '''
+        Generate a random uniform sample from a sphere of radius 1 in n dimensions.
+        The points are uniformly distributed over the surface of the sphere.
+        The use of a seed is recommended to ensure reproducibility.
+        
+        Parameters:
+        ----------
+        n = number of points: integer
+        dims = number of dimensions: integer
+        seed = random seed: integer
+        '''
+        try:
+            if n <= 0 or dims <= 0:
+                raise ValueError("n and dims must be positive integers")
+        except ValueError as e:
+            print(e)
+        try:
+            if not isinstance(seed, int):
+                raise ValueError("seed must be an integer")
+        except ValueError as e:
+            print(e)
+        
+        points = points_on_sphere(n, dims, seed=seed)
         return cls(points)
     
     
     @classmethod
-    def uniform_sphere(cls, n=10, dims=2):
-        # Referencia
+    def uniform_sphere(cls, n=10, dims=2, seed=73):
+        '''
+        Generate a random uniform sample from a sphere of radius 1 in n dimensions
+        the points are unifformly distributed over the interior of the sphere.
+        The use of a seed is recommended to ensure reproducibility.
+        
+        Parameters:
+        ----------
+        n = number of points: integer
+        dims = number of dimensions: integer
+        seed = random seed: integer
+        '''
+        try:
+            if n <= 0 or dims <= 0:
+                raise ValueError("n and dims must be positive integers")
+        except ValueError as e:
+            print(e)
+        try:
+            if not isinstance(seed, int):
+                raise ValueError("seed must be an integer")
+        except ValueError as e:
+            print(e)
+        
         radius = np.random.rand(n, 1)**(1/dims)
         unit_sphere_surface = points_on_sphere(n, dims)
         points = radius * unit_sphere_surface
         return cls(points)
 
     @classmethod
-    def normal_distr(cls, n=10, dims=2):
-        """Generates a sample from a multivariate standard normal distribution"""
+    def normal_dist(cls, n=10, dims=2, seed =73):
+        """
+        Generates a sample from a multivariate standard normal distribution
+        Note: the mean and covariance are set to 0 and I respectively.
+        The points are uniformly distributed over the surface of the sphere.
+        """
+        try:
+            if n <= 0 or dims <= 0:
+                raise ValueError("n and dims must be positive integers")
+        except ValueError as e:
+            print(e)
+        try:
+            if not isinstance(seed, int):
+                raise ValueError("seed must be an integer")
+        except ValueError as e:
+            print(e)
+        
         mean = np.zeros(dims)
         cov = np.eye(dims)
         points = np.random.multivariate_normal(mean, cov, n)
@@ -82,6 +163,16 @@ class SetPoints:
 
     @classmethod
     def grid(cls, shape=(3, 3)):
+        '''
+        Returns a grid of points in the plane.
+        The points are distributed in a regular unit grid.
+        '''
+        try:
+            if not isinstance(shape, tuple):
+                raise ValueError("shape must be a tuple")
+        except ValueError as e:
+            print(e)
+        
         axes = [np.arange(0, n_points + 1) for n_points in shape]
         mesh = np.meshgrid(*axes, indexing="ij")
         points = np.array(list(zip(*(axis.flat for axis in mesh)))) 
@@ -89,6 +180,17 @@ class SetPoints:
 
     @classmethod
     def hexagonal(cls, n_x=3, n_y=3):
+        ''' 
+        Generate a hexagonal teselation of points in the plane.
+        The points are uniformly distributed over the surface of the hexagon.
+        The implementation only support 2 dimensional hexagonal grids
+        '''
+        try:
+            if n_x <= 0 or n_y <= 0:
+                raise ValueError("n_x and n_y must be positive integers")
+        except ValueError as e:
+            print(e)
+        
         x = np.cumsum(np.array([1, 2]*n_x))
         x = np.insert(x, 0, 0)
         y = np.cumsum(np.array([np.sqrt(3)]*2*n_y))
@@ -107,6 +209,17 @@ class SetPoints:
 
     @classmethod
     def triangular(cls, n_x=3, n_y=3):
+        '''
+        Generate a triangle teselation of points in the plane.
+        The points are uniformly distributed over the surface of the hexagon.
+        The implementation only support 2 dimensional hexagonal grids
+        '''
+        try:
+            if n_x <= 0 or n_y <= 0:
+                raise ValueError("n_x and n_y must be positive integers")
+        except ValueError as e:
+            print(e)
+        
         x = np.arange(0, n_x+1)
         y = np.arange(0, np.sqrt(3) * np.floor(n_y/2)+1, np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
@@ -120,6 +233,16 @@ class SetPoints:
 
     @classmethod
     def poissonprocess_square(cls, intensity=10, limit=1):
+        '''
+        intesity: controls the lambda parameter of the poisson distribution, this parameter should always be positive
+        limit: determines the x and y limit from the function in a square area 
+        '''
+        try: 
+            if intensity <= 0 or limit <= 0:
+                raise ValueError("intensity and limit must be positive values")
+        except ValueError as e:
+            print(e)
+        
         limits = ((0, limit),
                   (0, limit))
         # Simulation window parameters
@@ -237,6 +360,24 @@ class SetPoints:
     def __draw_points(self, fig, figsize, plot_axes, 
                       size, color, axis, position=111,
                       ):
+        '''
+    Internal helper to draw points on a matplotlib figure.
+
+    Parameters:
+        fig        : matplotlib figure object
+        plot_axes  : tuple of indices (x, y) axes to project the points
+        size       : point size
+        color      : color of the points
+        axis       : bool, whether to show axis
+        position   : subplot position (default: 111)
+    
+    Returns:
+        ax         : matplotlib Axes object
+    '''
+    
+        if len(plot_axes) != 2 or any(i >= self.dim for i in plot_axes):
+            raise ValueError(f"plot_axes must be a tuple of two valid dimensions (max {self.dim - 1})")
+        
         ax = fig.add_subplot(position)
         ax.scatter(x=self.points[:, plot_axes[0]],
                    y=self.points[:, plot_axes[1]],
@@ -274,14 +415,28 @@ class SetPoints:
     def __affin_transformation(self,
                                matrix = None,
                                c = None):
+        '''
+        Given a set of points, apply an affine transformation to the points.
+        The affine transformation is defined by a matrix and a translation vector.
+        the resulting set of points is returned as a new SetPoints object.
+        The transformation is defined by the equation:
+        trasnformation = points @ matrix + c
+        where points is the original set of points, matrix is the transformation matrix,
+        and c is the translation vector.
+        '''
         if matrix is None:
             matrix=np.eye(self.dim)
         if c is None:
             c=np.zeros(self.dim)
-        return SetPoints(self.points @ matrix + c)
+            
+        matrix = np.asarray(matrix)
+        c = np.asarray(c)
+        trasnformation = self.points @ matrix + c
+        return SetPoints(np.asanyarray(trasnformation))
 
-    def rotation(self, angle, degree=False):
-        ###### ERROR #################
+    def rotation(self, angle, degree=True):
+        if self.dim != 2:
+            raise ValueError("Rotation is only implemented for 2D points.")
         if degree:
             angle = np.radians(angle)
         cos = np.cos(angle)
@@ -290,15 +445,43 @@ class SetPoints:
                             [-sin, cos]])
         return self.__affin_transformation(matrix)
 
-    def scaling(self, scales):
-        matrix = np.diag(scales)
-        return self.__affin_transformation(matrix)
+    def scaling(self, scale):
+        if np.isscalar(scale):
+            scale = np.full(self.dim, scale)
+
+        scale = np.asarray(scale)
+        if scale.shape != (self.dim,):
+            raise ValueError(f"Scale vector must have shape ({self.dim},), but got {scale.shape}")
+        
+        matrix = np.diag(scale)
+        return self.__affin_transformation(matrix=matrix)
 
     def traslation(self, c):
+        '''
+        Given a scalar or vector, apply a translation to the points.
+        If c is a scalar, the same value is added to all dimensions.
+        '''
+        if np.isscalar(c):
+            c = np.full(self.dim, c)
+        else:
+            c = np.asarray(c)
+            if c.shape != (self.dim,):
+                raise ValueError(f"Translation vector must have shape ({self.dim},), but got {c.shape}")
+        
         return self.__affin_transformation(c=c)
+        
     
     def perturb(self,  radius):
-        ###### ERROR #################
+        '''
+        given a point set, apply a perturbation to the points.
+        The perturbation is defined by a random vector of radius r.
+        
+        this is by generating a unit sphere and multiplying it by a random radius.
+        The resulting points are uniformly distributed over the surface of the sphere.
+        '''
+        if radius <= 0:
+            raise ValueError("Radius must be positive")
+        
         r = np.random.uniform(0, radius, self.n)**(1/self.dim)
         unit_sphere_surface = points_on_sphere(self.n, self.dim)
         perturbations = r.reshape(-1,1) * unit_sphere_surface
