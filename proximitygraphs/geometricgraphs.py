@@ -138,6 +138,7 @@ class GeometricGraph:
         self.graph.es["dist_eucl"] = length
 
     def __add_orientation(self):
+        # Only for 2D graph
         if self.m > 0:
             edges = self.graph.get_edgelist()
             pos = self.setpoints.pos
@@ -287,6 +288,7 @@ class GeometricGraph:
         del self.__graph["name"], self.__graph["details"]
 
     def to_gpd_lines(self):
+        # Only for 2D graph
         lines = lambda edge:  LineString([self.setpoints.pos[edge[0]],
                                           self.setpoints.pos[edge[1]]])
         edges = self.graph.get_edgelist()
@@ -302,6 +304,7 @@ class GeometricGraph:
         return gpd_lines[columns]
 
     def to_gpd_polygons(self):
+        # Only for 2D graph
         if self.cc-self.n+self.m > 0:
             gpd_graph = self.to_gpd_lines()
             geom = polygonize(gpd_graph["geometry"])
