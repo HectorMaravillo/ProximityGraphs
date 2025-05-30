@@ -957,7 +957,7 @@ class SetPoints:
         ValueError
             If `radius` is not positive.
         '''
-        if radius <= 0:
+        if radius < 0:
             raise ValueError("Radius must be positive")
 
         # Ensure self._rng exists, initialized in __init__
