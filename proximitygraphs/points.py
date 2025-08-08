@@ -1,8 +1,6 @@
 # https://hpaulkeeler.com/ para point process
 
 import numpy as np
-import geopandas as gpd
-from shapely.geometry import Point
 
 from matplotlib.pyplot import figure
 from scipy.stats import poisson, uniform
@@ -45,24 +43,6 @@ class SetPoints:
     # CONSTRUCTORS
 
     def __init__(self, points, seed=None):
-        '''
-        Base constructor for SetPoints.
-        attributes:
-        ----------
-        points : numpy.ndarray
-            A 2D numpy array of shape (n, dim) where n is the number of points and dim is the dimension of each point.
-        seed : int, optional
-            A seed for the random number generator to ensure reproducibility. If None, a default random generator is used.
-        Raises:
-        ------ 
-        TypeError: If points is not a numpy.ndarray.
-        
-        
-        returns  a SetPoints object containing the points.
-        '''
-        
-        if not isinstance(points, np.ndarray):
-            raise TypeError("Input 'points' must be a numpy.ndarray.")
         self.__points = points
         self.__n, self.__dim= np.shape(points)
         if seed is None:
@@ -673,43 +653,6 @@ class SetPoints:
         y = y[inside]
         points = np.stack((x, y), axis=1)
         return cls(points, seed=rng.integers(low=0, high=2**32-1))
-    
-    @classmethod
-    def from_geopandas(cls, geoseries, seed=None):
-        """
-        Creates a SetPoints object from a geopandas.GeoSeries of Points.
-
-        Parameters:
-        ----------
-        geoseries : geopandas.GeoSeries
-            A GeoSeries containing shapely.geometry.Point objects.
-        seed : int, optional
-            A seed for the random number generator.
-
-        Returns:
-        -------
-        SetPoints
-            A new SetPoints object.
-
-        Raises:
-        ------
-        TypeError
-            If geoseries is not a geopandas.GeoSeries.
-        ValueError
-            If geoseries is empty or contains non-Point geometries.
-        """
-        if not isinstance(geoseries, gpd.GeoSeries):
-            raise TypeError("Input 'geoseries' must be a geopandas.GeoSeries.")
-
-        if geoseries.empty:
-            raise ValueError("Input 'geoseries' cannot be empty.")
-
-        if not all(isinstance(geom, Point) for geom in geoseries):
-            raise ValueError("All geometries in 'geoseries' must be shapely.geometry.Point instances.")
-
-        coords = np.array([(point.x, point.y) for point in geoseries])
-        return cls(coords, seed=seed)
-    
 
     # METHODS
 
