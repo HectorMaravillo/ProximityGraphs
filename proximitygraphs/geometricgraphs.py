@@ -10,41 +10,76 @@ from shapely.ops import polygonize
 from scipy.stats import entropy
 
 from .points import SetPoints
+import warnings
 
 
 class GeometricGraph:
+    
+    """
+    Represents a graph embedded in a geometric space.
+
+    Vertices have coordinates, and the graph structure is typically derived
+    from the spatial relationships between these points (e.g., proximity graphs).
+    This class provides methods for graph construction, modification, analysis
+    of geometric and topological properties, and visualization.
+
+    Attributes:
+        points (numpy.ndarray): A NumPy array of point coordinates (n x dim).
+        setpoints (SetPoints): The SetPoints object managing the vertex coordinates.
+        n (int): The number of vertices in the graph.
+        m (int): The number of edges in the graph.
+        cc (int): The number of connected components in the graph.
+        f (int): The number of faces in a planar embedding (calculated by Euler's formula).
+        graph (igraph.Graph): The underlying igraph Graph object.
+        name (str): A name for the graph (e.g., "Gabriel Graph").
+        details (str): Additional details or parameters used to construct the graph.
+        degrees (numpy.ndarray): The degree sequence of the graph.
+        lengths (numpy.ndarray): An array of Euclidean lengths for all edges.
+        orientation (numpy.ndarray): An array of orientations (angles in degrees) for all edges.
+    """
+
 
     # ATTRIBUTES
     @property
     def points(self):
+        """numpy.ndarray: The coordinates of the points (vertices) as an n x dim array."""
         return self.__setpoints.points
 
     @property
     def setpoints(self):
+        """SetPoints: The underlying SetPoints object containing vertex coordinates and RNG."""
         return self.__setpoints
 
     @property
     def n(self):
+        """int: The number of vertices in the graph."""
         return self.__setpoints.n
 
     @property
     def m(self):
+        """int: The number of edges in the graph."""
         return self.__m
 
     @property
     def cc(self):
+        """int: The number of connected components in the graph."""
         return len(self.graph.connected_components())
 
     @property
     def f(self):
+        """int: The number of faces, calculated using Euler's formula: V-E+F=C+1 for general planar graphs, or V-E+F=1 for a single connected component on a sphere/plane if graph is connected).
+           Here it's simplified as C - V + E + 1, assuming one exterior face.
+        """
         return self.cc-self.n+self.m+1
 
     @property
     def graph(self):
+        """igraph.Graph: The underlying igraph graph object."""
         return self.__graph
 
     @property
     def name(self):
+        """str: The name of the geometric graph type."""
         return self.__name
 
     @name.setter
@@ -61,28 +96,44 @@ class GeometricGraph:
 
     @property
     def degrees(self):
+        """numpy.ndarray: The degree distribution of the graph.
+        The i-th element is the count of vertices with degree i+1.
+        """
         degrees = self.graph.degree()
-        degrees_sequence = [degrees.count(i) for i in range(1, max(degrees)+1)]
+        if not degrees: 
+            return np.array([])
+        degrees_sequence = [degrees.count(i) for i in range(1, max(degrees)+1 if degrees else 1)]
         return np.array(degrees_sequence)
 
     @property
     def lengths(self):
+        """numpy.ndarray: An array containing the Euclidean lengths of all edges in the graph.
+        Returns an empty array if the graph has no edges.
+        """
         if self.m == 0:
             return np.array([])
         else:
+            if "dist_eucl" not in self.graph.es.attribute_names():
+                self.__add_lengths()
             return np.array(self.graph.es["dist_eucl"])
+
 
     @property
     def orientation(self):
-        if "orientation" in self.graph.es.attribute_names():
+        """numpy.ndarray: An array containing the orientation (angle in degrees, typically CCW from positive x-axis) of all edges.
+        Calculated on demand if not already present. Returns an empty array if no edges or if not applicable.
+        """
+        if not hasattr(self.graph, 'es') or "orientation" not in self.graph.es.attribute_names():
+            self.__add_orientation()
+        if hasattr(self.graph, 'es') and "orientation" in self.graph.es.attribute_names():
             return np.array(self.graph.es["orientation"])
-        else:
-            return self.__add_orientation()
+        return np.array([])
 
     __limit_vec = 20000
 
-    # CONSTRUCTOR
     def __init__(self, setpoints):
+        if not isinstance(setpoints, SetPoints):
+            raise TypeError("Input 'setpoints' must be an instance of SetPoints.")
         self.__setpoints = setpoints
         self.__graph = ig.Graph()
         self.__graph.add_vertices(self.n)
@@ -92,224 +143,370 @@ class GeometricGraph:
 
     @classmethod
     def complete(cls, setpoints):
-        complete_graph = cls.__new__(cls)
-        complete_graph.__setpoints = setpoints
-        complete_graph.__graph = ig.Graph.Full(n=setpoints.n)
-        complete_graph._GeometricGraph__size()
-        complete_graph._GeometricGraph__add_lengths()
-        complete_graph.__name = "Complete Graph"
-        complete_graph.__details = ""
-        return complete_graph
+        if not isinstance(setpoints, SetPoints):
+            raise TypeError("Input 'setpoints' must be an instance of SetPoints.")
+        complete_graph_instance = cls.__new__(cls) 
+        complete_graph_instance.__setpoints = setpoints
+        complete_graph_instance.__graph = ig.Graph.Full(n=setpoints.n) 
+        complete_graph_instance._GeometricGraph__m = complete_graph_instance.__graph.ecount() 
+        complete_graph_instance._GeometricGraph__add_lengths() 
+        complete_graph_instance.__name = "Complete Graph"
+        complete_graph_instance.__details = f"K_{setpoints.n}"
+        return complete_graph_instance
 
     @classmethod
     def from_graph(cls, graph, points, name=None):
-        setpoints = SetPoints(points)
-        geometricgraph = cls.__new__(cls)
-        geometricgraph.__setpoints = setpoints
-        geometricgraph.__graph = graph
+        setpoints_instance = SetPoints(points)
+        if graph.vcount() != setpoints_instance.n:
+            raise ValueError("Number of vertices in graph must match number of points.")
+        geometric_graph_instance = cls.__new__(cls) 
+        geometric_graph_instance.__setpoints = setpoints_instance
+        geometric_graph_instance.__graph = graph.copy()
         if name is None:
-            geometricgraph.__name = "Original Graph"
+            geometric_graph_instance.__name = "Imported Graph"
         else:
-            geometricgraph.__name = name
-        geometricgraph.__details = ""
-        geometricgraph.__size()
-        geometricgraph.__add_lengths()
-        return geometricgraph
+            geometric_graph_instance.__name = name
+        geometric_graph_instance.__details = "Constructed from existing igraph.Graph"
+        geometric_graph_instance._GeometricGraph__m = geometric_graph_instance.__graph.ecount()
+        geometric_graph_instance.__add_lengths() 
+        return geometric_graph_instance
 
-    # METHODS
-    
+    @classmethod
+    def random_graph(cls, setpoints, p: float, seed: int = None):
+        if not isinstance(setpoints, SetPoints):
+            raise TypeError("Input 'setpoints' must be an instance of SetPoints.")
+        if not (0.0 <= p <= 1.0):
+            raise ValueError("Connection probability 'p' must be in the range [0, 1].")
+        instance = cls.__new__(cls)
+        instance.__setpoints = setpoints
+        instance.__graph = ig.Graph.Erdos_Renyi(
+            n=setpoints.n, p=p, directed=False, loops=False
+        )
+        instance._GeometricGraph__m = instance.__graph.ecount()
+        instance._GeometricGraph__add_lengths()
+        instance.__name = "Random Graph"
+        details_str = f"G({setpoints.n}, p={p:.3g}"
+        if seed is not None:
+            details_str += f", seed={seed}"
+        details_str += ")"
+        instance.__details = details_str
+        return instance
+        
     def copy(self):
-        new_graph = GeometricGraph(self.setpoints)
-        new_graph._GeometricGraph__graph = self.graph.copy()
-        new_graph._GeometricGraph__size()
-        new_graph.name = self.__name
-        new_graph.details = self.__details
-        return new_graph
+        new_setpoints = self.setpoints.copy()
+        new_graph_instance = self.__class__.__new__(self.__class__)
+        new_graph_instance._GeometricGraph__setpoints = new_setpoints
+        new_graph_instance._GeometricGraph__graph = self.graph.copy()
+        new_graph_instance._GeometricGraph__m = self.m
+        new_graph_instance._GeometricGraph__name = self.name
+        new_graph_instance._GeometricGraph__details = self.details
+        return new_graph_instance
 
     def __size(self):
         self.__m = self.__graph.ecount()
         return self.__m
 
     def __add_lengths(self):
-        edges = np.array(self.graph.get_edgelist())
-        edges_pos_x = self.points[edges[:, 0]]
-        edges_pos_y = self.points[edges[:, 1]]
-        length = np.linalg.norm(edges_pos_x-edges_pos_y, axis=1)
-        self.graph.es["dist_eucl"] = length
+        if self.m > 0:
+            edges = np.array(self.graph.get_edgelist())
+            points_for_calc = self.points
+            if points_for_calc.ndim == 1: pass
+            edges_pos_x = points_for_calc[edges[:, 0]]
+            edges_pos_y = points_for_calc[edges[:, 1]]
+            length = np.linalg.norm(edges_pos_x - edges_pos_y, axis=1)
+            self.graph.es["dist_eucl"] = length
+        else:
+            self.graph.es["dist_eucl"] = []
 
     def __add_orientation(self):
-        if self.m > 0:
+        if self.m == 0: return np.array([])
+        calculated_orientations = np.array([])
+        try:
             edges = self.graph.get_edgelist()
-            pos = self.setpoints.pos
-            coords = [(pos[u][0], pos[u][1], pos[v][0], pos[v][1])
-                      for u, v in edges]
-            coords = np.array(coords)
-            dist_x = coords[:, 0] - coords[:, 2]
-            dist_y = coords[:, 1] - coords[:, 3]
-            angle = np.arctan(dist_y/dist_x)
-            orientation = np.degrees(np.pi/2 - angle)
-            self.graph.es["orientation"] = orientation
-        else:
-            orientation = np.array([])
-        return np.array(orientation)
+            if not edges: return np.array([])
+            points_arr = self.points
+            if not isinstance(points_arr, np.ndarray) or points_arr.ndim < 2 or points_arr.shape[0] < 2 or points_arr.shape[1] < 2 :
+                 warnings.warn("Orientation calculation requires a NumPy array of at least 2 points in at least 2 dimensions.")
+                 return np.array([])
+            dim = points_arr.shape[1]
+            coords_u = points_arr[np.array(edges)[:, 0]]
+            coords_v = points_arr[np.array(edges)[:, 1]]
+            if dim == 2:
+                dx = coords_v[:, 0] - coords_u[:, 0]
+                dy = coords_v[:, 1] - coords_u[:, 1]
+                ang = np.degrees(np.arctan2(dy, dx))
+                calculated_orientations = np.mod(ang, 360)
+            elif dim == 3:
+                dx = coords_v[:, 0] - coords_u[:, 0]
+                dy = coords_v[:, 1] - coords_u[:, 1]
+                dz = coords_v[:, 2] - coords_u[:, 2]
+                azimuth = np.mod(np.degrees(np.arctan2(dy, dx)), 360)
+                horiz_len = np.hypot(dx, dy)
+                elevation = np.full_like(dz, 0.0, dtype=float)
+                non_vertical_mask = horiz_len != 0
+                elevation[non_vertical_mask] = np.degrees(np.arctan2(dz[non_vertical_mask], horiz_len[non_vertical_mask]))
+                vertical_mask = horiz_len == 0
+                elevation[vertical_mask] = np.copysign(90.0, dz[vertical_mask])
+                calculated_orientations = np.column_stack((azimuth, elevation))
+            else:
+                warnings.warn(f"Orientation is defined only for 2‑D or 3‑D layouts (received {dim}‑D). No values were written.")
+            if calculated_orientations.size > 0 and hasattr(self.graph, 'es'):
+                self.graph.es["orientation"] = calculated_orientations.tolist()
+            return calculated_orientations
+        except Exception as exc:
+            warnings.warn(f"Could not compute edge orientations due to exception: {exc}")
+            return np.array([])
 
     def entropy(self, variable_name, bins=10):
-        if variable_name == "orientation":
-            bin_counts, _ = np.histogram(self.orientation, bins)
-        if variable_name == "length":
-            bin_counts, _ = np.histogram(self.lengths, bins)
+        if variable_name == "orientation": data = self.orientation
+        elif variable_name == "length": data = self.lengths
         elif variable_name == "degree":
-            bin_counts, _ = np.histogram(self.degree, bins)
-        return entropy(bin_counts)
+            if self.n == 0: return 0.0 
+            data = self.graph.degree() 
+        else:
+            raise ValueError(f"Unsupported variable_name for entropy: {variable_name}. Choose from 'orientation', 'length', 'degree'.")
+        if len(data) == 0: return 0.0
+        bin_counts, _ = np.histogram(data, bins=bins)
+        bin_counts = bin_counts[bin_counts > 0]
+        if len(bin_counts) == 0: return 0.0
+        return entropy(bin_counts, base=2)
 
     def __draw_graph(self, graph, points, ax,
                      v_size, v_color, e_size, e_color):
-        ax = ig.plot(graph, target=ax,
-                     vertex_size=v_size,
-                     vertex_color=v_color,
-                     edge_width=e_size,
-                     edge_color=e_color,
-                     layout=points,
-                     autocurve=False,
-                     keep_aspect_ratio=True)
-        return ax
 
-    def draw(self, figsize=(15, 15),
-             v_size=5, v_color="black",
-             e_size=1, e_color="black",
+        layout_coords = points
+        if points.ndim == 2 and points.shape[1] > 2: 
+            warnings.warn(f"Graph has {points.shape[1]}D points; igraph plot will use the first 2 dimensions for layout.")
+            layout_coords = points[:, :2]
+
+        
+        layout_for_plot = layout_coords.tolist() if isinstance(layout_coords, np.ndarray) else layout_coords
+
+        plot_kwargs = {
+            "layout": layout_for_plot,
+            "autocurve": False,
+            "keep_aspect_ratio": True,
+            "target": ax
+        }
+        if graph.vcount() > 0:
+            plot_kwargs["vertex_size"] = v_size
+            plot_kwargs["vertex_color"] = v_color
+        
+        plot_kwargs["edge_width"] = e_size
+        plot_kwargs["edge_color"] = e_color
+
+        artist = ig.plot(graph, **plot_kwargs)
+        return artist
+
+    def draw(self, figsize=(15, 15), v_size=5, v_color="black", e_size=1, e_color="black",
              title=True, fontsize=12, details=False):
-        fig, ax = subplots(figsize=figsize)
-        ax = self.__draw_graph(graph=self.__graph, points=self.points, ax=ax,
+        fig, ax_orig = subplots(figsize=figsize)
+        self.__draw_graph(graph=self.__graph, points=self.points, ax=ax_orig,
                                v_size=v_size,  v_color=v_color,
                                e_size=e_size, e_color=e_color)
-        return fig, ax
+        if title:
+            plot_title = self.name
+            if details and self.details:
+                plot_title += f"\n{self.details}"
+            ax_orig.set_title(plot_title, fontsize=fontsize)
+        return fig, ax_orig
 
-    def draw_orientation(self, num_bins=36, figsize=(5, 5),
-                         color="darkgreen",  area=False):
-        orientation = self.orientation
-        orientation_double = (orientation+180) % 360
-        orientation = np.concatenate((orientation, orientation_double),
-                                     axis=0)
-        bin_counts, bin_edges = np.histogram(orientation,
-                                             range=(0, 360), bins=num_bins)
-        width = 2*np.pi/num_bins
-        bin_frequency = bin_counts/bin_counts.sum()
-        if area:
-            radius = np.sqrt(bin_frequency)
+    def draw_orientation(self, num_bins: int = 36, figsize: tuple[int, int] = (5, 5),
+                         color: str = "darkgreen", area: bool = False, component: str = "auto"):
+        orientation = self.orientation  
+        if orientation.ndim == 1: angles = orientation
+        elif orientation.ndim == 2 and orientation.shape[1] == 2:
+            if component == "auto": component = "azimuth"
+            comp_idx = {"azimuth": 0, "elevation": 1}.get(component)
+            if comp_idx is None: raise ValueError(f"component must be 'azimuth', 'elevation' or 'auto' (received {component!r})")
+            angles = orientation[:, comp_idx]
+            if component == "elevation": angles = (angles + 90) % 180
         else:
-            radius = bin_frequency
-        positions = np.radians(bin_edges[:-1])
+            warnings.warn(f"Orientation array has unexpected shape {orientation.shape}; cannot plot.")
+            return None, None
+        
+        if angles.size == 0: 
+            warnings.warn("No orientation data to plot for draw_orientation.")
+            fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
+            ax.set_title("Edge orientation distribution (No data)")
+            return fig, ax
+
+        angles_doubled = (angles + 180) % 360
+        angles_all = np.concatenate((angles, angles_doubled), axis=0)
+
+        bin_counts, bin_edges = np.histogram(angles_all, range=(0, 360), bins=num_bins)
+        if bin_counts.sum() == 0: 
+             warnings.warn("All bin counts are zero in draw_orientation.")
+             fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
+             ax.set_title("Edge orientation distribution (All bins empty)")
+             return fig, ax
+
+        bin_freq = bin_counts / bin_counts.sum()           
+        radius = np.sqrt(bin_freq) if area else bin_freq
+        width = 2 * np.pi / num_bins                       
+        positions = np.radians(bin_edges[:-1])             
         fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
-        ax.set_theta_zero_location("N")
-        ax.set_theta_direction("clockwise")
-        ax.set_ylim(top=radius.max())
-        ax.set_yticks(np.linspace(0, radius.max(), 5))
-        ax.set_yticklabels(labels="")
-        xticklabels = ["N", "", "E", "", "S", "", "O", ""]
+        ax.set_theta_zero_location("N")                   
+        ax.set_theta_direction("clockwise")                
+        ax.set_ylim(top=radius.max() if radius.size > 0 else 1.0) 
+        ax.set_yticks(np.linspace(0, ax.get_ylim()[1], 5))
+        ax.set_yticklabels(labels="")                      
         ax.set_xticks(ax.get_xticks())
-        ax.set_xticklabels(labels=xticklabels)
+        ax.set_xticklabels(["N", "", "E", "", "S", "", "W", ""])
         ax.tick_params(axis="x", which="major", pad=-2)
-        ax.bar(
-                positions,
-                height=radius,
-                width=width,
-                align="center",
-                bottom=0,
-                zorder=2,
-                color=color,
-                edgecolor="black",
-                linewidth=0.5,
-                alpha=0.7,
-            )
+        ax.bar(positions, height=radius, width=width, align="center", bottom=0, zorder=2,
+               color=color, edgecolor="black", linewidth=0.5, alpha=0.7)
+        ax.set_title(f"Edge {component} distribution" if orientation.ndim == 2 else "Edge orientation distribution")
         return fig, ax
 
     def __dist_nearest(self):
-        i = range(0, self.n)
+        if self.n == 0: return np.array([])
+        i_indices = np.arange(self.n)
         if self.n <= self.__limit_vec:
-            dist = cdist(self.points, self.points)
-            dist[i, i] = np.inf
-            dist_min = np.min(dist, axis=1)
+            dist_matrix = cdist(self.points, self.points)
+            dist_matrix[i_indices, i_indices] = np.inf
+            dist_min = np.min(dist_matrix, axis=1)
         else:
-            dist_min = []
+            dist_min = np.empty(self.n)
             for i in range(self.n):
-                dist = np.linalg.norm(self.points-self.points[i], axis=1)
-                dist[i] = np.inf
-                dist_min.append(np.min(dist))
+                diffs = self.points - self.points[i]
+                dists_sq = np.sum(diffs**2, axis=1)
+                dists_sq[i] = np.inf
+                dist_min[i] = np.sqrt(np.min(dists_sq))
         return dist_min
 
+    def _prepare_graphs_for_operation(self, other_graph_obj):
+        graph_a_copy = self.graph.copy()
+        graph_b_copy = other_graph_obj.graph.copy()
+        for g_copy in [graph_a_copy, graph_b_copy]:
+            if "name" not in g_copy.vertex_attributes():
+                g_copy.vs["name"] = [f"v{i}" for i in range(g_copy.vcount())]
+            attrs_to_delete = [attr for attr in g_copy.vertex_attributes() if attr != "name"]
+            for vattr in attrs_to_delete:
+                del g_copy.vs[vattr]
+        return graph_a_copy, graph_b_copy
+
+    def _check_setpoints_compatibility(self, other):
+        if not isinstance(other, GeometricGraph):
+            raise TypeError("Input 'other' must be an instance of GeometricGraph.")
+        if not (self.n == other.n and np.array_equal(self.points, other.points)):
+            raise ValueError("Graphs must be defined on the same point sets for this operation.")
+
     def union(self, other):
-        g = ig.union([self.graph, other.graph], byname=False)
-        union_g = GeometricGraph.from_graph(g, self.points)
-        union_g.__details = "Union"
+        self._check_setpoints_compatibility(other)
+        graph_a, graph_b = self._prepare_graphs_for_operation(other)
+        union_igraph = ig.union([graph_a, graph_b], byname=False)
+        union_g = GeometricGraph(self.setpoints) 
+        union_g._GeometricGraph__graph = union_igraph 
+        union_g._GeometricGraph__m = union_igraph.ecount() 
+        union_g._GeometricGraph__add_lengths()
+        union_g.name = f"Union of ({self.name}) and ({other.name})"
+        union_g.details = "Union operation"
         return union_g
 
     def intersection(self, other):
-        g = ig.intersection([self.graph, other.graph], byname=False)
-        intersection_g = GeometricGraph.from_graph(g, self.points)
-        intersection_g.__details = "Intersection"
+        self._check_setpoints_compatibility(other)
+        graph_a, graph_b = self._prepare_graphs_for_operation(other)
+        intersection_igraph = ig.intersection([graph_a, graph_b], byname=False)
+        intersection_g = GeometricGraph(self.setpoints)
+        intersection_g._GeometricGraph__graph = intersection_igraph
+        intersection_g._GeometricGraph__m = intersection_igraph.ecount()
+        intersection_g._GeometricGraph__add_lengths()
+        intersection_g.name = f"Intersection of ({self.name}) and ({other.name})"
+        intersection_g.details = "Intersection operation"
         return intersection_g
 
     def difference(self, other):
-        edges_g = set(self.graph.get_edgelist())
-        edges_h = set(other.graph.get_edgelist())
-        edges = edges_g.difference(edges_h)
+        self._check_setpoints_compatibility(other)
+        graph_a, graph_b = self._prepare_graphs_for_operation(other)
+        difference_igraph = graph_a.difference(graph_b)
         difference_g = GeometricGraph(self.setpoints)
-        if len(edges) > 0:
-            difference_g.__graph.add_edges(edges)
-            difference_g.__size()
-            difference_g.__add_lengths()
-        difference_g.__details = "Difference"
+        difference_g._GeometricGraph__graph = difference_igraph
+        difference_g._GeometricGraph__m = difference_igraph.ecount()
+        difference_g._GeometricGraph__add_lengths()
+        difference_g.name = f"Difference of ({self.name}) and ({other.name})"
+        difference_g.details = "Difference operation (self - other)"
         return difference_g
 
     def symmetric_difference(self, other):
-        edges_g_h = set(self.graph.get_edgelist())
-        edges_h_g = set(other.graph.get_edgelist())
-        edges = edges_g_h.symmetric_difference(edges_h_g)
-        symmetric_g = GeometricGraph(self.setpoints)
-        if len(edges) > 0:
-            symmetric_g.__graph.add_edges(edges)
-            symmetric_g.__size()
-            symmetric_g.__add_lengths()
-        symmetric_g.__details = "Symmetric Difference"
+        self._check_setpoints_compatibility(other)
+        edges_g = set(self.graph.get_edgelist())
+        edges_h = set(other.graph.get_edgelist())
+        sym_diff_edges = list(edges_g.symmetric_difference(edges_h))
+        symmetric_g = GeometricGraph(self.setpoints) 
+        if sym_diff_edges: 
+            symmetric_g.graph.add_edges(sym_diff_edges)
+        symmetric_g._GeometricGraph__m = symmetric_g.graph.ecount()
+        symmetric_g._GeometricGraph__add_lengths()
+        symmetric_g.name = f"Symmetric Difference of ({self.name}) and ({other.name})"
+        symmetric_g.details = "Symmetric Difference operation"
         return symmetric_g
 
     def recovering(self, other, distance="R"):
-        union = self.union(other)
+        if not isinstance(other, GeometricGraph): 
+            raise TypeError("Input 'other' must be an instance of GeometricGraph.")
+        union_graph = self.union(other)
         if distance == "R":
-            symmetric = self.symmetric_difference(other)
-            return symmetric.m/union.m
+            symmetric_diff_graph = self.symmetric_difference(other)
+            if union_graph.m == 0: 
+                return 0.0 if symmetric_diff_graph.m == 0 else 1.0 
+            return symmetric_diff_graph.m / union_graph.m
+        else:
+            raise NotImplementedError(f"Distance type '{distance}' is not supported.")
 
     def save(self, path, filename):
         self.__graph["name"] = self.name
         self.__graph["details"] = self.details
-        self.__graph.write_pickle(path+filename)
-        np.save(path+filename, self.points)
-        del self.__graph["name"], self.__graph["details"]
+        if not path.endswith(('/', '\\')): path += '/'
+        self.__graph.write_pickle(path + filename)
+        np.save(path + filename + ".npy", self.points) 
+        del self.__graph["name"]
+        del self.__graph["details"]
 
     def to_gpd_lines(self):
-        lines = lambda edge:  LineString([self.setpoints.pos[edge[0]],
-                                          self.setpoints.pos[edge[1]]])
+        if self.m == 0:
+            return GeoDataFrame(columns=["union_initial", "union_final", "geometry"])
+    
+        if self.m > 0:
+            _ = self.lengths
+            _ = self.orientation
+            
+
+        point_coords = self.points
+        
+        if self.setpoints.dim != 2:
+            raise ValueError("Points must be a 2D array with shape (n, dim) where n is the number of points and dim is the dimension.")
+        
+        lines_geom = []
         edges = self.graph.get_edgelist()
-        geometry = map(lines, edges)
-        gpd_lines = GeoDataFrame(geometry=GeoSeries(geometry))
+        for u, v in edges:
+            p1 = point_coords[u]
+            p2 = point_coords[v]
+            lines_geom.append(LineString([p1, p2]))
+        gpd_lines = GeoDataFrame(geometry=GeoSeries(lines_geom))
         attr_names = self.graph.es.attribute_names()
-        for variable in attr_names:
-            attribute = self.graph.es[variable]
-            gpd_lines[variable] = attribute
+        for attr_name in attr_names:
+            gpd_lines[attr_name] = self.graph.es[attr_name]
         gpd_lines["union_initial"] = np.array(edges)[:, 0]
         gpd_lines["union_final"] = np.array(edges)[:, 1]
-        columns = ["union_initial", "union_final"]+attr_names+["geometry"]
-        return gpd_lines[columns]
+        final_columns = ["union_initial", "union_final"] + \
+                        [name for name in attr_names if name not in ["union_initial", "union_final"]] + \
+                        ["geometry"]
+        final_columns = [col for col in final_columns if col in gpd_lines.columns]
+        return gpd_lines[final_columns]
 
     def to_gpd_polygons(self):
-        if self.cc-self.n+self.m > 0:
-            gpd_graph = self.to_gpd_lines()
-            geom = polygonize(gpd_graph["geometry"])
-            geom = list(geom)
-            return GeoDataFrame(geometry=list(geom))
-        else:
-            raise TypeError("The graph has only one face")
-
+            if self.setpoints.dim != 2:
+                raise ValueError("Points must be a 2D array with shape (n, dim) ")
+            if (self.cc - self.n + self.m) <= 0: 
+                raise TypeError("The graph has no internal faces to polygonize (e.g., it's a tree or a line).")
+            gpd_lines = self.to_gpd_lines()
+            if gpd_lines.empty:
+                raise ValueError("Cannot create polygons from a graph with no edges.")
+            polygons = list(polygonize(gpd_lines["geometry"]))
+            if not polygons:
+                raise ValueError("Polygonization did not result in any polygons. Ensure the graph forms closed regions.")
+            return GeoDataFrame(geometry=polygons)
 
 def load_graph(path, filename):
     points = np.load(path+filename+".npy")

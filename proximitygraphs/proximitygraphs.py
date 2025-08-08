@@ -4,6 +4,7 @@ from scipy.spatial import ConvexHull
 from scipy.spatial.distance import cdist, pdist
 from itertools import combinations
 from igraph import Graph
+import warnings
 
 from .points import SetPoints
 from .geometricgraphs import GeometricGraph
@@ -27,18 +28,24 @@ class ProximityGraph(GeometricGraph):
     # METHODS
     def __check_parameter(cls, parameter,
                           range_min=None, range_max=None,
+                          strict = False,
                           data_type=[int, float, np.float64]):
         if type(parameter) not in data_type:
             raise TypeError()
+        inequality = cls.__closed_region(strict)
+        if strict:
+            strict_text = " or equal "
+        else:
+            strict_text = " "
         if range_min is not None:
-            if parameter < range_min:
-                raise ValueError("The parameter is less than "+str(range_min))
+            if inequality(parameter, range_min):
+                raise ValueError(f"The parameter is less{strict_text}than "+str(range_min))
         if range_max is not None:
-            if parameter > range_max:
-                raise ValueError("The parameter is greater than "+str(range_max))
+            if inequality(range_max, parameter):
+                raise ValueError(f"The parameter is greater{strict_text}than "+str(range_max))
 
-    def __closed_region(cls, closed):
-        if closed is True:
+    def __closed_region(cls, strict):
+        if strict is True:
             inequality = lambda x, y: x <= y
         else:
             inequality = lambda x, y: x < y
@@ -95,68 +102,139 @@ class MST(ProximityGraph):
 
 
 class Beta_Skeleton(ProximityGraph):
+    # Atributos de clase
+    matrix_r = np.array([[0, -1], [1, 0]])
 
     # CONSTRUCTOR
     def __init__(self, setpoints, beta=1.5, type_region="lune", closed=False):
-        self._ProximityGraph__check_parameter(beta, range_min=0)
+        self._ProximityGraph__check_parameter(beta, range_min=0, strict=True)
         ProximityGraph.__init__(self, setpoints)
         self.name = "β-Skeleton"
-        self.details = "β="+str(beta)
-        if beta >= 1:
-            g_delaunay = DelaunayG(setpoints)
-            pairs = np.array(g_delaunay.graph.get_edgelist())
-            if type_region == "lune":
-                empty_region = lambda p, q: self.__lune(p, q, beta)
-                self.__test = lambda test_1, test_2: test_1*test_2
-        self.__empty_region = np.vectorize(empty_region)
-        self.__assign_edges(pairs, beta)
+        self.details = f"β={beta}, closed={closed}, type={type_region}"
+        pairs = self.__defined_pairs(beta, type_region, closed)
+        self.__assign_edges(pairs, beta, closed)
         self.graph.simplify()
         self._GeometricGraph__size()
         self._GeometricGraph__add_lengths()
 
     @classmethod
-    def from_graph(cls, geom_graph, beta=1.5, closed=False):
+    def from_graph(cls, geom_graph, beta=1.5, type_region="lune", closed=False):
         skeleton = cls.__new__(cls)
-        skeleton._ProximityGraph__check_parameter(beta, range_min=1)
+        skeleton._ProximityGraph__check_parameter(beta, range_min=0, strict=True)
         skeleton.name = "β-Skeleton"
-        skeleton.details = "β="+str(beta)
+        skeleton.details = f"β={beta}, closed={closed}, type={type_region}, (from graph)"
         skeleton._GeometricGraph__setpoints = geom_graph.setpoints
         skeleton._GeometricGraph__graph = Graph()
         skeleton._GeometricGraph__graph.add_vertices(geom_graph.n)
         pairs = np.array(geom_graph.graph.get_edgelist())
-        empty_region = lambda p, q: skeleton.__lune(p, q, beta)
-        skeleton.__test = lambda test_1, test_2: test_1*test_2
-        skeleton.__empty_region = np.vectorize(empty_region)
-        skeleton.__assign_edges(pairs, beta)
+        if beta < 1:
+            if type_region != "intersection":
+                warnings.warn(f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
+            skeleton.__empty_region = lambda p, q: skeleton.__intersection(p, q, beta)
+            skeleton.__test = lambda test_1, test_2: test_1*test_2
+        elif beta >= 1:
+            if type_region not in ["lune", "circle"]:
+                raise TypeError("'type_region' must be 'lune' or 'circle' when β > 1.")
+            if type_region == "lune":
+                skeleton.__empty_region = lambda p, q: skeleton.__lune(p, q, beta)
+                skeleton.__test = lambda test_1, test_2: test_1*test_2
+            elif type_region == "circle":
+                skeleton.__empty_region = lambda p, q: skeleton.__circle(p, q, beta)
+                skeleton.__test = lambda test_1, test_2: test_1+test_2
+        skeleton.__assign_edges(pairs, beta, closed)
         skeleton.graph.simplify()
         skeleton._GeometricGraph__size()
         skeleton._GeometricGraph__add_lengths()
         return skeleton
+    
+        # Methods
+    def __pairs_by_combinations(self):
+        return np.array(list(combinations(range(self.n), 2)))
 
-    # Methods
-    def __assign_edges(self, pairs, beta):
+    def __pairs_by_delaunay(self):
+        g_delaunay = DelaunayG(self.setpoints)
+        return np.array(g_delaunay.graph.get_edgelist())
+    
+    def __defined_pairs(self, beta, type_region, closed):
+        if beta < 1:
+            if type_region != "intersection":
+                warnings.warn(f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
+            pairs = self.__pairs_by_combinations()
+            self.__empty_region = lambda p, q: self.__intersection(p, q, beta)
+            self.__test = lambda test_1, test_2: test_1*test_2
+        elif beta >= 1:
+            if type_region not in ["lune", "circle"]:
+                raise TypeError("'type_region' must be 'lune' or 'circle' when β > 1.")
+            if beta == 1 and closed is False:
+                pairs = self.__pairs_by_combinations()
+            else:
+                pairs = self.__pairs_by_delaunay()
+            if type_region == "lune":
+                self.__empty_region = lambda p, q: self.__lune(p, q, beta)
+                self.__test = lambda test_1, test_2: test_1*test_2
+            elif type_region == "circle":
+                self.__empty_region = lambda p, q: self.__circle(p, q, beta)
+                self.__test = lambda test_1, test_2: test_1+test_2
+        return pairs
+
+    def __assign_edges(self, pairs, beta, closed):
         p = self.points[pairs[:, 0]]
         q = self.points[pairs[:, 1]]
-        if beta >= 1:
+        if beta < 1:
+            radius = np.linalg.norm(p-q, axis=1)/(2*beta)
+        else:
             radius = np.linalg.norm(p-q, axis=1)*beta/2
         center_1, center_2 = self.__empty_region(p, q)
         edges = []
         for i in np.arange(pairs.shape[0]):
             dist_1 = np.linalg.norm(self.points-center_1[i], axis=1)
             dist_2 = np.linalg.norm(self.points-center_2[i], axis=1)
-            empty_test_1 = dist_1 <= radius[i]
-            empty_test_2 = dist_2 <= radius[i]
+            if closed:
+                empty_test_1 = dist_1 <= radius[i]
+                empty_test_2 = dist_2 <= radius[i]
+            else:
+                empty_test_1 = dist_1 < radius[i]
+                empty_test_2 = dist_2 < radius[i]
             empty_test = self.__test(empty_test_1, empty_test_2)
             empty_test = np.delete(empty_test, pairs[i])
             if np.any(empty_test) == False:
                 edges.append(pairs[i])
         self.graph.add_edges(edges)
 
+    def __intersection(cls, p, q, beta):
+        aux_1 = (p+q)/2
+        aux_2 = (q-p) @ cls.matrix_r.T * np.sqrt( 1-np.power(beta, 2) ) / (2*beta)
+        center_1 = aux_1 + aux_2
+        center_2 = aux_1 - aux_2
+        return center_1, center_2
+    
+    def __circle(cls, p, q, beta):
+        aux_1 = (p+q)/2
+        aux_2 = (q-p) @ cls.matrix_r.T * np.sqrt(np.power(beta, 2)-1) / 2
+        center_1 = aux_1 + aux_2
+        center_2 = aux_1 - aux_2
+        return center_1, center_2
+    
     def __lune(cls, p, q, beta):
         beta_aux = beta/2
-        center_1 = p*beta_aux + (1-beta_aux)*q
-        center_2 = q*beta_aux + (1-beta_aux)*p
+        aux = (1-beta_aux)
+        center_1 = p*beta_aux + aux*q
+        center_2 = q*beta_aux + aux*p
         return center_1, center_2
+
+
+class RNG(Beta_Skeleton):
+    
+    # CONSTRUCTOR
+    def __init__(self, setpoints, closed=False):
+        Beta_Skeleton.__init__(self, setpoints, beta=2, closed=closed)
+
+
+class GG(Beta_Skeleton):
+    
+    # CONSTRUCTOR
+    def __init__(self, setpoints, closed=False):
+        Beta_Skeleton.__init__(self, setpoints, beta=1, closed=closed)
 
 
 class Stepping_Stone(ProximityGraph):
