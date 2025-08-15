@@ -4,6 +4,7 @@ from scipy.spatial import ConvexHull
 from scipy.spatial.distance import cdist, pdist
 from itertools import combinations
 from igraph import Graph
+import warnings
 
 from .points import SetPoints
 from .geometricgraphs import GeometricGraph
@@ -69,7 +70,8 @@ class ProximityGraph(GeometricGraph):
         return proximity_graph
 
     # METHODS
-    def __check_parameter(cls, parameter,
+    def __check_parameter(cls, 
+                          parameter,
                           range_min=None, range_max=None,
                           strict = False,
                           data_type=[int, float, np.float64]):
@@ -365,7 +367,7 @@ class Beta_Skeleton(ProximityGraph):
                 empty_test_2 = dist_2 < radius[i]
             empty_test = self.__test(empty_test_1, empty_test_2)
             empty_test = np.delete(empty_test, pairs[i])
-            if np.any(empty_test) == False:
+            if not np.any(empty_test):
                 edges.append(pairs[i])
         self.graph.add_edges(edges)
 
@@ -390,11 +392,14 @@ class Beta_Skeleton(ProximityGraph):
         center_2 = q*beta_aux + aux*p
         return center_1, center_2
 
+
 class RNG(Beta_Skeleton):
     
     # CONSTRUCTOR
     def __init__(self, setpoints, closed=False):
         Beta_Skeleton.__init__(self, setpoints, beta=2, closed=closed)
+        self.name = "Relative Neighborhood Graph"
+        self.details = f"closed={closed}"
 
 
 class GG(Beta_Skeleton):
@@ -402,8 +407,8 @@ class GG(Beta_Skeleton):
     # CONSTRUCTOR
     def __init__(self, setpoints, closed=True):
         Beta_Skeleton.__init__(self, setpoints, beta=1, closed=closed)
-
-
+        self.name = "Gabriel Graph"
+        self.details = f"closed={closed}"
 
 
 class Stepping_Stone(ProximityGraph):
@@ -515,7 +520,7 @@ class Stepping_Stone(ProximityGraph):
 
         """
         ssg = cls.__new__(cls)
-        ssg._ProximityGraph__check_parameter(d, range_min=1)
+        ssg._ProximityGraph__check_parameter(d, range_min=1, strict=False)
         ssg.name = "Stepping Stone Graph"
         ssg.details = "d="+str(d)+", k="+str(k)+", closed="+str(closed)
         ssg._GeometricGraph__setpoints = geom_graph.setpoints
@@ -732,12 +737,12 @@ class Sigma_Graph(ProximityGraph):
                 dist_1 = np.linalg.norm(self.points - p[i], axis=1)
                 empty_test_1 = self.inequality(dist_1, dist_sigma[i])
                 empty_test_1 = np.delete(empty_test_1, pairs[i])
-                if np.any(empty_test_1) == False:
+                if not np.any(empty_test_1):
                     # Check empty disk around q
                     dist_2 = np.linalg.norm(self.points - q[i], axis=1)
                     empty_test_2 = self.inequality(dist_2, dist_sigma[i])
                     empty_test_2 = np.delete(empty_test_2, pairs[i])
-                    if np.any(empty_test_2) == False:
+                    if not np.any(empty_test_2):
                         edges.append(pairs[i])
         else: # Iterative approach for larger datasets
             for pair in pairs:
@@ -748,12 +753,12 @@ class Sigma_Graph(ProximityGraph):
                 dist_1 = np.linalg.norm(self.points - p, axis=1)
                 empty_test_1 = self.inequality(dist_1, dist_sigma)
                 empty_test_1 = np.delete(empty_test_1, pair)
-                if np.any(empty_test_1) == False:
+                if not np.any(empty_test_1):
                     # Check empty disk around q
                     dist_2 = np.linalg.norm(self.points - q, axis=1)
                     empty_test_2 = self.inequality(dist_2, dist_sigma)
                     empty_test_2 = np.delete(empty_test_2, pair)
-                    if np.any(empty_test_2) == False:
+                    if not np.any(empty_test_2):
                         edges.append((pair[0], pair[1]))
         self._GeometricGraph__graph.add_edges(edges)
 
@@ -943,7 +948,7 @@ class Elliptic_GabrielG(ProximityGraph):
         Additional information including alpha.
     """
 
-    def __init__(self, setpoints, alpha=1.5):
+    def __init__(self, setpoints, alpha=1.5, closed=False):
         """
         Initializes an Elliptic_GabrielG object.
 
@@ -952,18 +957,25 @@ class Elliptic_GabrielG(ProximityGraph):
         setpoints : SetPoints
             An object containing the set of points.
         alpha : float, optional
-            The elongation factor of the ellipse. Must be >= 1.
+            The elongation factor of the ellipse. Must be >= 0.
         """
-        self._ProximityGraph__check_parameter(alpha, range_min=1)
+        self._ProximityGraph__check_parameter(alpha, range_min=0, strict=True)
         ProximityGraph.__init__(self, setpoints)
         self.name = "Elliptic Gabriel Graph"
         self.details = "α=" + str(alpha)
-        self.__assign_edges(alpha)
+        if alpha < 1:
+            pairs = np.array(list(combinations(range(self.n), 2)))
+        else:
+            # Use GG to reduce candidate edges
+            g_gabriel = GG(self.setpoints, closed)
+            pairs = np.array(g_gabriel.graph.get_edgelist())
+        self.__inequality = self._ProximityGraph__closed_region(closed)
+        self.__assign_edges(pairs, alpha)
         self.graph.simplify()
         self._GeometricGraph__size()
         self._GeometricGraph__add_lengths()
 
-    def __assign_edges(self, alpha):
+    def __assign_edges(self, pairs, alpha):
         """
         Assigns edges based on the elliptical empty region condition.
 
@@ -971,30 +983,45 @@ class Elliptic_GabrielG(ProximityGraph):
         ----------
         alpha : float
             The elliptic elongation factor.
-        """
-        pts = self.points
-        n = self.n
+        """            
         edges = []
+        for pair in pairs:
+            p = self.points[pair[0]]
+            q = self.points[pair[1]]
+            # Punto medio entre p y q
+            mean_point = np.mean([p, q], axis=0)
+            # Vector del punto medio hacia hacia q 
+            v = q - mean_point   
+            # Dirección de la recta pq (normalización v)                  
+            v_n = v / np.linalg.norm(v)       
+            # angle to rotate vector to z axis
+            angle = -np.arctan2(v_n[1], v_n[0])
+            # Construct the 2D rotation matrixes
+            M = np.array([
+                [np.cos(angle),  -np.sin(angle)],
+                [np.sin(angle),  np.cos(angle)]
+            ])
+            # Rotación
+            rotation = (self.points - mean_point) @ M.T
+            # Eliminar p y q
+            rotation = np.delete(rotation, pair, axis=0)
 
-        # Use GG to reduce candidate edges
-        g_gabriel = GG(self.setpoints)
-        pairs = np.array(g_gabriel.graph.get_edgelist())
+            x = rotation[:, 0]
+            y = rotation[:, 1]
 
-        for i, j in pairs:
-            p, q = pts[i], pts[j]
+            dist_to_foci = np.power(x,2) + np.power((y/alpha),2)
             dist_pq = np.linalg.norm(p - q)
-            threshold = alpha * dist_pq
-            # Compute sum of distances to all other points
-            dist_to_foci = np.linalg.norm(pts - p, axis=1) + np.linalg.norm(pts - q, axis=1)
-            mask = np.ones(n, dtype=bool)
-            mask[[i, j]] = False
-            if np.all(dist_to_foci[mask] > threshold):
-                edges.append((i, j))
+            dist_pq_sqr = np.power(dist_pq/2,2)
 
+            # Check for each point z if x**2+(y/alpha)**2 <= dist(p,q)**2
+            empty_test = self.__inequality(dist_to_foci, dist_pq_sqr)
+
+            if not np.any(empty_test):
+                edges.append(pair)
         self.graph.add_edges(edges)
 
     @classmethod
-    def from_graph(cls, geom_graph, alpha=1.5):
+    def from_graph(cls, geom_graph, alpha, closed):
         """
         Creates an Elliptic Gabriel Graph from an existing GeometricGraph.
 
@@ -1011,33 +1038,16 @@ class Elliptic_GabrielG(ProximityGraph):
             A new Elliptic_GabrielG instance.
         """
         egg = cls.__new__(cls)
-        egg._ProximityGraph__check_parameter(alpha, range_min=1)
+        egg._ProximityGraph__check_parameter(alpha, range_min=0, strict=False)
         egg.name = "Elliptic Gabriel Graph"
         egg.details = "α=" + str(alpha)
         egg._GeometricGraph__setpoints = geom_graph.setpoints
         egg._GeometricGraph__graph = Graph()
         egg._GeometricGraph__graph.add_vertices(geom_graph.n)
-        egg.points = geom_graph.points
-        egg.n = geom_graph.n
 
-        pts = egg.points
-        n = egg.n
-        edges = []
-
-        g_gabriel = GG.from_graph(geom_graph, beta=1, closed=True)
-        pairs = np.array(g_gabriel.graph.get_edgelist())
-
-        for i, j in pairs:
-            p, q = pts[i], pts[j]
-            dist_pq = np.linalg.norm(p - q)
-            threshold = alpha * dist_pq
-            dist_to_foci = np.linalg.norm(pts - p, axis=1) + np.linalg.norm(pts - q, axis=1)
-            mask = np.ones(n, dtype=bool)
-            mask[[i, j]] = False
-            if np.all(dist_to_foci[mask] > threshold):
-                edges.append((i, j))
-
-        egg.graph.add_edges(edges)
+        pairs = np.array(geom_graph.graph.get_edgelist())
+        egg.__inequality = egg._ProximityGraph__closed_region(closed)
+        egg.__assign_edges(pairs, alpha)
         egg.graph.simplify()
         egg._GeometricGraph__size()
         egg._GeometricGraph__add_lengths()

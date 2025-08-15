@@ -307,7 +307,7 @@ class GeometricGraph:
         if title:
             plot_title = self.name
             if details and self.details:
-                plot_title += f": {self.details}"
+                plot_title += f"\n{self.details}"
             ax_orig.set_title(plot_title, fontsize=fontsize)
         return fig, ax_orig
 
