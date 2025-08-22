@@ -8,6 +8,7 @@ from geopandas import GeoSeries
 from shapely.geometry import LineString
 from shapely.ops import polygonize
 from scipy.stats import entropy
+from matplotlib.pyplot import savefig, close
 
 from .points import SetPoints
 import warnings
@@ -299,7 +300,7 @@ class GeometricGraph:
         return artist
 
     def draw(self, figsize=(15, 15), v_size=5, v_color="black", e_size=1, e_color="black",
-             title=True, fontsize=12, details=False):
+             title=True, fontsize=12, details=False, axis=True, save=None):
         fig, ax_orig = subplots(figsize=figsize)
         self.__draw_graph(graph=self.__graph, points=self.points, ax=ax_orig,
                                v_size=v_size,  v_color=v_color,
@@ -309,6 +310,16 @@ class GeometricGraph:
             if details and self.details:
                 plot_title += f"\n{self.details}"
             ax_orig.set_title(plot_title, fontsize=fontsize)
+        if axis:
+            ax_orig.set_axis_on()
+        else:
+            ax_orig.set_axis_off()
+        ax_orig.set_aspect("equal", adjustable="box")
+        if save is None:
+            return fig, ax_orig
+        else:
+            savefig(save+".png", bbox_inches='tight')
+            close()
         return fig, ax_orig
 
     def draw_orientation(self, num_bins: int = 36, figsize: tuple[int, int] = (5, 5),
