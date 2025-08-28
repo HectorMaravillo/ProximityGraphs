@@ -1,0 +1,66 @@
+# Points
+
+## `SetPoints`
+
+Represents an ordered collection of points.
+
+### Attributes
+
+- `n` (int): The number of points.
+- `dim` (int): The dimension of the points.
+- `points` (numpy.ndarray): The coordinates of the points.
+- `pos` (dict): A dictionary mapping point indices to coordinates.
+- `centroid` (numpy.ndarray): The centroid of the points.
+
+### Methods
+
+#### `__init__(self, points, seed=None)`
+
+Initializes a SetPoints object.
+
+- **Parameters:**
+    - `points` (numpy.ndarray): The coordinates of the points.
+    - `seed` (int, optional): The seed for the random number generator.
+
+#### `copy(self)`
+
+Creates a copy of the SetPoints object.
+
+#### `draw(self, ...)`
+
+Draws the points.
+
+#### `rotation(self, angle, degree=True)`
+
+Rotates the points.
+
+#### `scaling(self, scale)`
+
+Scales the points.
+
+#### `traslation(self, c)`
+
+Translates the points.
+
+#### `perturb(self, radius)`
+
+Perturbs the points.
+
+
+```{toctree}
+:maxdepth: 1
+:hidden:
+
+    points/from_geopandas
+    points/uniform_square
+    points/uniform_over_sphere
+    points/uniform_sphere
+    points/normal_dist
+    points/grid
+    points/hexagonal
+    points/triangular
+    points/poissonprocess_square
+    points/poissonprocess_circle
+    points/poissonprocess_inhomogeneus
+    points/cluster_square
+...
