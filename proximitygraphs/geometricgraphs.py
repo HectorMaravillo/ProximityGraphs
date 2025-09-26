@@ -9,6 +9,7 @@ from shapely.geometry import LineString
 from shapely.ops import polygonize
 from scipy.stats import entropy
 from matplotlib.pyplot import savefig, close
+from matplotlib.collections import LineCollection
 
 from .points import SetPoints
 import warnings
@@ -369,6 +370,88 @@ class GeometricGraph:
                color=color, edgecolor="black", linewidth=0.5, alpha=0.7)
         ax.set_title(f"Edge {component} distribution" if orientation.ndim == 2 else "Edge orientation distribution")
         return fig, ax
+    
+    def draw2(
+        self,
+        figsize=(15, 15),
+        v_size=5,
+        v_color="black",
+        v_alpha=1,
+        e_size=1,
+        e_color="black",
+        e_alpha=1,
+        title=True,
+        fontsize=12,
+        details=False,
+        axis=False,
+        save=None,
+    ):
+        """
+        Draws the geometric graph using Matplotlib.
+
+        Parameters
+        ----------
+        figsize : tuple of (float, float), optional
+            Figure size in inches. Default ``(15, 15)``.
+        v_size : float, optional
+            Marker size for vertices. ``0`` disables vertex scatter. Default 5.
+        v_color : str, optional
+            Vertex color passed to Matplotlib. Default ``"black"``.
+        v_alpha : float, optional
+            Vertex alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+        e_size : float, optional
+            Line width for boundary edges. Default 1.
+        e_color : str, optional
+            Color for boundary edges. Default ``"black"``.
+        e_alpha : float, optional
+            Edge alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+        title : bool, optional
+            Whether to set a title. Default True.
+        fontsize : float, optional
+            Title font size. Default 12.
+        details : bool, optional
+            If True, appends ``details`` to the title. Default False.
+        axis : bool, optional
+            If True, show axes. Default False.
+        save : str or None, optional
+            If set, saves a ``.png`` at ``save + ".png"`` and closes the figure.
+            If ``None``, returns the live figure and axes. Default ``None``.
+
+        Returns
+        -------
+        (fig, ax) : tuple
+            Matplotlib figure and axes.
+        """
+        fig, ax = subplots(figsize=figsize)
+
+        # vertices
+        if self.n > 0 and v_size > 0:
+            ax.scatter(self.points[:, 0], self.points[:, 1], s=v_size, c=v_color, alpha=v_alpha)
+
+        # boundary edges
+        edges = self.graph.get_edgelist() if hasattr(self, "graph") else []
+        if edges:
+            segs = np.array([[self.points[i], self.points[j]] for (i, j) in edges], dtype=float)
+            lc = LineCollection(segs, linewidths=e_size, colors=e_color, alpha=e_alpha)
+            ax.add_collection(lc)
+
+        if title:
+            plot_title = self.name
+            if details and getattr(self, "details", None):
+                plot_title += f"\n{self.details}"
+            ax.set_title(plot_title, fontsize=fontsize)
+
+        if not axis:
+            ax.set_axis_off()
+        else:
+            ax.set_axis_on()
+        ax.set_aspect("equal", adjustable="box")
+
+        if save is None:
+            return fig, ax
+        else:
+            savefig(save + ".png", bbox_inches="tight")
+            return fig, ax
 
     def __dist_nearest(self):
         if self.n == 0: return np.array([])
