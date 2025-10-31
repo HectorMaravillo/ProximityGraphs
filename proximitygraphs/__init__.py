@@ -4,3 +4,4 @@ from .geometricgraphs import GeometricGraph, load_graph
 from .proximitygraphs import ProximityGraph, DelaunayG, Convex_Hull, MST, Beta_Skeleton, Stepping_Stone, NNG, Sigma_Graph, Unit_Disk, SIG
 from .proximitygraphs import RNG, GG, Elliptic_GabrielG, Alpha_Shape, Alpha_Hull
 from .experiments import Experiment
+from .biologicalgraphs import PhysarumGraph, AntColonyGraph
