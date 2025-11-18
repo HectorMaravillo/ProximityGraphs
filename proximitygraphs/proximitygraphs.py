@@ -1597,3 +1597,281 @@ class Alpha_Hull(ProximityGraph):
         dtheta = (th2 - th1 + np.pi) % (2 * np.pi) - np.pi
         thetas = th1 + np.linspace(0.0, 1.0, n_points) * dtheta
         return center + np.column_stack([np.cos(thetas), np.sin(thetas)]) * radius
+
+
+
+
+
+class Gamma_Graph(ProximityGraph):
+    """
+    Constructs the γ-Neighborhood Graph (y-Graph) as defined by Veltkamp (1992).
+
+    Two points p and q are connected if at least one γ-neighborhood
+    N_{γ0,γ1}(p, q) is empty of all other sites.
+
+    Parameters
+    ----------
+    setpoints : SetPoints
+        The set of points.
+    gamma0 : float
+        First γ parameter, in [-1, 1].
+    gamma1 : float
+        Second γ parameter, in [-1, 1], with |gamma0| <= |gamma1|.
+    closed : bool, optional
+        If False (default), emptiness is with strict "<" (open region).
+        If True, emptiness uses "<=" (closed region).
+    """
+
+    # CONSTRUCTOR
+    def __init__(self, setpoints, gamma0=0.0, gamma1=0.0, closed=False):
+        # Allow -1 <= gamma <= 1 for the special cases in Veltkamp
+        self._ProximityGraph__check_parameter(gamma0, range_min=-1, strict=False)
+        self._ProximityGraph__check_parameter(gamma0, range_max=1, strict=False)
+        self._ProximityGraph__check_parameter(gamma1, range_min=-1, strict=False)
+        self._ProximityGraph__check_parameter(gamma1, range_max=1, strict=False)
+
+        if abs(gamma0) > abs(gamma1):
+            raise ValueError("|gamma0| must be less than or equal to |gamma1|.")
+        if not isinstance(closed, bool):
+            raise TypeError("closed must be a boolean.")
+
+        ProximityGraph.__init__(self, setpoints)
+        self.name = "γ-Neighborhood Graph"
+        self.details = f"γ0={gamma0}, γ1={gamma1}, closed={closed}"
+        self.__gamma0 = float(gamma0)
+        self.__gamma1 = float(gamma1)
+        self.__inequality = self._ProximityGraph__closed_region(closed)
+
+        g0 = self.__gamma0
+        g1 = self.__gamma1
+
+        # ---- Special half-plane limit cases (k = 2) ----
+        if g0 == 1.0 and g1 == 1.0:
+            # y(1,1): union of two half-planes = entire plane → void graph
+            # => no edges at all
+            self.graph.simplify()
+            self._GeometricGraph__size()
+            self._GeometricGraph__add_lengths()
+            return
+
+        if g0 == -1.0 and g1 == -1.0:
+            # y(-1,-1): intersection of half-planes = line through p,q
+            # In general position (no three collinear), neighborhood is
+            # always empty => complete graph.
+            pairs = np.array(list(combinations(range(self.n), 2)), dtype=int)
+            if pairs.size > 0:
+                self.graph.add_edges(list(map(tuple, pairs)))
+            self.graph.simplify()
+            self._GeometricGraph__size()
+            self._GeometricGraph__add_lengths()
+            return
+
+        if (g0 == -1.0 and g1 == 1.0) or (g0 == 1.0 and g1 == -1.0):
+            # y(-1,1) and y(1,-1): convex hull graph
+            hull = Convex_Hull(self.setpoints)
+            edges = hull.graph.get_edgelist()
+            if edges:
+                self.graph.add_edges(edges)
+            self.graph.simplify()
+            self._GeometricGraph__size()
+            self._GeometricGraph__add_lengths()
+            return
+
+        # ---- Generic finite-radius case (no |γ| = 1) ----
+        pairs = self.__defined_pairs()
+        self.__assign_edges(pairs)
+
+        self.graph.simplify()
+        self._GeometricGraph__size()
+        self._GeometricGraph__add_lengths()
+
+    @classmethod
+    def from_graph(cls, geom_graph, gamma0=0.0, gamma1=0.0, closed=False):
+        """
+        Build a γ-Neighborhood Graph on top of an existing GeometricGraph.
+
+        Parameters
+        ----------
+        geom_graph : GeometricGraph
+            Base graph providing vertices. For the generic finite-radius
+            case its edges are used as candidates.
+        gamma0, gamma1, closed : see __init__.
+        """
+        g = cls.__new__(cls)
+
+        g._ProximityGraph__check_parameter(gamma0, range_min=-1, strict=False)
+        g._ProximityGraph__check_parameter(gamma0, range_max=1, strict=False)
+        g._ProximityGraph__check_parameter(gamma1, range_min=-1, strict=False)
+        g._ProximityGraph__check_parameter(gamma1, range_max=1, strict=False)
+
+        if abs(gamma0) > abs(gamma1):
+            raise ValueError("|gamma0| must be less than or equal to |gamma1|.")
+        if not isinstance(closed, bool):
+            raise TypeError("closed must be a boolean.")
+
+        g.name = "γ-Neighborhood Graph"
+        g.details = f"γ0={gamma0}, γ1={gamma1}, closed={closed}, (from graph)"
+        g._GeometricGraph__setpoints = geom_graph.setpoints
+        g._GeometricGraph__graph = Graph()
+        g._GeometricGraph__graph.add_vertices(geom_graph.n)
+
+        g.__gamma0 = float(gamma0)
+        g.__gamma1 = float(gamma1)
+        g.__inequality = g._ProximityGraph__closed_region(closed)
+
+        g0 = g.__gamma0
+        g1 = g.__gamma1
+
+        # Same special cases as in __init__
+        if g0 == 1.0 and g1 == 1.0:
+            g.graph.simplify()
+            g._GeometricGraph__size()
+            g._GeometricGraph__add_lengths()
+            return g
+
+        if g0 == -1.0 and g1 == -1.0:
+            pairs = np.array(list(combinations(range(g.n), 2)), dtype=int)
+            if pairs.size > 0:
+                g.graph.add_edges(list(map(tuple, pairs)))
+            g.graph.simplify()
+            g._GeometricGraph__size()
+            g._GeometricGraph__add_lengths()
+            return g
+
+        if (g0 == -1.0 and g1 == 1.0) or (g0 == 1.0 and g1 == -1.0):
+            hull = Convex_Hull(geom_graph.setpoints)
+            edges = hull.graph.get_edgelist()
+            if edges:
+                g.graph.add_edges(edges)
+            g.graph.simplify()
+            g._GeometricGraph__size()
+            g._GeometricGraph__add_lengths()
+            return g
+
+        # Generic finite-radius case: use the base graph's edges as candidates
+        candidate_pairs = np.array(geom_graph.graph.get_edgelist(), dtype=int)
+        g.__assign_edges(candidate_pairs)
+
+        g.graph.simplify()
+        g._GeometricGraph__size()
+        g._GeometricGraph__add_lengths()
+        return g
+
+    # ----- Internal helpers -----
+
+    def __defined_pairs(self):
+        """
+        For correctness in all parameter ranges we consider all pairs
+        of sites as candidate edges.
+        """
+        if self.n < 2:
+            return np.empty((0, 2), dtype=int)
+        return np.array(list(combinations(range(self.n), 2)), dtype=int)
+
+    def __gamma_neighborhoods_for_pair(self, p, q):
+        """
+        For a pair (p, q), compute the one or two finite γ-neighborhoods
+        as pairs of (center, radius) for each of the two circles.
+
+        Returns
+        -------
+        neighborhoods : list of tuples
+            Each element is ((c0, R0), (c1, R1)).
+        """
+        gamma0 = self.__gamma0
+        gamma1 = self.__gamma1
+
+        v = q - p
+        d = np.linalg.norm(v)
+        if d == 0:
+            return []
+
+        m = (p + q) / 2.0
+        r = d / 2.0
+
+        # Unit normal to the line pq (rotate by +90 degrees)
+        n = np.array([-v[1], v[0]]) / d
+
+        # Radii of the two disks (finite-radii case only)
+        R0 = r / (1.0 - abs(gamma0))
+        R1 = r / (1.0 - abs(gamma1))
+
+        # Height of centers above/below the chord pq
+        def _offset(R):
+            val = R * R - r * r
+            if val <= 0:
+                return 0.0
+            return np.sqrt(val)
+
+        s0 = _offset(R0)
+        s1 = _offset(R1)
+
+        c0_up = m + s0 * n
+        c0_down = m - s0 * n
+        c1_up = m + s1 * n
+        c1_down = m - s1 * n
+
+        neighborhoods = []
+
+        if gamma0 != 0.0 and gamma1 != 0.0:
+            # Two neighborhoods possible
+            if gamma0 * gamma1 > 0:
+                # Centers on both sides of the line pq
+                neighborhoods.append(((c0_up, R0), (c1_down, R1)))
+                neighborhoods.append(((c0_down, R0), (c1_up, R1)))
+            else:
+                # Centers on the same side of the line pq
+                neighborhoods.append(((c0_up, R0), (c1_up, R1)))
+                neighborhoods.append(((c0_down, R0), (c1_down, R1)))
+        else:
+            # At least one gamma is zero: unique neighborhood by convention
+            neighborhoods.append(((c0_up, R0), (c1_up, R1)))
+
+        return neighborhoods
+
+    def __assign_edges(self, pairs):
+        """
+        Test all candidate pairs and add edges that satisfy the γ-neighborhood
+        emptiness condition.
+        """
+        if self.n < 2 or pairs.size == 0:
+            return
+
+        gamma1 = self.__gamma1
+        inequality = self.__inequality
+        intersection_mode = (gamma1 <= 0.0)
+
+        points = self.points
+        edges = []
+
+        for i, j in pairs:
+            p = points[i]
+            q = points[j]
+
+            neighborhoods = self.__gamma_neighborhoods_for_pair(p, q)
+            if not neighborhoods:
+                continue
+
+            added = False
+            for (c0, R0), (c1, R1) in neighborhoods:
+                # Distances of all points to centers c0 and c1
+                dist0 = np.linalg.norm(points - c0, axis=1)
+                dist1 = np.linalg.norm(points - c1, axis=1)
+
+                if intersection_mode:
+                    inside = inequality(dist0, R0) & inequality(dist1, R1)
+                else:
+                    inside = inequality(dist0, R0) | inequality(dist1, R1)
+
+                # Exclude endpoints themselves
+                inside[i] = False
+                inside[j] = False
+
+                if not np.any(inside):
+                    edges.append((i, j))
+                    added = True
+                    break  # At least one empty neighborhood found
+
+        if edges:
+            self.graph.add_edges(edges)
+
