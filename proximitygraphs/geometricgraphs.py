@@ -371,9 +371,9 @@ class GeometricGraph:
         ax.set_title(f"Edge {component} distribution" if orientation.ndim == 2 else "Edge orientation distribution")
         return fig, ax
     
-    def draw2(
+    def draw(
         self,
-        figsize=(15, 15),
+        figsize=(6, 6),
         v_size=5,
         v_color="black",
         v_alpha=1,
@@ -385,6 +385,12 @@ class GeometricGraph:
         details=False,
         axis=False,
         save=None,
+        *,
+        fig_kwargs=None,
+        v_kwargs=None,
+        e_kwargs=None,
+        title_kwargs=None,
+        savefig_kwargs=None,
     ):
         """
         Draws the geometric graph using Matplotlib.
@@ -414,44 +420,77 @@ class GeometricGraph:
         axis : bool, optional
             If True, show axes. Default False.
         save : str or None, optional
-            If set, saves a ``.png`` at ``save + ".png"`` and closes the figure.
+            If set, saves a ``.png`` at ``save + ".png"``.
             If ``None``, returns the live figure and axes. Default ``None``.
+
+        Other Parameters
+        ----------------
+        fig_kwargs : dict, optional
+            Extra keyword arguments passed to ``matplotlib.pyplot.subplots``.
+        v_kwargs : dict, optional
+            Extra keyword arguments passed to ``ax.scatter`` (vertex scatter).
+            These override ``v_size``, ``v_color``, ``v_alpha`` if duplicated.
+        e_kwargs : dict, optional
+            Extra keyword arguments passed to ``matplotlib.collections.LineCollection``.
+            These override ``e_size``, ``e_color``, ``e_alpha`` if duplicated.
+        title_kwargs : dict, optional
+            Extra keyword arguments passed to ``ax.set_title``.
+            These override ``fontsize`` if duplicated.
+        savefig_kwargs : dict, optional
+            Extra keyword arguments passed to ``matplotlib.pyplot.savefig``.
 
         Returns
         -------
         (fig, ax) : tuple
             Matplotlib figure and axes.
         """
-        fig, ax = subplots(figsize=figsize)
+        fig_kwargs = {} if fig_kwargs is None else dict(fig_kwargs)
+        v_kwargs = {} if v_kwargs is None else dict(v_kwargs)
+        e_kwargs = {} if e_kwargs is None else dict(e_kwargs)
+        title_kwargs = {} if title_kwargs is None else dict(title_kwargs)
+        savefig_kwargs = {} if savefig_kwargs is None else dict(savefig_kwargs)
+
+        # figure and axes
+        fig, ax = subplots(figsize=figsize, **fig_kwargs)
 
         # vertices
         if self.n > 0 and v_size > 0:
-            ax.scatter(self.points[:, 0], self.points[:, 1], s=v_size, c=v_color, alpha=v_alpha)
+            scatter_kwargs = dict(s=v_size, c=v_color, alpha=v_alpha)
+            scatter_kwargs.update(v_kwargs)  # user overrides defaults
+            ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
 
         # boundary edges
         edges = self.graph.get_edgelist() if hasattr(self, "graph") else []
         if edges:
             segs = np.array([[self.points[i], self.points[j]] for (i, j) in edges], dtype=float)
-            lc = LineCollection(segs, linewidths=e_size, colors=e_color, alpha=e_alpha)
+            line_kwargs = dict(linewidths=e_size, colors=e_color, alpha=e_alpha)
+            line_kwargs.update(e_kwargs)  # user overrides defaults
+            lc = LineCollection(segs, **line_kwargs)
             ax.add_collection(lc)
 
+        # title
         if title:
             plot_title = self.name
             if details and getattr(self, "details", None):
                 plot_title += f"\n{self.details}"
-            ax.set_title(plot_title, fontsize=fontsize)
+            title_args = dict(fontsize=fontsize)
+            title_args.update(title_kwargs)
+            ax.set_title(plot_title, **title_args)
 
+        # axes
         if not axis:
             ax.set_axis_off()
         else:
             ax.set_axis_on()
         ax.set_aspect("equal", adjustable="box")
 
+        # save or return
         if save is None:
             return fig, ax
         else:
-            savefig(save + ".png", bbox_inches="tight")
+            savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
             return fig, ax
+
 
     def __dist_nearest(self):
         if self.n == 0: return np.array([])
