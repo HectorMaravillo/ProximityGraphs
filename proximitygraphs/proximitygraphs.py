@@ -1407,18 +1407,24 @@ class Alpha_Hull(ProximityGraph):
     # ---------- custom drawing overriding igraph to render arcs ----------
     def draw(
         self,
-        figsize=(15, 15),
-        v_size=5,
-        v_color="black",
+        figsize=(6, 6),
+        v_size=3,
+        v_color="#00072D",
         v_alpha=1,
         e_size=1,
-        e_color="black",
+        e_color="#0A2472",
         e_alpha=1,
         title=True,
-        fontsize=12,
+        fontsize=10,
         details=False,
         axis=False,
         save=None,
+        *,
+        fig_kwargs=None,
+        v_kwargs=None,
+        e_kwargs=None,
+        title_kwargs=None,
+        savefig_kwargs=None,
     ):
         """
         Plots the α-Hull with circular arcs.
@@ -1426,74 +1432,108 @@ class Alpha_Hull(ProximityGraph):
         Parameters
         ----------
         figsize : tuple of (float, float), optional
-            Figure size in inches. Default ``(15, 15)``.
+            Figure size in inches. Default (6, 6).
         v_size : float, optional
-            Marker size for vertices. ``0`` disables vertex scatter. Default 5.
+            Marker size for vertices. 0 disables vertex scatter. Default 3.
         v_color : str, optional
-            Vertex color passed to Matplotlib. Default ``"black"``.
+            Vertex color passed to Matplotlib. Default "#00072D".
         v_alpha : float, optional
-            Vertex transparency (0.0 to 1.0). Default 1.
+            Vertex alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
         e_size : float, optional
             Line width for arcs. Default 1.
         e_color : str, optional
-            Color for arcs. Default ``"black"``.
+            Color for arcs. Default "#0A2472".
         e_alpha : float, optional
-            Arc transparency (0.0 to 1.0). Default 1.
+            Arc alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
         title : bool, optional
             Whether to set a title. Default True.
         fontsize : float, optional
-            Title font size. Default 12.
+            Title font size. Default 10.
         details : bool, optional
-            If True, appends ``details`` to the title. Default False.
+            If True, appends self.details to the title (if present). Default False.
         axis : bool, optional
             If True, show axes. Default False.
         save : str or None, optional
-            If set, saves a ``.png`` at ``save + ".png"`` and closes the figure.
-            If ``None``, returns the live figure and axes. Default ``None``.
+            If set, saves a ".png" at save + ".png".
+            If None, returns the live figure and axes.
+
+        Other Parameters
+        ----------------
+        fig_kwargs : dict, optional
+            Extra keyword arguments passed to matplotlib.pyplot.subplots.
+        v_kwargs : dict, optional
+            Extra keyword arguments passed to ax.scatter (vertex scatter).
+            These override v_size, v_color, v_alpha if duplicated.
+        e_kwargs : dict, optional
+            Extra keyword arguments passed to ax.plot (arcs).
+            These override e_size, e_color, e_alpha if duplicated.
+        title_kwargs : dict, optional
+            Extra keyword arguments passed to ax.set_title.
+            These override fontsize if duplicated.
+        savefig_kwargs : dict, optional
+            Extra keyword arguments passed to matplotlib.pyplot.savefig.
 
         Returns
         -------
         (fig, ax) : tuple
             Matplotlib figure and axes.
-
-        Notes
-        -----
-        The plot maintains equal aspect ratio. Arcs are drawn from
-        ``self.arcs``; straight segments are not drawn unless you add them
-        separately.
-
         """
+        fig_kwargs = {} if fig_kwargs is None else dict(fig_kwargs)
+        v_kwargs = {} if v_kwargs is None else dict(v_kwargs)
+        e_kwargs = {} if e_kwargs is None else dict(e_kwargs)
+        title_kwargs = {} if title_kwargs is None else dict(title_kwargs)
+        savefig_kwargs = {} if savefig_kwargs is None else dict(savefig_kwargs)
+
+        # figure and axes
         import matplotlib.pyplot as plt
-        from matplotlib.pyplot import subplots, savefig, close
-        fig, ax = subplots(figsize=figsize)
+        from matplotlib.pyplot import gcf, subplots
+        fig, ax = subplots(figsize=figsize, **fig_kwargs)
 
         # vertices
-        if self.n > 0 and v_size > 0:
-            ax.scatter(self.points[:, 0], self.points[:, 1], s=v_size, c=v_color, alpha=v_alpha)
+        if getattr(self, "n", 0) > 0 and v_size > 0:
+            scatter_kwargs = dict(s=v_size, c=v_color, alpha=v_alpha)
+            scatter_kwargs.update(v_kwargs)  # user overrides defaults
+            ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
 
-        # arcs
-        for arc in self.arcs:
-            ax.plot(arc[:, 0], arc[:, 1], linewidth=e_size, color=e_color, alpha=e_alpha)
+        # arcs (same "edges" slot, but drawn as curves)
+        arcs = getattr(self, "arcs", None)
+        if arcs:
+            line_kwargs = dict(linewidth=e_size, color=e_color, alpha=e_alpha)
+            line_kwargs.update(e_kwargs)  # user overrides defaults
+            for arc in arcs:
+                # arc expected shape (m, 2)
+                ax.plot(arc[:, 0], arc[:, 1], **line_kwargs)
 
+        # title
         if title:
-            plot_title = self.name
-            if details and self.details:
+            plot_title = getattr(self, "name", self.__class__.__name__)
+            if details and getattr(self, "details", None):
                 plot_title += f"\n{self.details}"
-            ax.set_title(plot_title, fontsize=fontsize)
+            title_args = dict(fontsize=fontsize)
+            title_args.update(title_kwargs)
+            ax.set_title(plot_title, **title_args)
 
-
+        # axes
         if not axis:
             ax.set_axis_off()
         else:
             ax.set_axis_on()
         ax.set_aspect("equal", adjustable="box")
 
+        # save or return
         if save is None:
             return fig, ax
         else:
-            savefig(save + ".png", bbox_inches='tight')
-            close()
-        return fig, ax
+            def savefig(*args, **kwargs) -> None:
+                fig = gcf()
+                # savefig default implementation has no return, so mypy is unhappy
+                # presumably this is here because subclasses can return?
+                res = fig.savefig(*args, **kwargs)  # type: ignore[func-returns-value]
+                fig.canvas.draw_idle()  # Need this if 'transparent=True', to reset colors.
+                return res
+            savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
+            return fig, ax
+
 
     # ---------- helpers ----------
     @staticmethod
