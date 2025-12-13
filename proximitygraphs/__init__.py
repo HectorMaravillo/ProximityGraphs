@@ -87,7 +87,7 @@ from .biologicalgraphs import (
     AntColonyGraph,
 )
 
-# Optionally also re-export the submodules themselves
+# Re-export the submodules themselves
 from . import (
     points,
     envelops,

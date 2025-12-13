@@ -1,0 +1,7 @@
+{
+  // Set the Jupyter notebook file root to the workspace folder
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+
+  // Specify the environment file for Python
+  "python.envFile": "${workspaceFolder}/.vscode/.env"
+}
