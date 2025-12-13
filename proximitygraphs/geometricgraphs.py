@@ -273,56 +273,6 @@ class GeometricGraph:
         if len(bin_counts) == 0: return 0.0
         return entropy(bin_counts, base=2)
 
-    def __draw_graph(self, graph, points, ax,
-                     v_size, v_color, e_size, e_color):
-
-        layout_coords = points
-        if points.ndim == 2 and points.shape[1] > 2: 
-            warnings.warn(f"Graph has {points.shape[1]}D points; igraph plot will use the first 2 dimensions for layout.")
-            layout_coords = points[:, :2]
-
-        
-        layout_for_plot = layout_coords.tolist() if isinstance(layout_coords, np.ndarray) else layout_coords
-
-        plot_kwargs = {
-            "layout": layout_for_plot,
-            "autocurve": False,
-            "keep_aspect_ratio": True,
-            "target": ax
-        }
-        if graph.vcount() > 0:
-            plot_kwargs["vertex_size"] = v_size
-            plot_kwargs["vertex_color"] = v_color
-        
-        plot_kwargs["edge_width"] = e_size
-        plot_kwargs["edge_color"] = e_color
-
-        artist = ig.plot(graph, **plot_kwargs)
-        return artist
-
-    def draw(self, figsize=(15, 15), v_size=5, v_color="black", e_size=1, e_color="black",
-             title=True, fontsize=12, details=False, axis=True, save=None):
-        fig, ax_orig = subplots(figsize=figsize)
-        self.__draw_graph(graph=self.__graph, points=self.points, ax=ax_orig,
-                               v_size=v_size,  v_color=v_color,
-                               e_size=e_size, e_color=e_color)
-        if title:
-            plot_title = self.name
-            if details and self.details:
-                plot_title += f"\n{self.details}"
-            ax_orig.set_title(plot_title, fontsize=fontsize)
-        if axis:
-            ax_orig.set_axis_on()
-        else:
-            ax_orig.set_axis_off()
-        ax_orig.set_aspect("equal", adjustable="box")
-        if save is None:
-            return fig, ax_orig
-        else:
-            savefig(save+".png", bbox_inches='tight')
-            close()
-        return fig, ax_orig
-
     def draw_orientation(self, num_bins: int = 36, figsize: tuple[int, int] = (5, 5),
                          color: str = "darkgreen", area: bool = False, component: str = "auto"):
         orientation = self.orientation  
@@ -374,14 +324,14 @@ class GeometricGraph:
     def draw(
         self,
         figsize=(6, 6),
-        v_size=5,
-        v_color="black",
+        v_size=3,
+        v_color='#00072D',
         v_alpha=1,
         e_size=1,
-        e_color="black",
+        e_color='#0A2472',
         e_alpha=1,
         title=True,
-        fontsize=12,
+        fontsize=10,
         details=False,
         axis=False,
         save=None,
