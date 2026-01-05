@@ -152,7 +152,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../points.html">Points</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_over_sphere.html">uniform_over_sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_sphere.html">uniform_sphere</a></li>
@@ -164,6 +163,7 @@
 <li class="toctree-l2"><a class="reference internal" href="poissonprocess_circle.html">poissonprocess_circle</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 </ul>
 </details></li>
 </ul>
@@ -330,31 +330,43 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="poissonprocess-inhomogeneus">
 <h1>poissonprocess_inhomogeneus<a class="headerlink" href="#poissonprocess-inhomogeneus" title="Link to this heading">#</a></h1>
-<p>Generates points according to an inhomogeneous Poisson point process in a square region using thinning.</p>
+<p>Generates points according to an inhomogeneous Poisson point process in a square region using the thinning algorithm.
+An inhomogeneous Poisson point process is characterized by an intensity function λ(x,y) that varies spatially, determining the likelihood of finding points at different locations.</p>
+<p>Uses the thinning (acceptance-rejection) algorithm:</p>
+<ol class="arabic simple">
+<li><p><strong>Find Maximum Intensity</strong>: Numerically minimize -λ(x,y) to find λ_max = max λ(x,y) over the simulation window.</p></li>
+<li><p><strong>Generate Homogeneous Proposal Points</strong>: Generate N_prop ~ Poisson(λ_max × area) proposal points uniformly in [0, limit]².</p></li>
+<li><p><strong>Thinning</strong>: For each proposal point (x_i, y_i), keep it with probability p(x_i, y_i) = λ(x_i, y_i) / λ_max by generating u_i ~ U(0,1) and keeping the point if u_i &lt; p(x_i, y_i).</p></li>
+</ol>
+<p>The resulting retained points follow the inhomogeneous Poisson process defined by λ(x,y).</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">fun_lambda</span></code> (callable): A function that takes two arguments (x, y coordinates) and returns the intensity of the Poisson process at that point.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">limit</span></code> (float): The side length of the square simulation window.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (int, optional): A seed for the random number generator.</p></li>
+<li><p><strong>fun_lambda</strong> (callable): A function taking two arguments (x, y) and returning the intensity at that point. Example: <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x,</span> <span class="pre">y:</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span></code></p></li>
+<li><p><strong>n_sim</strong> (int): This parameter is currently unused in the implementation.</p></li>
+<li><p><strong>limit</strong> (float): The side length of the square simulation window [0, limit]².</p></li>
+<li><p><strong>seed</strong> (int, optional): A seed for the random number generator. If None, uses entropy from the OS.</p></li>
 </ul>
 </section>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: A new SetPoints object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: Instance with points following the inhomogeneous Poisson process.</p></li>
 </ul>
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Define an intensity function</span>
-<span class="n">fun_lambda</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-
-<span class="c1"># Create an inhomogeneous Poisson point process</span>
-<span class="n">set_points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_inhomogeneus</span><span class="p">(</span><span class="n">fun_lambda</span><span class="o">=</span><span class="n">fun_lambda</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">set_points</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+<span class="c1"># Generate inhomogeneous Poisson process with intensity increasing with distance from origin</span>
+<span class="n">intensity_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">inhom_poisson</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_inhomogeneus</span><span class="p">(</span>
+    <span class="n">fun_lambda</span><span class="o">=</span><span class="n">intensity_fn</span><span class="p">,</span> 
+    <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+    <span class="n">seed</span><span class="o">=</span><span class="mi">789</span>
+<span class="p">)</span>
+<span class="n">inhom_poisson</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -422,7 +434,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Héctor Maravillo &  Diego Villarreal
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
 </p>
 
   </div>

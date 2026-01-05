@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Transformation Methods &#8212; Proximity Graphs v.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Points/tranformations';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Proximity Graphs v.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../points.html">Points</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="uniform_square.html">Uniform square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniform_over_sphere.html">uniform_over_sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uniform_sphere.html">uniform_sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normal_dist.html">normal_dist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grid.html">grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hexagonal.html">hexagonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triangular.html">triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="poissonprocess_square.html">poissonprocess_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="poissonprocess_circle.html">poissonprocess_circle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
+</ul>
+</details></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/modules/Points/tranformations.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Transformation Methods</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Transformation Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-angle-degree-true"><code class="docutils literal notranslate"><span class="pre">rotation(angle,</span> <span class="pre">degree=True)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raises">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-scale"><code class="docutils literal notranslate"><span class="pre">scaling(scale)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism">Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#traslation-c"><code class="docutils literal notranslate"><span class="pre">traslation(c)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perturb-radius"><code class="docutils literal notranslate"><span class="pre">perturb(radius)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#special-methods">Special Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-other"><code class="docutils literal notranslate"><span class="pre">__add__(other)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="transformation-methods">
+<h1>Transformation Methods<a class="headerlink" href="#transformation-methods" title="Link to this heading">#</a></h1>
+<section id="rotation-angle-degree-true">
+<h2><code class="docutils literal notranslate"><span class="pre">rotation(angle,</span> <span class="pre">degree=True)</span></code><a class="headerlink" href="#rotation-angle-degree-true" title="Link to this heading">#</a></h2>
+<p>Applies a 2D rotation to the set of points around the origin (0,0).</p>
+<p>This method rotates points counter-clockwise by a given angle θ. The transformation uses a 2D rotation matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M = \begin{bmatrix} \cos\theta &amp; \sin\theta \\ -\sin\theta &amp; \cos\theta \end{bmatrix}\end{split}\]</div>
+<p>For each point P_i = (x_i, y_i), the rotated point P’_i = (x’_i, y’_i) is:</p>
+<ul class="simple">
+<li><p>x’_i = x_i cos(θ) - y_i sin(θ)</p></li>
+<li><p>y’_i = x_i sin(θ) + y_i cos(θ)</p></li>
+</ul>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>angle</strong> (float): The angle of rotation.</p></li>
+<li><p><strong>degree</strong> (bool, optional): If True (default), the angle is interpreted as degrees. If False, the angle is in radians.</p></li>
+</ul>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>SetPoints</strong>: A new SetPoints object containing the rotated points.</p></li>
+</ul>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>ValueError</strong>: If the dimension of the points is not 2.</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create a grid</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Rotate by 45 degrees</span>
+<span class="n">rotated</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">rotation</span><span class="p">(</span><span class="mi">45</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rotated</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="c1"># Rotate by π/4 radians</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">rotated_rad</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">rotation</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="scaling-scale">
+<h2><code class="docutils literal notranslate"><span class="pre">scaling(scale)</span></code><a class="headerlink" href="#scaling-scale" title="Link to this heading">#</a></h2>
+<p>Applies a scaling transformation to the set of points, relative to the origin.</p>
+<p>This method scales the coordinates of each point. The scaling can be uniform across all dimensions (if scale is a scalar) or different for each dimension (if scale is a vector).</p>
+<section id="mechanism">
+<h3>Mechanism<a class="headerlink" href="#mechanism" title="Link to this heading">#</a></h3>
+<p>The transformation is P’ = P &#64; M, where M is a diagonal matrix:</p>
+<ul class="simple">
+<li><p>If scale is scalar s: M = s × I (identity matrix). Each coordinate is multiplied by s.</p></li>
+<li><p>If scale is vector (s_0, s_1, …, s_{dim-1}):
+$<span class="math notranslate nohighlight">\(M = \begin{bmatrix} s_0 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; s_1 &amp; \cdots &amp; 0 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; 0 &amp; \cdots &amp; s_{dim-1} \end{bmatrix}\)</span>$</p></li>
+</ul>
+<p>Each coordinate j is multiplied by s_j.</p>
+</section>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>scale</strong> (float or array-like): The scaling factor(s).</p>
+<ul>
+<li><p>If scalar (float): All dimensions are scaled by this factor.</p></li>
+<li><p>If array-like (list, tuple, numpy.ndarray) of length dim: Each dimension is scaled by the corresponding element.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>SetPoints</strong>: A new SetPoints object containing the scaled points.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Raises<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>ValueError</strong>: If scale is an array-like and its shape is not (dim,).</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Example<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create uniform square</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Uniform scaling (double all coordinates)</span>
+<span class="n">scaled_uniform</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">scaling</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+<span class="c1"># Non-uniform scaling (stretch x by 3, y by 0.5)</span>
+<span class="n">scaled_nonuniform</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">scaling</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">scaled_nonuniform</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="traslation-c">
+<h2><code class="docutils literal notranslate"><span class="pre">traslation(c)</span></code><a class="headerlink" href="#traslation-c" title="Link to this heading">#</a></h2>
+<p>Applies a translation to the set of points.</p>
+<p>This method shifts all points by a given vector c. The transformation is P’ = P + c.</p>
+<p>For each point P_i, the new point P’_i = P_i + c.</p>
+<p>If c is a scalar, it is treated as a vector where all components equal c.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>c</strong> (float or array-like): The translation vector or scalar.</p>
+<ul>
+<li><p>If scalar (float): All dimensions are translated by this value.</p></li>
+<li><p>If array-like (list, tuple, numpy.ndarray) of length dim: Each dimension j is translated by c_j.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>SetPoints</strong>: A new SetPoints object containing the translated points.</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Raises<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>ValueError</strong>: If c is an array-like and its shape is not (dim,).</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Example<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create points centered at origin</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">normal_dist</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Translate by scalar (shift all coordinates by 5)</span>
+<span class="n">translated</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">traslation</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="c1"># Translate by vector (shift x by 3, y by -2)</span>
+<span class="n">translated_vec</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">traslation</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">])</span>
+<span class="n">translated_vec</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="perturb-radius">
+<h2><code class="docutils literal notranslate"><span class="pre">perturb(radius)</span></code><a class="headerlink" href="#perturb-radius" title="Link to this heading">#</a></h2>
+<p>Applies a random perturbation to each point in the set.</p>
+<p>Each point p is moved to p’ = p + v, where v is a random perturbation vector uniformly distributed within a dim-dimensional sphere of the given radius centered at the origin.</p>
+<section id="id9">
+<h3>Mechanism<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>For each point, generate a perturbation vector:</p>
+<ol class="arabic simple">
+<li><p><strong>Direction</strong>: Sample a random direction uniformly on the surface of a dim-dimensional unit sphere using normalized standard normal variates.</p></li>
+<li><p><strong>Magnitude</strong>: Generate a scalar s_i = U_i^(1/dim), where U_i ~ Uniform(0, radius). This ensures proper volumetric distribution within the sphere.</p></li>
+<li><p><strong>Perturbation</strong>: v_i = s_i × (unit direction vector).</p></li>
+</ol>
+</section>
+<section id="id10">
+<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>radius</strong> (float): The maximum radius for the perturbation. Must be positive.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>SetPoints</strong>: A new SetPoints object containing the perturbed points.</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>Raises<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>ValueError</strong>: If radius is not positive.</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>Example<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create a regular grid</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Add small random perturbations</span>
+<span class="n">perturbed</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">perturb</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">perturbed</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Create uniformly perturbed version</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">noisy</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">perturb</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+<section id="special-methods">
+<h1>Special Methods<a class="headerlink" href="#special-methods" title="Link to this heading">#</a></h1>
+<section id="add-other">
+<h2><code class="docutils literal notranslate"><span class="pre">__add__(other)</span></code><a class="headerlink" href="#add-other" title="Link to this heading">#</a></h2>
+<p>Combines two SetPoints objects by concatenating their points.</p>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>other</strong> (SetPoints): Another SetPoints object to combine with.</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>SetPoints</strong>: A new SetPoints object containing points from both sets.</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>Example<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create two point sets</span>
+<span class="n">points1</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">points2</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_sphere</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Combine them</span>
+<span class="n">combined</span> <span class="o">=</span> <span class="n">points1</span> <span class="o">+</span> <span class="n">points2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Combined set has </span><span class="si">{</span><span class="n">combined</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> points&quot;</span><span class="p">)</span>  <span class="c1"># 100 points</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Transformation Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-angle-degree-true"><code class="docutils literal notranslate"><span class="pre">rotation(angle,</span> <span class="pre">degree=True)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raises">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-scale"><code class="docutils literal notranslate"><span class="pre">scaling(scale)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mechanism">Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#traslation-c"><code class="docutils literal notranslate"><span class="pre">traslation(c)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perturb-radius"><code class="docutils literal notranslate"><span class="pre">perturb(radius)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#special-methods">Special Methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-other"><code class="docutils literal notranslate"><span class="pre">__add__(other)</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Héctor Maravillo.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

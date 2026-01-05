@@ -152,7 +152,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../points.html">Points</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_over_sphere.html">uniform_over_sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_sphere.html">uniform_sphere</a></li>
@@ -164,6 +163,7 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">poissonprocess_circle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 </ul>
 </details></li>
 </ul>
@@ -331,27 +331,34 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="poissonprocess-circle">
 <h1>poissonprocess_circle<a class="headerlink" href="#poissonprocess-circle" title="Link to this heading">#</a></h1>
 <p>Generates points according to a homogeneous Poisson point process on the circumference of a circle.</p>
+<p>This method simulates points positioned on the perimeter of a circle with uniform intensity along the circumference.</p>
+<p>The generation process:</p>
+<ol class="arabic simple">
+<li><p>The number of points N is drawn from a Poisson distribution with mean L = intensity × length, where length = 2πr (circumference).</p></li>
+<li><p>Given N points, their angular positions θ are drawn independently from U(0, 2π).</p></li>
+<li><p>Convert to Cartesian coordinates: x = r cos(θ), y = r sin(θ).</p></li>
+</ol>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">intensity</span></code> (float): The intensity of the Poisson process.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">radius</span></code> (float): The radius of the circle.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (int, optional): A seed for the random number generator.</p></li>
+<li><p><strong>intensity</strong> (float): The intensity (λ) representing the average number of points per unit length along the circumference. Must be positive.</p></li>
+<li><p><strong>radius</strong> (float): The radius of the circle. Must be positive.</p></li>
+<li><p><strong>seed</strong> (int, optional): A seed for the random number generator. If None, uses entropy from the OS.</p></li>
 </ul>
 </section>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: A new SetPoints object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: Instance with points randomly distributed on the circle’s circumference.</p></li>
 </ul>
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
 
-<span class="c1"># Create a Poisson point process on a circle</span>
-<span class="n">set_points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_circle</span><span class="p">(</span><span class="n">intensity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">set_points</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+<span class="c1"># Generate Poisson process on circle circumference</span>
+<span class="n">poisson_circ</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_circle</span><span class="p">(</span><span class="n">intensity</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">456</span><span class="p">)</span>
+<span class="n">poisson_circ</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -419,7 +426,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Héctor Maravillo &  Diego Villarreal
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
 </p>
 
   </div>

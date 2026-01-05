@@ -2,14 +2,22 @@
 
 Generates points forming a hexagonal lattice in a 2D plane.
 
+A hexagonal lattice is constructed as the union of two interleaved grids. Points in a hexagonal grid are centers of hexagons in a tessellation, where each point has 6 equidistant neighbors.
+
+The method generates two offset grids:
+1. **grid_1**: Base grid with x-coordinates spaced by alternating increments (1, 2, 1, 2,...) and y-coordinates spaced by √3.
+2. **grid_2**: Offset grid with x-coordinates shifted by -0.5 and y-coordinates shifted by 0.5√3.
+
+The combination produces the characteristic hexagonal pattern.
+
 ## Parameters
 
-- `n_x` (int): Determines the extent of the hexagonal grid along an axis roughly aligned with the x-direction.
-- `n_y` (int): Determines the extent of the hexagonal grid along an axis roughly aligned with the y-direction.
+- **n_x** (int): Determines the extent of the hexagonal grid along the x-direction. Influences the number of columns.
+- **n_y** (int): Determines the extent of the hexagonal grid along the y-direction. Influences the number of rows.
 
 ## Returns
 
-- `SetPoints`: A new SetPoints object.
+- `SetPoints`: Instance with points forming a hexagonal lattice.
 
 ## Example
 
@@ -17,6 +25,6 @@ Generates points forming a hexagonal lattice in a 2D plane.
 from proximitygraphs.points import SetPoints
 
 # Create a hexagonal lattice
-set_points = SetPoints.hexagonal(n_x=3, n_y=3)
-print(set_points.points)
+hex_points = SetPoints.hexagonal(n_x=5, n_y=5)
+hex_points.draw(figsize=(8, 8), v_color='orange', v_size=30)
 ```

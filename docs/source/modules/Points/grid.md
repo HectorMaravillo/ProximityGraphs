@@ -1,21 +1,28 @@
 # grid
 
-Generates a regular grid of points.
+Generates a regular 2D grid of points.
 
+The points form a 2D grid with integer coordinates. The `shape` parameter is a tuple (n_x, n_y) defining the number of steps along each axis.
+
+Coordinates are integers on each axis:
+- x ∈ {0, 1, ..., n_x}
+- y ∈ {0, 1, ..., n_y}
+
+Uses numpy.arange(0, n_i + 1), then builds all combinations with meshgrid.
 ## Parameters
 
-- `shape` (tuple of int): A tuple where each element specifies the number of points along that dimension.
+- `shape` (tuple of int):  A tuple (n_x, n_y). Only 2D grids are supported.
 
 ## Returns
 
-- `SetPoints`: A new SetPoints object.
+- `SetPoints`: Instance with points of shape ((n_x+1)*(n_y+1), 2).
 
 ## Example
 
 ```python
 from proximitygraphs.points import SetPoints
 
-# Create a 3x3 grid of points
-set_points = SetPoints.grid(shape=(3, 3))
-print(set_points.points)
+# Create a 5×5 grid
+grid_points = SetPoints.grid(shape=(5, 5))
+grid_points.draw(figsize=(8, 8), v_color='black', v_size=50)
 ```

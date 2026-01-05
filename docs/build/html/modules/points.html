@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/points';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="from_geopandas" href="Points/from_geopandas.html" />
+    <link rel="next" title="Uniform square" href="Points/uniform_square.html" />
     <link rel="prev" title="Usage" href="../usage.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -152,7 +152,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Points</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="Points/from_geopandas.html">from_geopandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Points/uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Points/uniform_over_sphere.html">uniform_over_sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Points/uniform_sphere.html">uniform_sphere</a></li>
@@ -164,8 +163,14 @@
 <li class="toctree-l2"><a class="reference internal" href="Points/poissonprocess_circle.html">poissonprocess_circle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Points/poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Points/cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Points/from_geopandas.html">from_geopandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Points/transformations.html">Transformation Methods</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Points/draw.html">Draw</a></li>
 </ul>
 </details></li>
+
+
 </ul>
 
     </div>
@@ -314,8 +319,25 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Points</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setpoints">SetPoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raises">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-tips">Usage Tips</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-and-transform-points">Generate and Transform Points</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-custom-point-patterns">Create Custom Point Patterns</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -330,10 +352,65 @@ document.write(`
 <h1>Points<a class="headerlink" href="#points" title="Link to this heading">#</a></h1>
 <section id="setpoints">
 <h2>SetPoints<a class="headerlink" href="#setpoints" title="Link to this heading">#</a></h2>
-<p>…</p>
+<p>Overview</p>
+<p>The SetPoints class represents an ordered collection of points in n-dimensional Euclidean space. It provides various methods for generating, transforming, and visualizing point sets.</p>
+<p>Class: SetPoints</p>
+<p>Represent an ordered collection of points in n-dimensional space.</p>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>):
+The number of points in the collection.</p></li>
+<li><p><strong>dim</strong> (<em>int</em>):
+The dimensionality of the points.</p></li>
+<li><p><strong>points</strong> (<em>numpy.ndarray</em>):
+A 2-dimensional numpy array containing the point coordinates with shape <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">dim)</span></code>.</p></li>
+<li><p><strong>pos</strong> (<em>dict</em>):
+A dictionary mapping point indices to their coordinates.</p></li>
+<li><p><strong>centroid</strong> (<em>numpy.ndarray</em>):
+The centroid (mean position) of all points.</p></li>
+</ul>
+</section>
+<section id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">__init__(points,</span> <span class="pre">seed=None)</span></code>
+…</p>
+<p>Base constructor for SetPoints.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p><strong>points</strong> (<em>numpy.ndarray</em>):
+A 2D numpy array of shape <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">dim)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of points and <code class="docutils literal notranslate"><span class="pre">dim</span></code> is the dimension of each point.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>, optional):
+A seed for the random number generator to ensure reproducibility. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a default random generator is used.</p></li>
+</ul>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>TypeError</strong>:
+If <code class="docutils literal notranslate"><span class="pre">points</span></code> is not a <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code>.</p></li>
+</ul>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">SetPoints</span></code> object containing the points.</p>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="c1"># Create from numpy array</span>
+<span class="n">points_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">my_points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="p">(</span><span class="n">points_array</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>—</p>
+<p>This is a basic overview of the SetPoints class. For detailed information on methods and additional functionalities, please refer to the specific method documentation.</p>
+</section>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Points/from_geopandas.html">from_geopandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Points/uniform_square.html">Uniform square</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Points/uniform_over_sphere.html">uniform_over_sphere</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Points/uniform_sphere.html">uniform_sphere</a></li>
@@ -345,8 +422,60 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="Points/poissonprocess_circle.html">poissonprocess_circle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Points/poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Points/cluster_square.html">cluster_square</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Points/from_geopandas.html">from_geopandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Points/transformations.html">Transformation Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Points/transformations.html#special-methods">Special Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Points/draw.html">Draw</a></li>
 </ul>
 </div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="usage-tips">
+<h1>Usage Tips<a class="headerlink" href="#usage-tips" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Always use <code class="docutils literal notranslate"><span class="pre">seed</span></code> for reproducibility.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draw()</span></code> is only available for 2D data.</p></li>
+<li><p>Transformations are immutable: they return new objects.</p></li>
+<li><p>Large datasets may be memory-intensive.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">from_geopandas()</span></code> integrates with GeoPandas workflows.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="common-workflows">
+<h1>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading">#</a></h1>
+<section id="generate-and-transform-points">
+<h2>Generate and Transform Points<a class="headerlink" href="#generate-and-transform-points" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">scaling</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">rotated</span> <span class="o">=</span> <span class="n">scaled</span><span class="o">.</span><span class="n">rotation</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">translated</span> <span class="o">=</span> <span class="n">rotated</span><span class="o">.</span><span class="n">traslation</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">noisy</span> <span class="o">=</span> <span class="n">translated</span><span class="o">.</span><span class="n">perturb</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">noisy</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">v_alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="create-custom-point-patterns">
+<h2>Create Custom Point Patterns<a class="headerlink" href="#create-custom-point-patterns" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+
+<span class="n">uniform_bg</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clusters</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">cluster_square</span><span class="p">(</span>
+    <span class="n">intensity</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="n">cluster</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Thomas&quot;</span><span class="p">,</span> <span class="s2">&quot;param&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="n">combined</span> <span class="o">=</span> <span class="n">uniform_bg</span> <span class="o">+</span> <span class="n">clusters</span>
+<span class="n">combined</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>—</p>
 </section>
 </section>
 
@@ -371,11 +500,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="Points/from_geopandas.html"
+       href="Points/uniform_square.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">from_geopandas</p>
+        <p class="prev-next-title">Uniform square</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -395,8 +524,25 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Points</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setpoints">SetPoints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raises">Raises</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">Returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-tips">Usage Tips</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-and-transform-points">Generate and Transform Points</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-custom-point-patterns">Create Custom Point Patterns</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
@@ -410,7 +556,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Héctor Maravillo &  Diego Villarreal
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
 </p>
 
   </div>

@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'Proximity Graphs'
 copyright = '2025, Héctor Maravillo'
-author = 'Héctor Maravillo &  Diego Villarreal'
+author = 'Héctor Maravillo , Diego Villarreal , Heriberto Espino'
 release = 'v.0.1'
 
 # -- General configuration ---------------------------------------------------

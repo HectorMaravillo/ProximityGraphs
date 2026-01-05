@@ -84,7 +84,6 @@ from .experiments import Experiment
 
 from .biologicalgraphs import (
     PhysarumGraph,
-    AntColonyGraph,
 )
 
 # Re-export the submodules themselves
@@ -147,7 +146,6 @@ __all__ = [
 
     # biologicalgraphs
     "PhysarumGraph",
-    "AntColonyGraph",
 ]
 
 __version__ = "0.0.1"   

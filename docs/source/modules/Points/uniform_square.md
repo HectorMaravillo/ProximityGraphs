@@ -14,7 +14,6 @@ The use of a seed is recommended to ensure reproducibility.
 ## Parameters
 
 - `n` (int): The number of points to generate.
-- `dims` (int): The number of dimensions for each point.
 - `seed` (int): A seed for the random number generator.
 
 ## Returns
@@ -28,7 +27,7 @@ from proximitygraphs.points import SetPoints
 
 # Create a SetPoints object with 200 points in 2D
 square = SetPoints.uniform_square(n=200, dims = 2, seed=73)
-square.draw(figsize=(8, 8), color='blue', plot_axes=(0,2))
+square.draw(figsize=(8, 8), v_color='blue')
 ```
 
 

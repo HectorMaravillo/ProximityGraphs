@@ -152,7 +152,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../points.html">Points</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_over_sphere.html">uniform_over_sphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_sphere.html">uniform_sphere</a></li>
@@ -164,6 +163,7 @@
 <li class="toctree-l2"><a class="reference internal" href="poissonprocess_circle.html">poissonprocess_circle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
 </ul>
 </details></li>
 </ul>
@@ -331,17 +331,24 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="triangular">
 <h1>triangular<a class="headerlink" href="#triangular" title="Link to this heading">#</a></h1>
 <p>Generates points forming a triangular lattice in a 2D plane.</p>
+<p>A triangular lattice can be seen as the centers of a triangular tessellation of the plane, constructed by combining two offset grids.</p>
+<p>Two grids are combined:</p>
+<ol class="arabic simple">
+<li><p><strong>grid_1</strong>: Points at (i, j * √3) where i ranges from 0 to n_x and j over n_y rows.</p></li>
+<li><p><strong>grid_2</strong>: Offset points at (i + 0.5, (j + 0.5) * √3).</p></li>
+</ol>
+<p>Each point in the lattice has 6 equidistant neighbors, forming equilateral triangles.</p>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">n_x</span></code> (int): Determines the extent of the triangular grid along the x-direction.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">n_y</span></code> (int): Determines the extent of the triangular grid along the y-direction.</p></li>
+<li><p><strong>n_x</strong> (int): Determines the extent along the x-direction. Influences the number of points in horizontal rows.</p></li>
+<li><p><strong>n_y</strong> (int): Determines the extent along the y-direction. Influences the number of rows.</p></li>
 </ul>
 </section>
 <section id="returns">
 <h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: A new SetPoints object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SetPoints</span></code>: Instance with points forming a triangular lattice.</p></li>
 </ul>
 </section>
 <section id="example">
@@ -349,8 +356,8 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
 
 <span class="c1"># Create a triangular lattice</span>
-<span class="n">set_points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">triangular</span><span class="p">(</span><span class="n">n_x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">set_points</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+<span class="n">tri_points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">triangular</span><span class="p">(</span><span class="n">n_x</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_y</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">tri_points</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -418,7 +425,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Héctor Maravillo &  Diego Villarreal
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
 </p>
 
   </div>
