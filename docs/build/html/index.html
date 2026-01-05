@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Proximity Graphs documentation &#8212; Proximity Graphs v.0.1 documentation</title>
+    <title>Proximity Graphs &#8212; Proximity Graphs v.0.1 documentation</title>
   
   
   
@@ -152,6 +152,17 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules/geometricgraphs.html">GeometricGraphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/complete.html"><code class="docutils literal notranslate"><span class="pre">complete(setpoints)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/from_graph.html"><code class="docutils literal notranslate"><span class="pre">from_graph(graph,</span> <span class="pre">points,</span> <span class="pre">name=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/random_graph.html"><code class="docutils literal notranslate"><span class="pre">random_graph(setpoints,</span> <span class="pre">p,</span> <span class="pre">seed=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/instance_methods.html">Instance Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/draw.html">Vizualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/graph_operations.html">Graph Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/Geometric_graphs/data_export.html">Data Export and Conversion</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules/points.html">Points</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="modules/Points/uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules/Points/uniform_over_sphere.html">uniform_over_sphere</a></li>
@@ -297,7 +308,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -308,11 +321,26 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Proximity Graphs documentation</h1>
+    <h1>Proximity Graphs</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-overview">Library Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-components">Main Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setpoints">SetPoints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometricgraph">GeometricGraph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proximitygraph">ProximityGraph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -322,18 +350,48 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="proximity-graphs-documentation">
-<h1>Proximity Graphs documentation<a class="headerlink" href="#proximity-graphs-documentation" title="Link to this heading">#</a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
-<p>Check out the <a class="reference internal" href="usage.html"><span class="doc">Usage</span></a> section for further information.including how to
-<a class="reference internal" href="usage.html#installation"><span class="std std-ref">install</span></a> the project.</p>
+  <section id="proximity-graphs">
+<h1>Proximity Graphs<a class="headerlink" href="#proximity-graphs" title="Link to this heading">#</a></h1>
+<p>This directory contains comprehensive documentation for the Proximity Graphs Python library.</p>
+<section id="library-overview">
+<h2>Library Overview<a class="headerlink" href="#library-overview" title="Link to this heading">#</a></h2>
+<p>The Proximity Graphs library provides tools for:</p>
+<ul class="simple">
+<li><p>Generating and manipulating point sets in n-dimensional space</p></li>
+<li><p>Creating various types of geometric and proximity graphs</p></li>
+<li><p>Analyzing graph properties (degrees, lengths, orientations, entropy)</p></li>
+<li><p>Visualizing graphs and point patterns</p></li>
+</ul>
+</section>
+<section id="main-components">
+<h2>Main Components<a class="headerlink" href="#main-components" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="usage.html#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html#quick-reference-guide">Quick Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#creating-points">Creating Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#transforming-points">Transforming Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#creating-graphs">Creating Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#graph-operations">Graph Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#visualization">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#analysis">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#data-export">Data Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#common-patterns">Common Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#tips-and-tricks">Tips and Tricks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#performance-considerations">Performance Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/geometricgraphs.html">GeometricGraphs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules/geometricgraphs.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geometricgraphs.html#class-geometricgraph">Class: GeometricGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geometricgraphs.html#constructors">Constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules/geometricgraphs.html#submodules">Submodules</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules/points.html">Points</a><ul>
@@ -350,6 +408,65 @@ documentation for details.</p>
 </li>
 </ul>
 </div>
+<section id="setpoints">
+<h3>SetPoints<a class="headerlink" href="#setpoints" title="Link to this heading">#</a></h3>
+<p>Represents collections of points with methods for:</p>
+<ul class="simple">
+<li><p>Random generation (uniform, normal, Poisson processes, clusters)</p></li>
+<li><p>Geometric transformations (rotation, scaling, translation, perturbation)</p></li>
+<li><p>Visualization</p></li>
+</ul>
+</section>
+<section id="geometricgraph">
+<h3>GeometricGraph<a class="headerlink" href="#geometricgraph" title="Link to this heading">#</a></h3>
+<p>Base class for graphs embedded in geometric space with:</p>
+<ul class="simple">
+<li><p>Graph construction and manipulation</p></li>
+<li><p>Set operations (union, intersection, difference)</p></li>
+<li><p>Property analysis (entropy, orientation, lengths)</p></li>
+<li><p>Conversion to GeoPandas for GIS workflows</p></li>
+</ul>
+</section>
+<section id="proximitygraph">
+<h3>ProximityGraph<a class="headerlink" href="#proximitygraph" title="Link to this heading">#</a></h3>
+<p>Specialized geometric graphs based on proximity relationships:</p>
+<ul class="simple">
+<li><p><strong>Delaunay Triangulation</strong> - Fundamental triangulation structure</p></li>
+<li><p><strong>Convex Hull</strong> - Boundary of point sets</p></li>
+<li><p><strong>MST</strong> (Minimum Spanning Tree) - Minimum cost connected graph</p></li>
+<li><p><strong>Gabriel Graph</strong> - β-skeleton with β=1</p></li>
+<li><p><strong>RNG</strong> (Relative Neighborhood Graph) - β-skeleton with β=2</p></li>
+<li><p><strong>β-Skeleton</strong> - Parameterized family of proximity graphs</p></li>
+<li><p><strong>Unit Disk Graph</strong> - Distance-based connectivity</p></li>
+<li><p><strong>Sphere of Influence Graph</strong> - Based on nearest neighbor spheres</p></li>
+<li><p><strong>α-Shape</strong> - Generalization of convex hull</p></li>
+<li><p><strong>α-Hull</strong> - Hull with circular arcs</p></li>
+<li><p><strong>γ-Neighborhood Graph</strong> - Veltkamp’s generalized proximity graph</p></li>
+<li><p><strong>Elliptic Gabriel Graph</strong> - Gabriel graph with elliptical regions</p></li>
+<li><p><strong>σ-Graph</strong> - Scaled distance-based graph</p></li>
+<li><p><strong>Stepping Stone Graph</strong> - Power-distance based connectivity</p></li>
+</ul>
+</section>
+</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.proximitygraphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DelaunayG</span><span class="p">,</span> <span class="n">GG</span><span class="p">,</span> <span class="n">RNG</span>
+
+<span class="c1"># Generate points</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Create graphs</span>
+<span class="n">delaunay</span> <span class="o">=</span> <span class="n">DelaunayG</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">gabriel</span> <span class="o">=</span> <span class="n">GG</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">RNG</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+<span class="c1"># Visualize</span>
+<span class="n">gabriel</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>See individual documentation files for detailed information on each class and method.</p>
+</section>
 </section>
 
 
@@ -378,6 +495,28 @@ documentation for details.</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-overview">Library Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-components">Main Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setpoints">SetPoints</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometricgraph">GeometricGraph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proximitygraph">ProximityGraph</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

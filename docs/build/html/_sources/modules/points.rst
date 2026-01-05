@@ -78,8 +78,6 @@ Submodules
 .. toctree::
    :maxdepth: 1
    
-
-   
    Points/uniform_square
    Points/uniform_over_sphere
    Points/uniform_sphere
