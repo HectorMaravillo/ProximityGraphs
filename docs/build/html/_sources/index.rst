@@ -27,11 +27,10 @@ Main Components
    :caption: Contents:
    
    usage
-   modules/envelops
    modules/points
    modules/geometricgraphs
    modules/proximitygraphs
-   modules/utils
+
 
 SetPoints
 ~~~~~~~~~

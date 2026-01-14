@@ -32,4 +32,12 @@ Submodules
    Proximity_graphs/convex_hull
    Proximity_graphs/MST
    Proximity_graphs/beta_skeleton 
+   Proximity_graphs/gabriel_graph
+   Proximity_graphs/Eliptic_gg
+   Proximity_graphs/RNG
+   Proximity_graphs/KNN
+   Proximity_graphs/unit_disk
+   Proximity_graphs/alpha_shapes
+   Proximity_graphs/alpha_hull
+
 
