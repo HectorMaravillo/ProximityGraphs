@@ -59,6 +59,7 @@ from .envelops import (
 from .geometricgraphs import (
     GeometricGraph,
     load_graph,
+    draw_grid,
 )
 
 from .proximitygraphs import (
@@ -122,6 +123,7 @@ __all__ = [
     # geometricgraphs
     "GeometricGraph",
     "load_graph",
+    "draw_grid",
 
     # proximitygraphs
     "ProximityGraph",

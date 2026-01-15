@@ -1,6 +1,8 @@
 import igraph as ig
 import numpy as np
 
+
+import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
 from matplotlib.pyplot import subplots
 from geopandas import GeoDataFrame
@@ -336,6 +338,7 @@ class GeometricGraph:
         axis=False,
         save=None,
         *,
+        ax = None,
         fig_kwargs=None,
         v_kwargs=None,
         e_kwargs=None,
@@ -401,7 +404,11 @@ class GeometricGraph:
         savefig_kwargs = {} if savefig_kwargs is None else dict(savefig_kwargs)
 
         # figure and axes
-        fig, ax = subplots(figsize=figsize, **fig_kwargs)
+        if ax is None:
+            fig, ax = subplots(figsize=figsize, **fig_kwargs)
+        else:
+            fig = ax.figure
+
 
         # vertices
         if self.n > 0 and v_size > 0:
@@ -600,3 +607,64 @@ def load_graph(path, filename):
     del load_graph._GeometricGraph__graph["name"]
     del load_graph._GeometricGraph__graph["details"]
     return load_graph
+
+
+
+def _unwrap_singleton(x):
+    # unwrap (obj,) or [obj]
+    if isinstance(x, (tuple, list)) and len(x) == 1:
+        return x[0]
+    return x
+
+def draw_grid(
+    graphs,
+    nrows,
+    ncols,
+    *,
+    figsize=None,
+    constrained_layout=True,
+    hide_unused=True,
+    **draw_kwargs,
+):
+    """
+    Draw a list of graph objects into an (nrows x ncols) matplotlib subplot grid.
+
+    Parameters
+    ----------
+    graphs : list
+        List of objects exposing .draw(ax=..., **draw_kwargs).
+    nrows, ncols : int
+        Grid shape.
+    figsize : tuple or None
+        Passed to plt.subplots.
+    constrained_layout : bool
+        Passed to plt.subplots.
+    hide_unused : bool
+        If graphs < nrows*ncols, hide remaining axes.
+    draw_kwargs : dict
+        Forwarded to each graph.draw(...).
+
+    Returns
+    -------
+    (fig, axs)
+    """
+
+    fig, axs = subplots(
+        nrows, ncols,
+        figsize=figsize,
+        constrained_layout=constrained_layout
+    )
+
+    axs_flat = axs.flat  # works for (nrows,ncols) and for 1D cases
+
+    for ax, G in zip(axs_flat, graphs):
+        G = _unwrap_singleton(G)
+        if not hasattr(G, "draw"):
+            raise TypeError(f"Each item must have a .draw(...). Got {type(G)} after unwrapping.")
+        G.draw(ax=ax, **draw_kwargs)
+
+    if hide_unused:
+        for ax in axs_flat:
+            ax.set_visible(False)
+
+    return fig, axs
