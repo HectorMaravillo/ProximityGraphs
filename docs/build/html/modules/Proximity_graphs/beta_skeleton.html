@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Class: Beta_Skeleton &#8212; Proximity Graphs v.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Proximity_graphs/beta_skeleton';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gabriel Graph" href="gabriel_graph.html" />
+    <link rel="prev" title="Minimum Spanning Tree (MST)" href="MST.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Proximity Graphs v.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../points.html">Points</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Points/uniform_square.html">Uniform square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/uniform_over_sphere.html">uniform_over_sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/uniform_sphere.html">uniform_sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/normal_dist.html">normal_dist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/grid.html">grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/hexagonal.html">hexagonal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/triangular.html">triangular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/poissonprocess_square.html">poissonprocess_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/poissonprocess_circle.html">poissonprocess_circle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/cluster_square.html">cluster_square</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/from_geopandas.html">from_geopandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Points/transformations.html">Transformation Methods</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Points/draw.html">Draw</a></li>
+</ul>
+</details></li>
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../geometricgraphs.html">GeometricGraphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/complete.html"><code class="docutils literal notranslate"><span class="pre">complete(setpoints)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/from_graph.html"><code class="docutils literal notranslate"><span class="pre">from_graph(graph,</span> <span class="pre">points,</span> <span class="pre">name=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/random_graph.html"><code class="docutils literal notranslate"><span class="pre">random_graph(setpoints,</span> <span class="pre">p,</span> <span class="pre">seed=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/instance_methods.html">Instance Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/draw.html">Vizualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/graph_operations.html">Graph Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/data_export.html">Data Export and Conversion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../proximitygraphs.html">ProximityGraph</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="delaunay.html">Delaunay Triangulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convex_hull.html">Convex Hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MST.html">Minimum Spanning Tree (MST)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Class: Beta_Skeleton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gabriel_graph.html">Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNG.html">Relative Neighborhood Graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KNN.html">K_Nearest_Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_disk.html">Class: Unit_Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="alpha_shapes.html">Alpha_Shape</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/modules/Proximity_graphs/beta_skeleton.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Class: Beta_Skeleton</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-definition">Mathematical Definition:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-method-from-graph">Class Method: from_graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Mathematical Definition:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="class-beta-skeleton">
+<h1>Class: Beta_Skeleton<a class="headerlink" href="#class-beta-skeleton" title="Link to this heading">#</a></h1>
+<p>A parameterized family of proximity graphs where β controls the neighborhood shape.</p>
+<section id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">setpoints</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Parameters:</strong></p>
+<ul class="simple">
+<li><p><strong>setpoints</strong> (SetPoints): The set of points.</p></li>
+<li><p><strong>beta</strong> (float): The β parameter (must be <span class="math notranslate nohighlight">\(\beta &gt; 0\)</span>).</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\beta &lt; 1\)</span>: Intersection of circles (requires type_region=”intersection”)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta = 1\)</span>: Gabriel Graph (lune or circle)</p></li>
+<li><p><span class="math notranslate nohighlight">\(1 &lt; \beta &lt; 2\)</span>: Intermediate lune-shaped regions</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta = 2\)</span>: Relative Neighborhood Graph</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta &gt; 2\)</span>: Stricter than RNG</p></li>
+</ul>
+</li>
+<li><p><strong>type_region</strong> (str): Region type:</p>
+<ul>
+<li><p>“lune”: Lune-shaped region (default for <span class="math notranslate nohighlight">\(\beta \geq 1\)</span>)</p></li>
+<li><p>“circle”: Circular region (for <span class="math notranslate nohighlight">\(\beta \geq 1\)</span>)</p></li>
+<li><p>“intersection”: Intersection of circles (for <span class="math notranslate nohighlight">\(\beta &lt; 1\)</span>)</p></li>
+</ul>
+</li>
+<li><p><strong>closed</strong> (bool): If True, uses <span class="math notranslate nohighlight">\(\leq\)</span> (closed region). If False, uses <span class="math notranslate nohighlight">\(&lt;\)</span> (open region).</p></li>
+</ul>
+</section>
+<section id="mathematical-definition">
+<h2>Mathematical Definition:<a class="headerlink" href="#mathematical-definition" title="Link to this heading">#</a></h2>
+<p>For two points <span class="math notranslate nohighlight">\(p, q \in P\)</span>, the edge <span class="math notranslate nohighlight">\((p, q)\)</span> is in <span class="math notranslate nohighlight">\(\text{BS}_\beta(P)\)</span> if the lune-shaped region <span class="math notranslate nohighlight">\(L_\beta(p, q)\)</span> contains no other points from <span class="math notranslate nohighlight">\(P\)</span>.</p>
+<p><strong>Lune Region (<span class="math notranslate nohighlight">\(\beta \geq 1\)</span>):</strong></p>
+<div class="math notranslate nohighlight">
+\[L_\beta(p, q) = B\left(\frac{p + q}{2} + \frac{\beta}{2}n, \frac{\beta \|p-q\|}{2}\right) \cap B\left(\frac{p + q}{2} - \frac{\beta}{2}n, \frac{\beta \|p-q\|}{2}\right)\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the unit normal to <span class="math notranslate nohighlight">\(\overrightarrow{pq}\)</span> and <span class="math notranslate nohighlight">\(B(c, r)\)</span> is a ball of radius <span class="math notranslate nohighlight">\(r\)</span> centered at <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<p><strong>Circle Region (<span class="math notranslate nohighlight">\(\beta \geq 1\)</span>):</strong></p>
+<div class="math notranslate nohighlight">
+\[C_\beta(p, q) = B\left(\frac{p + q}{2}, \frac{\beta \|p-q\|}{2}\right)\]</div>
+<p><strong>Intersection Region (<span class="math notranslate nohighlight">\(\beta &lt; 1\)</span>):</strong></p>
+<div class="math notranslate nohighlight">
+\[I_\beta(p, q) = B(p, \beta \|p-q\|) \cap B(q, \beta \|p-q\|)\]</div>
+<p>The edge <span class="math notranslate nohighlight">\((p, q)\)</span> exists if:</p>
+<div class="math notranslate nohighlight">
+\[L_\beta(p, q) \cap P = \{p, q\} \quad \text{(for closed=False)}\]</div>
+<div class="math notranslate nohighlight">
+\[L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}\]</div>
+<p><strong>Special Cases:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\beta = 1, \text{lune}\)</span>: Gabriel Graph</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta = 2, \text{lune}\)</span>: Relative Neighborhood Graph</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta \to 0\)</span>: Approaches <a class="reference internal" href="delaunay.html"><span class="doc std std-doc">Delaunay triangulation</span></a></p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta \to \infty\)</span>: Approaches nearest neighbor graph</p></li>
+</ul>
+<p><strong>Value Errors:</strong></p>
+<ul class="simple">
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if <span class="math notranslate nohighlight">\(\beta \leq 0\)</span></p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if <code class="docutils literal notranslate"><span class="pre">type_region</span></code> not in <code class="docutils literal notranslate"><span class="pre">[&quot;lune&quot;,</span> <span class="pre">&quot;circle&quot;,</span> <span class="pre">&quot;intersection&quot;]</span></code></p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if <span class="math notranslate nohighlight">\(\beta &lt; 1\)</span> and <code class="docutils literal notranslate"><span class="pre">type_region</span> <span class="pre">!=</span> <span class="pre">&quot;intersection&quot;</span></code></p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> if <code class="docutils literal notranslate"><span class="pre">closed</span></code> is not a boolean</p></li>
+</ul>
+</section>
+<section id="example">
+<h2>Example:<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.proximitygraphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beta_Skeleton</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Different β values produce different graphs</span>
+<span class="n">beta_0_5</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;intersection&quot;</span><span class="p">)</span>
+<span class="n">beta_1_0</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">)</span>
+<span class="n">beta_1_5</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">)</span>
+<span class="n">beta_2_0</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">)</span>
+<span class="n">beta_2_5</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=0.5: </span><span class="si">{</span><span class="n">beta_0_5</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=1.0 (Gabriel): </span><span class="si">{</span><span class="n">beta_1_0</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=1.5: </span><span class="si">{</span><span class="n">beta_1_5</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=2.0 (RNG): </span><span class="si">{</span><span class="n">beta_2_0</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=2.5: </span><span class="si">{</span><span class="n">beta_2_5</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="c1"># Expected: decreasing number of edges as β increases</span>
+
+<span class="c1"># Verify hierarchy: larger β means fewer edges</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hierarchy satisfied: </span><span class="si">{</span><span class="n">beta_0_5</span><span class="o">.</span><span class="n">m</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">beta_1_0</span><span class="o">.</span><span class="n">m</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">beta_1_5</span><span class="o">.</span><span class="n">m</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">beta_2_0</span><span class="o">.</span><span class="n">m</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">beta_2_5</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compare lune vs circle regions</span>
+<span class="n">beta_circle</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;circle&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β=1.5 circle: </span><span class="si">{</span><span class="n">beta_circle</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges (different from lune: </span><span class="si">{</span><span class="n">beta_1_5</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="class-method-from-graph">
+<h2>Class Method: from_graph<a class="headerlink" href="#class-method-from-graph" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Beta_Skeleton</span><span class="o">.</span><span class="n">from_graph</span><span class="p">(</span><span class="n">geom_graph</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Constructs a β-skeleton using an existing graph’s edges as candidates.</p>
+<p><strong>Parameters:</strong></p>
+<ul class="simple">
+<li><p><strong>geom_graph</strong> (GeometricGraph): Base graph providing edge candidates</p></li>
+<li><p><strong>beta</strong> (float): The β parameter (must be <span class="math notranslate nohighlight">\(&gt; 0\)</span>)</p></li>
+<li><p><strong>type_region</strong> (str): Region type</p></li>
+<li><p><strong>closed</strong> (bool): Region closure</p></li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul class="simple">
+<li><p><strong>Beta_Skeleton</strong>: A new β-skeleton graph</p></li>
+</ul>
+</section>
+<section id="id1">
+<h2>Mathematical Definition:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>Given a graph <span class="math notranslate nohighlight">\(G = (V, E)\)</span>, constructs <span class="math notranslate nohighlight">\(\text{BS}_\beta(V)\)</span> by testing only edges in <span class="math notranslate nohighlight">\(E\)</span> rather than all <span class="math notranslate nohighlight">\(\binom{n}{2}\)</span> pairs:</p>
+<div class="math notranslate nohighlight">
+\[\text{BS}_\beta^G(P) = \{(p, q) \in E : L_\beta(p, q) \cap P \subseteq \{p, q\}\}\]</div>
+<p>This is much faster when <span class="math notranslate nohighlight">\(|E| \ll \binom{n}{2}\)</span>, such as when <span class="math notranslate nohighlight">\(G\)</span> is the Delaunay triangulation.</p>
+<p><strong>Value Errors:</strong></p>
+<ul class="simple">
+<li><p>Same as constructor</p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> if <code class="docutils literal notranslate"><span class="pre">geom_graph</span></code> is not a <code class="docutils literal notranslate"><span class="pre">GeometricGraph</span></code></p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>Example:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.proximitygraphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Beta_Skeleton</span><span class="p">,</span> <span class="n">DelaunayG</span>
+
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Compute from all pairs (slow for large n)</span>
+<span class="c1"># beta_all = Beta_Skeleton(points, beta=1.5)</span>
+
+<span class="c1"># Fast: use Delaunay edges as candidates</span>
+<span class="n">delaunay</span> <span class="o">=</span> <span class="n">DelaunayG</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">beta_fast</span> <span class="o">=</span> <span class="n">Beta_Skeleton</span><span class="o">.</span><span class="n">from_graph</span><span class="p">(</span><span class="n">delaunay</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">type_region</span><span class="o">=</span><span class="s2">&quot;lune&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β-skeleton from Delaunay: </span><span class="si">{</span><span class="n">beta_fast</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Delaunay edges tested: </span><span class="si">{</span><span class="n">delaunay</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2"> (vs </span><span class="si">{</span><span class="mi">200</span><span class="o">*</span><span class="mi">199</span><span class="o">//</span><span class="mi">2</span><span class="si">}</span><span class="s2"> all pairs)&quot;</span><span class="p">)</span>
+<span class="c1"># Massive speedup for large point sets!</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="MST.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Minimum Spanning Tree (MST)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gabriel_graph.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gabriel Graph</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-definition">Mathematical Definition:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-method-from-graph">Class Method: from_graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Mathematical Definition:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Héctor Maravillo , Diego Villarreal , Heriberto Espino
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Héctor Maravillo.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
