@@ -30,6 +30,9 @@ Main Components
    modules/points
    modules/geometricgraphs
    modules/proximitygraphs
+   modules/Experiments
+   modules/biologicalgraphs
+   
 
 
 SetPoints
