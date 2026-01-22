@@ -37,7 +37,7 @@ The MST satisfies: MST $\subseteq$ RNG $\subseteq$ GG $\subseteq$ DT
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import MST
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 mst = MST(points)
 total_length = mst.lengths.sum()

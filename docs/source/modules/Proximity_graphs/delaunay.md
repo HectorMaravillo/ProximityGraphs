@@ -43,7 +43,7 @@ from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import DelaunayG
 
 # Create points
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 # Construct Delaunay triangulation
 delaunay = DelaunayG(points)

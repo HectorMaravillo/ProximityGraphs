@@ -25,7 +25,7 @@ The union contains all edges present in either graph. Both graphs must be define
 from proximitygraphs.proximitygraphs import GG, RNG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 
 gabriel = GG(points)
 rng = RNG(points)
@@ -66,7 +66,7 @@ The intersection contains only edges present in both graphs.
 from proximitygraphs.proximitygraphs import GG, DelaunayG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 
 gabriel = GG(points)
 delaunay = DelaunayG(points)
@@ -105,7 +105,7 @@ The result contains edges in self but not in other.
 from proximitygraphs.proximitygraphs import DelaunayG, GG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 
 delaunay = DelaunayG(points)
 gabriel = GG(points)
@@ -144,7 +144,7 @@ The result contains edges present in exactly one of the two graphs.
 from proximitygraphs.proximitygraphs import GG, RNG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 
 gabriel = GG(points)
 rng = RNG(points)
@@ -184,7 +184,7 @@ This measures the dissimilarity between two graphs based on their edge sets.
 from proximitygraphs.proximitygraphs import GG, RNG, DelaunayG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=1)
+points = SetPoints.uniform_square(n=100, seed=1)
 
 gabriel = GG(points)
 rng = RNG(points)

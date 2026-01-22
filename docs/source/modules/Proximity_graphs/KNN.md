@@ -45,7 +45,7 @@ where $B(p, r) = \{q \in P : \|q - p\| \leq r\}$.
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import K_Nearest_Neighbors
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=42)
+points = SetPoints.uniform_square(n=100, seed=42)
 
 # Different k values
 knn_3 = K_Nearest_Neighbors(points, k=3)

@@ -48,7 +48,7 @@ from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import Unit_Disk
 import numpy as np
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=42)
+points = SetPoints.uniform_square(n=100, seed=42)
 
 # Different radii
 udg_01 = Unit_Disk(points, dist_max=0.1)

@@ -14,7 +14,7 @@ A new GeometricGraph object with the same structure and properties.
 from proximitygraphs.proximitygraphs import GG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 original = GG(points)
 
 # Create a copy
@@ -51,7 +51,7 @@ Entropy measures the uncertainty or randomness in a distribution. Higher entropy
 from proximitygraphs.proximitygraphs import GG, RNG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=1)
+points = SetPoints.uniform_square(n=100, seed=1)
 
 gabriel = GG(points)
 rng = RNG(points)

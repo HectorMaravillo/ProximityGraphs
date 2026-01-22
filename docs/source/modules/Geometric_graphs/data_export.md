@@ -17,7 +17,7 @@ Saves both the graph structure and point coordinates.
 from proximitygraphs.proximitygraphs import GG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=1)
+points = SetPoints.uniform_square(n=100, seed=1)
 gabriel = GG(points)
 
 # Save graph
@@ -51,7 +51,7 @@ Useful for GIS workflows and spatial analysis.
 from proximitygraphs.proximitygraphs import DelaunayG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 delaunay = DelaunayG(points)
 
 # Convert to GeoDataFrame
@@ -87,7 +87,7 @@ Extracts enclosed regions (faces) from the planar graph.
 from proximitygraphs.proximitygraphs import DelaunayG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=30, dims=2, seed=1)
+points = SetPoints.uniform_square(n=30, seed=1)
 delaunay = DelaunayG(points)
 
 # Convert to polygon GeoDataFrame

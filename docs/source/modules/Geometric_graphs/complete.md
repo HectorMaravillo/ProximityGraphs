@@ -23,7 +23,7 @@ from proximitygraphs.points import SetPoints
 from proximitygraphs.geometricgraphs import GeometricGraph
 
 # Create 10 random points
-points = SetPoints.uniform_square(n=10, dims=2, seed=1)
+points = SetPoints.uniform_square(n=10, seed=1)
 
 # Create complete graph
 complete = GeometricGraph.complete(points)

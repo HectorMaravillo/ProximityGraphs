@@ -51,7 +51,7 @@ $$E_\alpha(p, q) \cap P \subseteq \{p, q\}$$
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import Elliptic_GabrielG, GG
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 gabriel = GG(points)
 elliptic_1_0 = Elliptic_GabrielG(points, alpha=1.0)  # Should equal GG

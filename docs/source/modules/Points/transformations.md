@@ -79,7 +79,7 @@ Each coordinate j is multiplied by s_j.
 from proximitygraphs.points import SetPoints
 
 # Create uniform square
-points = SetPoints.uniform_square(n=100, dims=2, seed=1)
+points = SetPoints.uniform_square(n=100, seed=1)
 
 # Uniform scaling (double all coordinates)
 scaled_uniform = points.scaling(2.0)
@@ -171,7 +171,7 @@ perturbed = grid.perturb(radius=0.2)
 perturbed.draw(figsize=(8, 8), v_color='orange', v_size=20)
 
 # Create uniformly perturbed version
-points = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points = SetPoints.uniform_square(n=50, seed=1)
 noisy = points.perturb(radius=0.1)
 ```
 
@@ -197,7 +197,7 @@ Combines two SetPoints objects by concatenating their points.
 from proximitygraphs.points import SetPoints
 
 # Create two point sets
-points1 = SetPoints.uniform_square(n=50, dims=2, seed=1)
+points1 = SetPoints.uniform_square(n=50, seed=1)
 points2 = SetPoints.uniform_sphere(n=50, seed=2)
 
 # Combine them

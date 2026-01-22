@@ -64,7 +64,7 @@ $$L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}$$
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import Beta_Skeleton
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 # Different β values produce different graphs
 beta_0_5 = Beta_Skeleton(points, beta=0.5, type_region="intersection")
@@ -123,7 +123,7 @@ This is much faster when $|E| \ll \binom{n}{2}$, such as when $G$ is the Delauna
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import Beta_Skeleton, DelaunayG
 
-points = SetPoints.uniform_square(n=200, dims=2, seed=42)
+points = SetPoints.uniform_square(n=200, seed=42)
 
 # Compute from all pairs (slow for large n)
 # beta_all = Beta_Skeleton(points, beta=1.5)

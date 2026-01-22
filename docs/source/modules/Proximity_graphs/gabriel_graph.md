@@ -43,7 +43,7 @@ This is the "empty diametral circle" property.
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import GG, Beta_Skeleton
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 gabriel = GG(points, closed=True)
 gabriel_open = GG(points, closed=False)

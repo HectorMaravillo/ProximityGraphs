@@ -44,7 +44,7 @@ Geometrically, no point is closer to both $p$ and $q$ than they are to each othe
 from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import RNG, GG, MST, Beta_Skeleton
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 
 mst = MST(points)
 rng = RNG(points)

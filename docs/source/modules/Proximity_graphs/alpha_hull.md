@@ -135,7 +135,7 @@ Instead of drawing straight lines between vertices, the `draw()` method:
 import matplotlib.pyplot as plt
 
 # Create α-hull
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 hull = Alpha_Hull(points, alpha=1.5, n_points_per_arc=60)
 
 # Draw with custom styling
