@@ -349,15 +349,8 @@ def _graph_jobs(graphs_dir: Path) -> List[Job]:
     return jobs
 
 
-
-from pathlib import Path
-from typing import List, Tuple
-
-# If this script is in your repo root, this is correct.
-# If it's in a subfolder (e.g., tools/), change `.parent` to `.parents[1]` (or higher).
 REPO_ROOT = Path(__file__).resolve().parent
 DEFAULT_DOCS_ROOT = (REPO_ROOT / "docs" / "source" / "modules").resolve()
-
 
 def main(docs_root: Path) -> int:
     points_dir = docs_root / "Points"
