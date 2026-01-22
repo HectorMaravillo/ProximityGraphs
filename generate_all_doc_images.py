@@ -320,22 +320,20 @@ def _graph_jobs(graphs_dir: Path) -> List[Job]:
 
     jobs.append(Job("Proximity_graphs/knn", outdir, _knn))
 
-    def _build_gamma(md_path: Path) -> None:
-            outdir = md_path.parent / "images"
-            pts = pg.SetPoints.uniform_sphere(n=300, seed=7)
-            _save_points(pts, outdir, "gamma_points", figsize=(6, 6), title=True, details=True)
+    def _build_gamma() -> None:
+        pts = pg.SetPoints.uniform_sphere(n=300, seed=7)
+        _save_points(pts, outdir, "gamma_points", figsize=(6, 6), title=True, details=True)
 
-            H3 = pg.Gamma_Graph(pts, gamma0=-0.5, gamma1=0.5, closed=True, block_size=128)
-            H4 = pg.Gamma_Graph(pts, gamma0=-0.2, gamma1=0.5, closed=True, block_size=128)
-            H5 = pg.Gamma_Graph(pts, gamma0= 0.2, gamma1=0.5, closed=True, block_size=128)
-            H6 = pg.Gamma_Graph(pts, gamma0= 0.5, gamma1=0.5, closed=True, block_size=128)
+        H3 = pg.Gamma_Graph(pts, gamma0=-0.5, gamma1=0.5, closed=True, block_size=128)
+        H4 = pg.Gamma_Graph(pts, gamma0=-0.2, gamma1=0.5, closed=True, block_size=128)
+        H5 = pg.Gamma_Graph(pts, gamma0= 0.2, gamma1=0.5, closed=True, block_size=128)
+        H6 = pg.Gamma_Graph(pts, gamma0= 0.5, gamma1=0.5, closed=True, block_size=128)
 
-            _save_graph_grid([H3, H4, H5, H6], outdir, "gamma_graph", 2, 2, figsize=(10, 10), details=True)
+        _save_graph_grid([H3, H4, H5, H6], outdir, "gamma_graph", 2, 2, figsize=(10, 10), details=True)
     
     jobs.append(Job("Proximity_graphs/gamma_graph", outdir, _build_gamma))
     
-    def _build_stepping(md_path: Path) -> None:
-        outdir = md_path.parent / "images"
+    def _build_stepping() -> None:
         pts = pg.SetPoints.uniform_square(n=300, seed=11)
         _save_points(pts, outdir, "stepping_points", figsize=(6, 6), title=True, details=True)
 
