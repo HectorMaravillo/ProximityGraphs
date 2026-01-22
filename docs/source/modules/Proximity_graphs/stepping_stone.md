@@ -8,6 +8,13 @@ This construction is useful when you want a **continuously-tunable “corridor�
 - a near-segment neighborhood (`d → 1⁺`), and
 - a lens-like intersection of large balls (`d → ∞`).
 
+## Figures
+
+The examples below generate the same figures that are embedded here.
+
+![Stepping-stone examples (2×2 grid)](images/stepping_stone.png)
+
+
 ---
 
 ## Mathematical definition
@@ -134,30 +141,29 @@ class Stepping_Stone(ProximityGraph):
 
 ## Usage examples
 
-### Example 1 — Gabriel-equivalent neighborhood (d=2)
+### Reproducible example (saves the embedded figures)
 
 ```python
+import matplotlib.pyplot as plt
 import proximitygraphs as pg
 
-pts = pg.SetPoints.uniform_square(n=200, seed=11)
-G = pg.Stepping_Stone(pts, d=2.0, k=0, closed=False)
+# Points (unit square)
+pts = pg.SetPoints.uniform_square(n=300, seed=11)
+pts.draw(save="images/stepping_points", title=True, details=True)
+plt.close("all")
 
-print(G.name, "edges:", G.m)
-G.draw(title=True, details=True)
+# 2×2 grid over (d, k)
+G1 = pg.Stepping_Stone(pts, d=1.3, k=0, closed=True)
+G2 = pg.Stepping_Stone(pts, d=2.0, k=0, closed=False)
+G3 = pg.Stepping_Stone(pts, d=3.0, k=0, closed=True)
+G4 = pg.Stepping_Stone(pts, d=3.0, k=2, closed=True)
+graphs = [G1, G2, G3, G4]
+
+fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
+fig.savefig("images/stepping_stone.png", dpi=200, bbox_inches="tight")
+plt.close(fig)
 ```
 
-### Example 2 — Thinner corridor (d=1.3)
-
-```python
-G_thin = pg.Stepping_Stone(pts, d=1.3, k=0, closed=True)
-print("edges:", G_thin.m)
-```
-
-### Example 3 — Allow a few intruders (k-relaxed)
-
-```python
-G_relaxed = pg.Stepping_Stone(pts, d=3.0, k=2)
-```
 
 ---
 

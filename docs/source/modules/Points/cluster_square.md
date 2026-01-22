@@ -28,25 +28,18 @@ The generation process:
 
 ## Example
 
-
 ```python
-from proximitygraphs.points import SetPoints
+from pathlib import Path
+import proximitygraphs as pg
 
-# Generate Matern cluster process
-matern_clusters = SetPoints.cluster_square(
-    intensity=(5, 20),
-    cluster={"name": "Matern", "param": 0.1},
-    limit=1,
-    seed=111
-)
-matern_clusters.draw(figsize=(8, 8), v_color='purple', v_size=10)
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
 
-# Generate Thomas cluster process
-thomas_clusters = SetPoints.cluster_square(
-    intensity=(5, 20),
-    cluster={"name": "Thomas", "param": 0.05},
-    limit=1,
-    seed=222
-)
-thomas_clusters.draw(figsize=(8, 8), v_color='orange', v_size=10)
+pts = pg.SetPoints.cluster_square(intensity=(12, 12), cluster={"name": "Matern", "param": 0.1}, limit=1, seed=7)
+
+# Save: images/cluster_square.png
+pts.draw(save=str(images / "cluster_square"), figsize=(8, 8), v_color='#e377c2')
 ```
+
+![Example point set](images/cluster_square.png)
+

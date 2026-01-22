@@ -204,3 +204,41 @@ points2 = SetPoints.uniform_sphere(n=50, seed=2)
 combined = points1 + points2
 print(f"Combined set has {combined.n} points")  # 100 points
 ```
+
+## Example
+
+```python
+from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
+import proximitygraphs as pg
+
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
+
+base = pg.SetPoints.uniform_square(n=300, seed=7)
+rot  = base.rotation(theta=np.pi/6)
+scl  = base.scaling(scale=1.5)
+trn  = base.traslation(shift=(0.4, 0.2))
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 10), constrained_layout=True)
+
+for ax, (name, pts) in zip(
+    axes.flat,
+    [
+        ("base", base),
+        ("rotation", rot),
+        ("scaling", scl),
+        ("translation", trn),
+    ],
+):
+    p = pts.points
+    ax.scatter(p[:, 0], p[:, 1], s=10)
+    ax.set_title(name)
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+fig.savefig(images / "transformations.png", dpi=200, bbox_inches="tight")
+```
+
+![Affine transformations (2×2)](images/transformations.png)

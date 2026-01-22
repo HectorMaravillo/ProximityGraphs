@@ -38,47 +38,30 @@ Geometrically, no point is closer to both $p$ and $q$ than they are to each othe
 - Raises `TypeError` if `closed` is not boolean
 - Requires at least 2 points
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import RNG, GG, MST, Beta_Skeleton
+from pathlib import Path
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=50, seed=42)
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
 
-mst = MST(points)
-rng = RNG(points)
-gabriel = GG(points)
+pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
-print(f"MST: {mst.m} edges")
-print(f"RNG: {rng.m} edges")
-print(f"Gabriel: {gabriel.m} edges")
-print("Hierarchy: MST ⊆ RNG ⊆ Gabriel ⊆ Delaunay")
-# Output: MST: 49, RNG: ~70, Gabriel: ~100
+# Save the point set used in the example
+pts.draw(save=str(images / "rng_points"), figsize=(6, 6), details=True)
 
-# Verify RNG = Beta-Skeleton(beta=2)
-beta_2 = Beta_Skeleton(points, beta=2.0, type_region="lune", closed=False)
-print(f"β=2 lune: {beta_2.m} edges")
-print(f"Match with RNG: {rng.m == beta_2.m}")  # Should be True
+G_mst = pg.MST(pts)
+G_rng = pg.RNG(pts, closed=False)
+G_gg  = pg.GG(pts, closed=True)
 
-# Verify hierarchy
-print(f"MST ⊆ RNG: {mst.m <= rng.m}")
-print(f"RNG ⊆ GG: {rng.m <= gabriel.m}")
+graphs = [G_mst, G_rng, G_gg]
 
-# Test lune property for one edge
-edges = rng.graph.get_edgelist()
-i, j = edges[0]
-p_i, p_j = points.points[i], points.points[j]
-dist_ij = np.linalg.norm(p_i - p_j)
-
-# Check all other points
-violations = 0
-for k in range(points.n):
-    if k != i and k != j:
-        p_k = points.points[k]
-        if max(np.linalg.norm(p_k - p_i), np.linalg.norm(p_k - p_j)) < dist_ij:
-            violations += 1
-print(f"Lune violations for edge ({i},{j}): {violations}")  # Should be 0
-
-rng.draw(figsize=(8, 8))
+fig, _axs = pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
+fig.savefig(images / "rng.png", dpi=200, bbox_inches="tight")
 ```
+
+
+![Example graphs](images/rng.png)
+

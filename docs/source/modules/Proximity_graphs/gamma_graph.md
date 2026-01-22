@@ -8,6 +8,14 @@
 
 This implementation follows the neighborhood-emptiness principle: an undirected edge `(i, j)` is included if the γ-neighborhood of points `p_i, p_j` contains at most `k` other points.
 
+## Figures
+
+The examples below generate the same figures that are embedded here.
+
+
+![Gamma graph examples (2×2 grid)](images/gamma_graph.png)
+
+
 ---
 
 ## Mathematical definition (2D)
@@ -121,32 +129,30 @@ class Gamma_Graph(ProximityGraph):
 
 ## Usage examples
 
-### Example 1 — Default (Gabriel graph)
+### Reproducible example (saves the embedded figures)
 
 ```python
+import matplotlib.pyplot as plt
 import proximitygraphs as pg
 
-pts = pg.SetPoints.uniform_square(n=200, seed=7)
-G = pg.Gamma_Graph(pts, gamma0=0.0, gamma1=0.0, k=0, closed=False)
+# Points (unit disk)
+pts = pg.SetPoints.uniform_sphere(n=300, seed=7)
+pts.draw(save="images/gamma_points", title=True, details=True)
+plt.close("all")
 
-print(G.name, G.n, G.m, G.cc)
-G.draw(title=True, details=True)
+# 2×2 parameter sweep (same pattern as the docs figure)
+H3 = pg.Gamma_Graph(pts, gamma0=-0.5, gamma1=0.5, closed=True, block_size=128)
+H4 = pg.Gamma_Graph(pts, gamma0=-0.2, gamma1=0.5, closed=True, block_size=128)
+H5 = pg.Gamma_Graph(pts, gamma0= 0.2, gamma1=0.5, closed=True, block_size=128)
+H6 = pg.Gamma_Graph(pts, gamma0= 0.5, gamma1=0.5, closed=True, block_size=128)
+graphs = [H3, H4, H5, H6]
+
+# Draw as a single figure (subplots) and save
+fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
+fig.savefig("images/gamma_graph.png", dpi=200, bbox_inches="tight")
+plt.close(fig)
 ```
 
-### Example 2 — More conservative (larger neighborhoods)
-
-```python
-# Larger |gamma0| usually increases neighborhood size → fewer edges
-G_sparse = pg.Gamma_Graph(pts, gamma0=0.6, gamma1=0.2, k=0, closed=True)
-print("edges:", G_sparse.m)
-```
-
-### Example 3 — k-relaxed variant
-
-```python
-# Allow up to 2 points inside the neighborhood
-G_relaxed = pg.Gamma_Graph(pts, gamma0=0.3, gamma1=-0.2, k=2)
-```
 
 ---
 

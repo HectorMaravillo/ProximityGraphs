@@ -58,35 +58,34 @@ $$L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}$$
 - Raises `ValueError` if $\beta < 1$ and `type_region != "intersection"`
 - Raises `TypeError` if `closed` is not a boolean
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Beta_Skeleton
+from pathlib import Path
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=50, seed=42)
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
 
-# Different β values produce different graphs
-beta_0_5 = Beta_Skeleton(points, beta=0.5, type_region="intersection")
-beta_1_0 = Beta_Skeleton(points, beta=1.0, type_region="lune")
-beta_1_5 = Beta_Skeleton(points, beta=1.5, type_region="lune")
-beta_2_0 = Beta_Skeleton(points, beta=2.0, type_region="lune")
-beta_2_5 = Beta_Skeleton(points, beta=2.5, type_region="lune")
+pts = pg.SetPoints.uniform_square(n=120, seed=42)
 
-print(f"β=0.5: {beta_0_5.m} edges")
-print(f"β=1.0 (Gabriel): {beta_1_0.m} edges")
-print(f"β=1.5: {beta_1_5.m} edges")
-print(f"β=2.0 (RNG): {beta_2_0.m} edges")
-print(f"β=2.5: {beta_2_5.m} edges")
-# Expected: decreasing number of edges as β increases
+# Save the point set used in the example
+pts.draw(save=str(images / "beta_skeleton_points"), figsize=(6, 6), details=True)
 
-# Verify hierarchy: larger β means fewer edges
-print(f"Hierarchy satisfied: {beta_0_5.m >= beta_1_0.m >= beta_1_5.m >= beta_2_0.m >= beta_2_5.m}")
+B08 = pg.Beta_Skeleton(pts, beta=0.8, type_region="intersection", closed=False)
+B10 = pg.Beta_Skeleton(pts, beta=1.0, type_region="lune", closed=False)
+B15 = pg.Beta_Skeleton(pts, beta=1.5, type_region="lune", closed=False)
+B20 = pg.Beta_Skeleton(pts, beta=2.0, type_region="lune", closed=False)
+B25 = pg.Beta_Skeleton(pts, beta=2.5, type_region="lune", closed=False)
+B15c = pg.Beta_Skeleton(pts, beta=1.5, type_region="circle", closed=False)
 
-# Compare lune vs circle regions
-beta_circle = Beta_Skeleton(points, beta=1.5, type_region="circle")
-print(f"β=1.5 circle: {beta_circle.m} edges (different from lune: {beta_1_5.m})")
+graphs = [B08, B10, B15, B20, B25, B15c]
+
+fig, _axs = pg.draw_grid(graphs, 2, 3, figsize=(15, 9), details=True)
+fig.savefig(images / "beta_skeleton.png", dpi=200, bbox_inches="tight")
 ```
+
+![Example graphs](images/beta_skeleton.png)
 
 ## Class Method: from_graph
 

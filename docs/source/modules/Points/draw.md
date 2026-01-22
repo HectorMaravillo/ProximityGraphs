@@ -54,3 +54,20 @@ fig, ax = points.draw(
 # Save to file
 points.draw(save='my_points')  # Saves as 'my_points.png'
 ```
+
+## Example
+
+```python
+from pathlib import Path
+import proximitygraphs as pg
+
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
+
+pts = pg.SetPoints.uniform_square(n=250, seed=7)
+
+# Save: images/draw.png
+pts.draw(save=str(images / "draw"), figsize=(8, 8), v_color='#00072D', v_size=10, details=True)
+```
+
+![Example point set](images/draw.png)

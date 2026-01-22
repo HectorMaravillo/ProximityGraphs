@@ -23,12 +23,17 @@ The use of a seed is recommended to ensure reproducibility.
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
+from pathlib import Path
+import proximitygraphs as pg
 
-# Create a SetPoints object with 200 points in 2D
-square = SetPoints.uniform_square(n=200, dims = 2, seed=73)
-square.draw(figsize=(8, 8), v_color='blue')
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
+
+pts = pg.SetPoints.uniform_square(n=200, seed=73)
+
+# Save: images/uniform_square.png
+pts.draw(save=str(images / "uniform_square"), figsize=(8, 8), v_color='#1f77b4')
 ```
 
+![Example point set](images/uniform_square.png)
 
-![Descripción](/_static/points_uniform_square.png)

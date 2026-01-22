@@ -47,53 +47,38 @@ The $\alpha$-shape is the boundary of the union of simplices in $C_\alpha(P)$.
 - Raises `TypeError` if `alpha` is not numeric
 - Raises `TypeError` if `tol` is not numeric
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Alpha_Shape, Convex_Hull
+from pathlib import Path
+import proximitygraphs as pg
 import numpy as np
 
-# Create point cloud with irregular boundary (star shape)
-np.random.seed(42)
-theta = np.linspace(0, 2*np.pi, 100)
-r = 1 + 0.3*np.sin(5*theta)
-x = r * np.cos(theta) + 0.05*np.random.randn(100)
-y = r * np.sin(theta) + 0.05*np.random.randn(100)
-points = SetPoints(np.column_stack([x, y]))
+images = Path("images")
+images.mkdir(parents=True, exist_ok=True)
 
-# Compare different α values
-hull = Convex_Hull(points)
-alpha_0_1 = Alpha_Shape(points, alpha=0.1)
-alpha_0_5 = Alpha_Shape(points, alpha=0.5)
-alpha_1_0 = Alpha_Shape(points, alpha=1.0)
-alpha_2_0 = Alpha_Shape(points, alpha=2.0)
+import numpy as np
 
-print(f"Convex Hull: {hull.m} edges")
-print(f"α-Shape (0.1): {alpha_0_1.m} edges")
-print(f"α-Shape (0.5): {alpha_0_5.m} edges")
-print(f"α-Shape (1.0): {alpha_1_0.m} edges")
-print(f"α-Shape (2.0): {alpha_2_0.m} edges")
-# Smaller α (closer to convex hull) → fewer edges
-# Larger α (tighter fit) → potentially more edges to capture concavities
+theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
+r = 1 + 0.35*np.sin(5*theta)
+x = r * np.cos(theta) + 0.05*np.random.default_rng(42).standard_normal(theta.size)
+y = r * np.sin(theta) + 0.05*np.random.default_rng(43).standard_normal(theta.size)
+pts = pg.SetPoints(np.column_stack([x, y]))
 
-# Visualize evolution of α
-import matplotlib.pyplot as plt
-fig, axes = plt.subplots(2, 2, figsize=(12, 12))
+A01 = pg.Alpha_Shape(pts, alpha=0.1)
+A05 = pg.Alpha_Shape(pts, alpha=0.5)
+A10 = pg.Alpha_Shape(pts, alpha=-0.1)
+A20 = pg.Alpha_Shape(pts, alpha=-0.5)
 
-for ax, (alpha, shape) in zip(axes.flat, [
-    (0.1, alpha_0_1),
-    (0.5, alpha_0_5),
-    (1.0, alpha_1_0),
-    (2.0, alpha_2_0)
-]):
-    shape.draw(ax=ax, e_color='red', e_size=2, v_size=10)
-    ax.set_title(f'α={alpha}, edges={shape.m}')
-    ax.axis('equal')
+graphs = [A01, A05, A10, A20]
 
-plt.tight_layout()
-plt.show()
+# Save points used in the example
+pts.draw(save=str(images / "alpha_shapes_points"), figsize=(6, 6), details=True)
 
-# Check boundary property
-print(f"α=1.0: {alpha_1_0.cc} component(s)")
+fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
+fig.savefig(images / "alpha_shapes.png", dpi=200, bbox_inches="tight")
 ```
+
+
+![Example graphs](images/alpha_shapes.png)
+
