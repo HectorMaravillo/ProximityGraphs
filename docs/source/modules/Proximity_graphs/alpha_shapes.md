@@ -50,13 +50,7 @@ The $\alpha$-shape is the boundary of the union of simplices in $C_\alpha(P)$.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-import numpy as np
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 import numpy as np
 
 theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
@@ -71,12 +65,7 @@ A10 = pg.Alpha_Shape(pts, alpha=-0.1)
 A20 = pg.Alpha_Shape(pts, alpha=-0.5)
 
 graphs = [A01, A05, A10, A20]
-
-# Save points used in the example
-pts.draw(save=str(images / "alpha_shapes_points"), figsize=(6, 6), details=True)
-
-fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
-fig.savefig(images / "alpha_shapes.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
 
 

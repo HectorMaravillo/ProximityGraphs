@@ -48,25 +48,16 @@ $$E_\alpha(p, q) \cap P \subseteq \{p, q\}$$
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
 
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 pts = pg.SetPoints.uniform_square(n=150, seed=42)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "eliptic_gg_points"), figsize=(6, 6), details=True)
 
 G1 = pg.Elliptic_GabrielG(pts, alpha=1.0, closed=False)  # equals GG
 G2 = pg.Elliptic_GabrielG(pts, alpha=1.5, closed=False)
 G3 = pg.Elliptic_GabrielG(pts, alpha=2.0, closed=False)
 
 graphs = [G1, G2, G3]
-
-fig, _axs = pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
-fig.savefig(images / "eliptic_gg.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
 ```
 
 

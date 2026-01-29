@@ -44,16 +44,9 @@ $$\text{UDG}_r(P) = \{(p, q) \in P \times P : p \neq q, \|p - q\| \leq r\}$$
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
 
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 pts = pg.SetPoints.uniform_square(n=250, seed=7)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "unit_disk_points"), figsize=(6, 6), details=True)
 
 G1 = pg.Unit_Disk(pts, dist_max=0.08, closed=True)
 G2 = pg.Unit_Disk(pts, dist_max=0.12, closed=True)
@@ -62,8 +55,7 @@ G4 = pg.Unit_Disk(pts, dist_max=0.22, closed=True)
 
 graphs = [G1, G2, G3, G4]
 
-fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
-fig.savefig(images / "unit_disk.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
 
 

@@ -40,16 +40,9 @@ where $B(p, r) = \{q \in P : \|q - p\| \leq r\}$.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
 
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 pts = pg.SetPoints.uniform_square(n=250, seed=42)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "knn_points"), figsize=(6, 6), details=True)
 
 G3  = pg.NNG(pts, k=3)
 G5  = pg.NNG(pts, k=5)
@@ -57,9 +50,7 @@ G10 = pg.NNG(pts, k=10)
 G20 = pg.NNG(pts, k=20)
 
 graphs = [G3, G5, G10, G20]
-
-fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
-fig.savefig(images / "knn.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
 
 

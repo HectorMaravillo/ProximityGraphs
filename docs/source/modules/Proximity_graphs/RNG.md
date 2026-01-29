@@ -41,16 +41,9 @@ Geometrically, no point is closer to both $p$ and $q$ than they are to each othe
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
 
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 pts = pg.SetPoints.uniform_square(n=200, seed=42)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "rng_points"), figsize=(6, 6), details=True)
 
 G_mst = pg.MST(pts)
 G_rng = pg.RNG(pts, closed=False)
@@ -58,8 +51,7 @@ G_gg  = pg.GG(pts, closed=True)
 
 graphs = [G_mst, G_rng, G_gg]
 
-fig, _axs = pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
-fig.savefig(images / "rng.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
 ```
 
 

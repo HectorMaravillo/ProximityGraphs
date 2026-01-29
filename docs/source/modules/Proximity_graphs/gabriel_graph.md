@@ -40,24 +40,15 @@ This is the "empty diametral circle" property.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
 
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
 pts = pg.SetPoints.uniform_square(n=200, seed=42)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "gabriel_graph_points"), figsize=(6, 6), details=True)
 
 G_closed = pg.GG(pts, closed=True)
 G_open   = pg.GG(pts, closed=False)
 
 graphs = [G_closed, G_open]
-
-fig, _axs = pg.draw_grid(graphs, 1, 2, figsize=(12, 5), details=True)
-fig.savefig(images / "gabriel_graph.png", dpi=200, bbox_inches="tight")
+pg.draw_grid(graphs, 1, 2, figsize=(12, 5), details=True)
 ```
 
 

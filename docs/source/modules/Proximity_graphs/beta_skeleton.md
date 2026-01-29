@@ -58,35 +58,6 @@ $$L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}$$
 - Raises `ValueError` if $\beta < 1$ and `type_region != "intersection"`
 - Raises `TypeError` if `closed` is not a boolean
 
-## Example
-
-```python
-from pathlib import Path
-import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
-pts = pg.SetPoints.uniform_square(n=120, seed=42)
-
-# Save the point set used in the example
-pts.draw(save=str(images / "beta_skeleton_points"), figsize=(6, 6), details=True)
-
-B08 = pg.Beta_Skeleton(pts, beta=0.8, type_region="intersection", closed=False)
-B10 = pg.Beta_Skeleton(pts, beta=1.0, type_region="lune", closed=False)
-B15 = pg.Beta_Skeleton(pts, beta=1.5, type_region="lune", closed=False)
-B20 = pg.Beta_Skeleton(pts, beta=2.0, type_region="lune", closed=False)
-B25 = pg.Beta_Skeleton(pts, beta=2.5, type_region="lune", closed=False)
-B15c = pg.Beta_Skeleton(pts, beta=1.5, type_region="circle", closed=False)
-
-graphs = [B08, B10, B15, B20, B25, B15c]
-
-fig, _axs = pg.draw_grid(graphs, 2, 3, figsize=(15, 9), details=True)
-fig.savefig(images / "beta_skeleton.png", dpi=200, bbox_inches="tight")
-```
-
-![Example graphs](images/beta_skeleton.png)
-
 ## Class Method: from_graph
 
 ```python
@@ -116,24 +87,22 @@ This is much faster when $|E| \ll \binom{n}{2}$, such as when $G$ is the Delauna
 - Same as constructor
 - Raises `TypeError` if `geom_graph` is not a `GeometricGraph`
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Beta_Skeleton, DelaunayG
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=200, seed=42)
+pts = pg.SetPoints.uniform_square(n=120, seed=42)
 
-# Compute from all pairs (slow for large n)
-# beta_all = Beta_Skeleton(points, beta=1.5)
+B08 = pg.Beta_Skeleton(pts, beta=0.8, type_region="intersection", closed=False)
+B10 = pg.Beta_Skeleton(pts, beta=1.0, type_region="lune", closed=False)
+B15 = pg.Beta_Skeleton(pts, beta=1.5, type_region="lune", closed=False)
+B20 = pg.Beta_Skeleton(pts, beta=2.0, type_region="lune", closed=False)
+B25 = pg.Beta_Skeleton(pts, beta=2.5, type_region="lune", closed=False)
+B15c = pg.Beta_Skeleton(pts, beta=1.5, type_region="circle", closed=False)
 
-# Fast: use Delaunay edges as candidates
-delaunay = DelaunayG(points)
-beta_fast = Beta_Skeleton.from_graph(delaunay, beta=1.5, type_region="lune")
-
-print(f"β-skeleton from Delaunay: {beta_fast.m} edges")
-print(f"Delaunay edges tested: {delaunay.m} (vs {200*199//2} all pairs)")
-# Massive speedup for large point sets!
+graphs = [B08, B10, B15, B20, B25, B15c]
+pg.draw_grid(graphs, 2, 3, figsize=(15, 9), details=True)
 ```
 
-
+![Example graphs](images/beta_skeleton.png)

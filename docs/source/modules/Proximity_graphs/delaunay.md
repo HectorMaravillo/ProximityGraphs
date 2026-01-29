@@ -39,23 +39,12 @@ where $c$ is the circumcenter and $r$ is the circumradius.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
-# Save the point set used in the example
-pts.draw(save=str(images / "delaunay_points"), figsize=(6, 6), details=True)
-
 G = pg.DelaunayG(pts)
-
-graphs = [G]
-
-fig, _axs = pg.draw_grid(graphs, 1, 1, figsize=(7, 7), details=True)
-fig.savefig(images / "delaunay.png", dpi=200, bbox_inches="tight")
+G.draw(figsize=(7, 7), details=True)
 ```
 
 

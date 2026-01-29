@@ -58,39 +58,6 @@ The sign $\pm$ is chosen so the arc bulges outward from the point set.
 - Raises `TypeError` if `n_points_per_arc` is not an integer
 - Raises `QhullError` if fewer than 3 points provided
 
-## Example
-
-```python
-from pathlib impofrom pathlib import Path
-import proximitygraphs as pg
-import numpy as np
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
-
-import numpy as np
-
-theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
-r = 1 + 0.35*np.sin(5*theta)
-x = r * np.cos(theta) + 0.05*np.random.default_rng(42).standard_normal(theta.size)
-y = r * np.sin(theta) + 0.05*np.random.default_rng(43).standard_normal(theta.size)
-pts = pg.SetPoints(np.column_stack([x, y]))
-
-A01 = pg.Alpha_Hull(pts, alpha=0.1)
-A05 = pg.Alpha_Hull(pts, alpha=0.5)
-A20 = pg.Alpha_Hull(pts, alpha=-0.5)
-
-graphs = [A01, A05, A10, A20]
-
-
-fig, _axs = pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
-fig.savefig(images / "alpha_hull.png", dpi=200, bbox_inches="tight")
-```
-
-
-
-![Example graphs](images/alpha_hull.png)
-
 ## Custom Drawing
 
 The Alpha_Hull class overrides `draw()` to render circular arcs instead of straight edges.
@@ -116,19 +83,26 @@ Instead of drawing straight lines between vertices, the `draw()` method:
 2. Plots each arc as a smooth curve using the sampled points
 3. Renders vertices as scatter points
 
-**Example:**
+## Example
 
 ```python
-import matplotlib.pyplot as plt
+import proximitygraphs as pg
+import numpy as np
 
-# Create α-hull
-points = SetPoints.uniform_square(n=50, seed=42)
-hull = Alpha_Hull(points, alpha=1.5, n_points_per_arc=60)
+theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
+r = 1 + 0.35*np.sin(5*theta)
+x = r * np.cos(theta) + 0.05*np.random.default_rng(42).standard_normal(theta.size)
+y = r * np.sin(theta) + 0.05*np.random.default_rng(43).standard_normal(theta.size)
+pts = pg.SetPoints(np.column_stack([x, y]))
 
-# Draw with custom styling
-fig, ax = plt.subplots(figsize=(10, 10))
-hull.draw(ax=ax, e_color='darkblue', e_size=3, v_size=50, v_color='red')
-ax.set_title('α-hull with Curved Boundaries')
-ax.grid(True, alpha=0.3)
-plt.show()
+A01 = pg.Alpha_Hull(pts, alpha=0.1)
+A05 = pg.Alpha_Hull(pts, alpha=0.5)
+A20 = pg.Alpha_Hull(pts, alpha=-0.5)
+
+graphs = [A01, A05, A10, A20]
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
+
+
+
+![Example graphs](images/alpha_hull.png)
