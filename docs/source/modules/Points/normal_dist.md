@@ -17,16 +17,11 @@ Draw X in R^2 with mean vector 0 and covariance matrix I2. Components are indepe
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.normal_dist(n=300, seed=42)
 
-# Save: images/normal_dist.png
-pts.draw(save=str(images / "normal_dist"), figsize=(8, 8), v_color='#9467bd')
+pts.draw(figsize=(8, 8), v_color='#9467bd')
 ```
 
 ![Example point set](images/normal_dist.png)

@@ -23,16 +23,11 @@ This results in points randomly and uniformly distributed within [0, limit]².
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.poissonprocess_square(intensity=150, limit=1, seed=7)
 
-# Save: images/poissonprocess_square.png
-pts.draw(save=str(images / "poissonprocess_square"), figsize=(8, 8), v_color='#17becf')
+pts.draw(figsize=(8, 8), v_color='#17becf')
 ```
 
 ![Example point set](images/poissonprocess_square.png)

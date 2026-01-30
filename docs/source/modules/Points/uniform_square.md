@@ -23,16 +23,11 @@ The use of a seed is recommended to ensure reproducibility.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.uniform_square(n=200, seed=73)
 
-# Save: images/uniform_square.png
-pts.draw(save=str(images / "uniform_square"), figsize=(8, 8), v_color='#1f77b4')
+pts.draw(figsize=(8, 8), v_color='#1f77b4')
 ```
 
 ![Example point set](images/uniform_square.png)

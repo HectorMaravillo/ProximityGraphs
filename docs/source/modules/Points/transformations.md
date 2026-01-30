@@ -208,13 +208,9 @@ print(f"Combined set has {combined.n} points")  # 100 points
 ## Example
 
 ```python
-from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 base = pg.SetPoints.uniform_square(n=300, seed=7)
 rot  = base.rotation(theta=np.pi/6)
@@ -238,7 +234,7 @@ for ax, (name, pts) in zip(
     ax.set_aspect("equal")
     ax.axis("off")
 
-fig.savefig(images / "transformations.png", dpi=200, bbox_inches="tight")
+fig.savefig(pi=200, bbox_inches="tight")
 ```
 
 ![Affine transformations (2×2)](images/transformations.png)

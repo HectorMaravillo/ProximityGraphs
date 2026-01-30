@@ -23,16 +23,11 @@ The resulting retained points follow the inhomogeneous Poisson process defined b
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.poissonprocess_inhomogeneus(fun_lambda=lambda x, y: x + y, limit=1, seed=7)
 
-# Save: images/poissonprocess_inhomogeneus.png
-pts.draw(save=str(images / "poissonprocess_inhomogeneus"), figsize=(8, 8), v_color='#8c564b')
+pts.draw(figsize=(8, 8), v_color='#8c564b')
 ```
 
 ![Example point set](images/poissonprocess_inhomogeneus.png)

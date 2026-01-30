@@ -29,16 +29,11 @@ The generation process:
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.cluster_square(intensity=(12, 12), cluster={"name": "Matern", "param": 0.1}, limit=1, seed=7)
 
-# Save: images/cluster_square.png
-pts.draw(save=str(images / "cluster_square"), figsize=(8, 8), v_color='#e377c2')
+pts.draw(figsize=(8, 8), v_color='#e377c2')
 ```
 
 ![Example point set](images/cluster_square.png)

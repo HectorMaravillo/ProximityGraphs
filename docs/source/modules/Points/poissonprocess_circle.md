@@ -24,16 +24,11 @@ The generation process:
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.poissonprocess_circle(intensity=150, radius=1, seed=7)
 
-# Save: images/poissonprocess_circle.png
-pts.draw(save=str(images / "poissonprocess_circle"), figsize=(8, 8), v_color='#17becf')
+pts.draw(figsize=(8, 8), v_color='#17becf')
 ```
 
 ![Example point set](images/poissonprocess_circle.png)

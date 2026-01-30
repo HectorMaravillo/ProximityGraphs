@@ -20,16 +20,11 @@ Uses numpy.arange(0, n_i + 1), then builds all combinations with meshgrid.
 ## Example
 
 ```python
-from pathlib import Path
 import proximitygraphs as pg
-
-images = Path("images")
-images.mkdir(parents=True, exist_ok=True)
 
 pts = pg.SetPoints.grid(shape=(18, 18))
 
-# Save: images/grid.png
-pts.draw(save=str(images / "grid"), figsize=(8, 8), v_color='#ff7f0e', v_size=18)
+pts.draw(figsize=(8, 8), v_color='#ff7f0e', v_size=18)
 ```
 
 ![Example point set](images/grid.png)
