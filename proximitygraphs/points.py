@@ -11,6 +11,7 @@ from matplotlib.pyplot import savefig, close, subplots
 
 from .utils import points_on_sphere
 
+
 class SetPoints:
     """
     Represent an ordered collection of points in the plane.
@@ -25,7 +26,7 @@ class SetPoints:
     @property
     def n(self):
         return self.__n
-    
+
     @property
     def dim(self):
         return self.__dim
@@ -56,15 +57,15 @@ class SetPoints:
         Raises:
         ------ 
         TypeError: If points is not a numpy.ndarray.
-        
-        
+
+
         returns  a SetPoints object containing the points.
         '''
-        
+
         if not isinstance(points, np.ndarray):
             raise TypeError("Input 'points' must be a numpy.ndarray.")
         self.__points = points
-        self.__n, self.__dim= np.shape(points)
+        self.__n, self.__dim = np.shape(points)
         if seed is None:
             self._rng = np.random.default_rng()
         else:
@@ -107,7 +108,6 @@ class SetPoints:
         points = rng.random((n, 2))
         return cls(points)
 
-
     @classmethod
     def uniform_over_sphere(cls, n=10, seed=None):
         """
@@ -137,7 +137,6 @@ class SetPoints:
         rng = np.random.default_rng(seed)
         points = points_on_sphere(n, 2, rng=rng)
         return cls(points)
-
 
     @classmethod
     def uniform_sphere(cls, n=10, seed=None):
@@ -173,7 +172,6 @@ class SetPoints:
         points = radius * direction
         return cls(points)
 
-
     @classmethod
     def normal_dist(cls, n=10, seed=None):
         """
@@ -204,9 +202,6 @@ class SetPoints:
         cov = np.eye(2)
         points = rng.multivariate_normal(mean, cov, n)
         return cls(points)
-
-
-
 
     @classmethod
     def grid(cls, shape=(3, 3)):
@@ -243,7 +238,6 @@ class SetPoints:
         mesh = np.meshgrid(*axes, indexing="ij")
         points = np.column_stack([m.ravel() for m in mesh])
         return cls(points)
-
 
     @classmethod
     def hexagonal(cls, n_x=3, n_y=3):
@@ -284,7 +278,7 @@ class SetPoints:
                 raise ValueError("n_x and n_y must be positive integers")
         except ValueError as e:
             print(e)
-        
+
         x = np.cumsum(np.array([1, 2]*n_x))
         x = np.insert(x, 0, 0)
         y = np.cumsum(np.array([np.sqrt(3)]*2*n_y))
@@ -344,7 +338,7 @@ class SetPoints:
                 raise ValueError("n_x and n_y must be positive integers")
         except ValueError as e:
             print(e)
-        
+
         x = np.arange(0, n_x+1)
         y = np.arange(0, np.sqrt(3) * np.floor(n_y/2)+1, np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
@@ -390,12 +384,12 @@ class SetPoints:
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
         '''
-        try: 
+        try:
             if intensity <= 0 or limit <= 0:
                 raise ValueError("intensity and limit must be positive values")
         except ValueError as e:
             print(e)
-        
+
         rng = np.random.default_rng(seed=seed)
         limits = ((0, limit),
                   (0, limit))
@@ -406,8 +400,10 @@ class SetPoints:
         ydelta = ymax-ymin
         area = xdelta*ydelta
         n_points = poisson(intensity*area).rvs(random_state=rng)
-        x = xdelta*uniform.rvs(0, 1, size=((n_points, 1)), random_state=rng)+xmin
-        y = ydelta*uniform.rvs(0, 1, size=((n_points, 1)), random_state=rng)+ymin
+        x = xdelta*uniform.rvs(0, 1, size=((n_points, 1)),
+                               random_state=rng)+xmin
+        y = ydelta*uniform.rvs(0, 1, size=((n_points, 1)),
+                               random_state=rng)+ymin
         points = np.hstack((x, y))
         return cls(points, seed=rng.integers(low=0, high=2**32-1))
 
@@ -456,8 +452,8 @@ class SetPoints:
         return cls(points, seed=rng.integers(low=0, high=2**32-1))
 
     @classmethod
-    def poissonprocess_inhomogeneus(cls, fun_lambda = lambda x, y: x+y,
-                                    n_sim=1, # This parameter is unused
+    def poissonprocess_inhomogeneus(cls, fun_lambda=lambda x, y: x+y,
+                                    n_sim=1,  # This parameter is unused
                                     limit=1, seed=None):
         '''
         Generates points according to an inhomogeneous Poisson point process in a square region using thinning.
@@ -512,16 +508,17 @@ class SetPoints:
         ydelta = ymax - ymin
         area = xdelta*ydelta
         # Find maximum lambda
-        fun_neg = lambda x: -fun_lambda(x[0], x[1])
+        def fun_neg(x): return -fun_lambda(x[0], x[1])
         xy0 = [(xmin + xmax) / 2, (ymin + ymax) / 2]
         results_opt = minimize(fun_neg, xy0,
                                bounds=((xmin, xmax), (ymin, ymax)))
         lambda_neg_min = results_opt.fun
         lambda_max = -lambda_neg_min
         # define thinning probability function
-        fun_p = lambda x, y: fun_lambda(x, y)/lambda_max
+        def fun_p(x, y): return fun_lambda(x, y)/lambda_max
         # Simulate a Poisson point process
-        n_points = rng.poisson(area*lambda_max) # Corrected n_poins to n_points
+        # Corrected n_poins to n_points
+        n_points = rng.poisson(area*lambda_max)
         x = rng.uniform(0, xdelta, size=((n_points, 1)))+xmin
         y = rng.uniform(0, ydelta, size=((n_points, 1)))+ymin
         # calculate spatially-dependent thinning probabilities
@@ -536,7 +533,7 @@ class SetPoints:
 
     @classmethod
     def cluster_square(cls, intensity=(10, 10),
-                       cluster={"name": "Matern", "param": 0.1},  
+                       cluster={"name": "Matern", "param": 0.1},
                        limit=1, seed=None):
         '''
         Generates points according to a Neyman-Scott cluster process in a square region.
@@ -644,7 +641,7 @@ class SetPoints:
         y = y[inside]
         points = np.stack((x, y), axis=1)
         return cls(points, seed=rng.integers(low=0, high=2**32-1))
-    
+
     @classmethod
     def from_geopandas(cls, geoseries, seed=None):
         """
@@ -676,11 +673,12 @@ class SetPoints:
             raise ValueError("Input 'geoseries' cannot be empty.")
 
         if not all(isinstance(geom, Point) for geom in geoseries):
-            raise ValueError("All geometries in 'geoseries' must be shapely.geometry.Point instances.")
+            raise ValueError(
+                "All geometries in 'geoseries' must be shapely.geometry.Point instances.")
 
         coords = np.array([(point.x, point.y) for point in geoseries])
         return cls(coords, seed=seed)
-    
+
     # METHODS
 
     def draw(
@@ -751,7 +749,8 @@ class SetPoints:
         if not hasattr(self, "points"):
             raise AttributeError("Object has no attribute 'points'")
         if self.points.ndim != 2 or self.points.shape[1] != 2:
-            raise ValueError(f"draw() is 2D-only: expected points with shape (n, 2); got {self.points.shape}")
+            raise ValueError(
+                f"draw() is 2D-only: expected points with shape (n, 2); got {self.points.shape}")
 
         # figure and axes (same as geometric graphs)
         fig, ax = subplots(figsize=figsize, **fig_kwargs)
@@ -763,7 +762,7 @@ class SetPoints:
                 c=v_color,
                 alpha=v_alpha,
                 linewidths=0,     # no outline
-                edgecolors="none" # no outline
+                edgecolors="none"  # no outline
             )
             scatter_kwargs.update(v_kwargs)  # user overrides defaults
             ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
@@ -791,12 +790,9 @@ class SetPoints:
             savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
             return fig, ax
 
-
-
-
     def __affin_transformation(self,
-                               matrix = None,
-                               c = None):
+                               matrix=None,
+                               c=None):
         '''
         Applies a general affine transformation to the set of points.
 
@@ -832,10 +828,10 @@ class SetPoints:
             A new SetPoints object containing the transformed points.
         '''
         if matrix is None:
-            matrix=np.eye(self.dim)
+            matrix = np.eye(self.dim)
         if c is None:
-            c=np.zeros(self.dim)
-            
+            c = np.zeros(self.dim)
+
         matrix = np.asarray(matrix)
         c = np.asarray(c)
         trasnformation = self.points @ matrix + c
@@ -935,8 +931,9 @@ class SetPoints:
 
         scale = np.asarray(scale)
         if scale.shape != (self.dim,):
-            raise ValueError(f"Scale vector must have shape ({self.dim},), but got {scale.shape}")
-        
+            raise ValueError(
+                f"Scale vector must have shape ({self.dim},), but got {scale.shape}")
+
         matrix = np.diag(scale)
         return self.__affin_transformation(matrix=matrix)
 
@@ -977,11 +974,11 @@ class SetPoints:
         else:
             c = np.asarray(c)
             if c.shape != (self.dim,):
-                raise ValueError(f"Translation vector must have shape ({self.dim},), but got {c.shape}")
-        
+                raise ValueError(
+                    f"Translation vector must have shape ({self.dim},), but got {c.shape}")
+
         return self.__affin_transformation(c=c)
-        
-    
+
     def perturb(self,  radius):
         '''
         Applies a random perturbation to each point in the set.
@@ -1045,16 +1042,17 @@ class SetPoints:
 
         # Ensure self._rng exists, initialized in __init__
         if not hasattr(self, '_rng') or self._rng is None:
-            
-            rng_to_use = np.random.default_rng() 
+
+            rng_to_use = np.random.default_rng()
         else:
             rng_to_use = self._rng
 
         r_magnitudes = rng_to_use.uniform(0, radius, self.n)**(1/self.dim)
-        
-        unit_sphere_surface = points_on_sphere(self.n, self.dim, rng=rng_to_use)
-        
-        perturbations = r_magnitudes.reshape(-1,1) * unit_sphere_surface
+
+        unit_sphere_surface = points_on_sphere(
+            self.n, self.dim, rng=rng_to_use)
+
+        perturbations = r_magnitudes.reshape(-1, 1) * unit_sphere_surface
         new_seed_for_next_instance = rng_to_use.integers(low=0, high=2**32-1)
-        
+
         return SetPoints(self.points + perturbations, seed=new_seed_for_next_instance)

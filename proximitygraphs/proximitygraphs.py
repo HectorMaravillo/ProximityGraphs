@@ -33,6 +33,7 @@ class ProximityGraph(GeometricGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints):
         """
         Initializes a ProximityGraph object.
@@ -71,10 +72,10 @@ class ProximityGraph(GeometricGraph):
         return proximity_graph
 
     # METHODS
-    def __check_parameter(cls, 
+    def __check_parameter(cls,
                           parameter,
                           range_min=None, range_max=None,
-                          strict = False,
+                          strict=False,
                           data_type=[int, float, np.float64]):
         if type(parameter) not in data_type:
             raise TypeError()
@@ -85,18 +86,19 @@ class ProximityGraph(GeometricGraph):
             strict_text = " "
         if range_min is not None:
             if inequality(parameter, range_min):
-                raise ValueError(f"The parameter is less{strict_text}than "+str(range_min))
+                raise ValueError(
+                    f"The parameter is less{strict_text}than "+str(range_min))
         if range_max is not None:
             if inequality(range_max, parameter):
-                raise ValueError(f"The parameter is greater{strict_text}than "+str(range_max))
+                raise ValueError(
+                    f"The parameter is greater{strict_text}than "+str(range_max))
 
     def __closed_region(cls, strict):
         if strict is True:
-            inequality = lambda x, y: x <= y
+            def inequality(x, y): return x <= y
         else:
-            inequality = lambda x, y: x < y
+            def inequality(x, y): return x < y
         return inequality
-
 
     def __closed_region(cls, closed):
         """
@@ -118,9 +120,9 @@ class ProximityGraph(GeometricGraph):
 
         """
         if closed is True:
-            inequality = lambda x, y: x <= y
+            def inequality(x, y): return x <= y
         else:
-            inequality = lambda x, y: x < y
+            def inequality(x, y): return x < y
         return inequality
 
 
@@ -188,6 +190,7 @@ class Convex_Hull(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints):
         """
         Initializes a Convex_Hull object.
@@ -250,6 +253,7 @@ class MST(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints):
         """
         Initializes an MST object.
@@ -291,7 +295,8 @@ class Beta_Skeleton(ProximityGraph):
     @classmethod
     def from_graph(cls, geom_graph, beta=1.5, type_region="lune", closed=False):
         skeleton = cls.__new__(cls)
-        skeleton._ProximityGraph__check_parameter(beta, range_min=0, strict=True)
+        skeleton._ProximityGraph__check_parameter(
+            beta, range_min=0, strict=True)
         skeleton.name = "β-Skeleton"
         skeleton.details = f"β={beta}, closed={closed}, type={type_region}, (from graph)"
         skeleton._GeometricGraph__setpoints = geom_graph.setpoints
@@ -300,24 +305,29 @@ class Beta_Skeleton(ProximityGraph):
         pairs = np.array(geom_graph.graph.get_edgelist())
         if beta < 1:
             if type_region != "intersection":
-                warnings.warn(f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
-            skeleton.__empty_region = lambda p, q: skeleton.__intersection(p, q, beta)
+                warnings.warn(
+                    f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
+            skeleton.__empty_region = lambda p, q: skeleton.__intersection(
+                p, q, beta)
             skeleton.__test = lambda test_1, test_2: test_1*test_2
         elif beta >= 1:
             if type_region not in ["lune", "circle"]:
-                raise TypeError("'type_region' must be 'lune' or 'circle' when β > 1.")
+                raise TypeError(
+                    "'type_region' must be 'lune' or 'circle' when β > 1.")
             if type_region == "lune":
-                skeleton.__empty_region = lambda p, q: skeleton.__lune(p, q, beta)
+                skeleton.__empty_region = lambda p, q: skeleton.__lune(
+                    p, q, beta)
                 skeleton.__test = lambda test_1, test_2: test_1*test_2
             elif type_region == "circle":
-                skeleton.__empty_region = lambda p, q: skeleton.__circle(p, q, beta)
+                skeleton.__empty_region = lambda p, q: skeleton.__circle(
+                    p, q, beta)
                 skeleton.__test = lambda test_1, test_2: test_1+test_2
         skeleton.__assign_edges(pairs, beta, closed)
         skeleton.graph.simplify()
         skeleton._GeometricGraph__size()
         skeleton._GeometricGraph__add_lengths()
         return skeleton
-    
+
         # Methods
     def __pairs_by_combinations(self):
         return np.array(list(combinations(range(self.n), 2)))
@@ -325,17 +335,19 @@ class Beta_Skeleton(ProximityGraph):
     def __pairs_by_delaunay(self):
         g_delaunay = DelaunayG(self.setpoints)
         return np.array(g_delaunay.graph.get_edgelist())
-    
+
     def __defined_pairs(self, beta, type_region, closed):
         if beta < 1:
             if type_region != "intersection":
-                warnings.warn(f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
+                warnings.warn(
+                    f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead.")
             pairs = self.__pairs_by_combinations()
             self.__empty_region = lambda p, q: self.__intersection(p, q, beta)
             self.__test = lambda test_1, test_2: test_1*test_2
         elif beta >= 1:
             if type_region not in ["lune", "circle"]:
-                raise TypeError("'type_region' must be 'lune' or 'circle' when β > 1.")
+                raise TypeError(
+                    "'type_region' must be 'lune' or 'circle' when β > 1.")
             if beta == 1 and closed is False:
                 pairs = self.__pairs_by_combinations()
             else:
@@ -374,18 +386,19 @@ class Beta_Skeleton(ProximityGraph):
 
     def __intersection(cls, p, q, beta):
         aux_1 = (p+q)/2
-        aux_2 = (q-p) @ cls.matrix_r.T * np.sqrt( 1-np.power(beta, 2) ) / (2*beta)
+        aux_2 = (q-p) @ cls.matrix_r.T * \
+            np.sqrt(1-np.power(beta, 2)) / (2*beta)
         center_1 = aux_1 + aux_2
         center_2 = aux_1 - aux_2
         return center_1, center_2
-    
+
     def __circle(cls, p, q, beta):
         aux_1 = (p+q)/2
         aux_2 = (q-p) @ cls.matrix_r.T * np.sqrt(np.power(beta, 2)-1) / 2
         center_1 = aux_1 + aux_2
         center_2 = aux_1 - aux_2
         return center_1, center_2
-    
+
     def __lune(cls, p, q, beta):
         beta_aux = beta/2
         aux = (1-beta_aux)
@@ -395,7 +408,7 @@ class Beta_Skeleton(ProximityGraph):
 
 
 class RNG(Beta_Skeleton):
-    
+
     # CONSTRUCTOR
     def __init__(self, setpoints, closed=False):
         Beta_Skeleton.__init__(self, setpoints, beta=2, closed=closed)
@@ -404,7 +417,7 @@ class RNG(Beta_Skeleton):
 
 
 class GG(Beta_Skeleton):
-    
+
     # CONSTRUCTOR
     def __init__(self, setpoints, closed=True):
         Beta_Skeleton.__init__(self, setpoints, beta=1, closed=closed)
@@ -446,6 +459,7 @@ class Stepping_Stone(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints, d=2,  k=0, closed=False):
         """
         Initializes a Stepping_Stone object.
@@ -480,11 +494,10 @@ class Stepping_Stone(ProximityGraph):
         self.details = "d="+str(d)+", k="+str(k)+", closed="+str(closed)
         self.__inequality = self._ProximityGraph__closed_region(closed)
 
-
         if d >= 1 and d < 2:
             pairs = combinations(range(self.n), 2)
         elif d >= 2:
-            if self.n < self.points.shape[1] + 1: 
+            if self.n < self.points.shape[1] + 1:
                 pairs = combinations(range(self.n), 2)
             else:
                 g_delaunay = DelaunayG(self.setpoints)
@@ -592,6 +605,7 @@ class NNG(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints, k=1):
         """
         Initializes a NNG object.
@@ -636,10 +650,10 @@ class NNG(ProximityGraph):
         if self.n == 0:
             return
         edges = []
-    
+
         if self.n <= self._GeometricGraph__limit_vec:
             dist_matrix = cdist(self.points, self.points)
-            np.fill_diagonal(dist_matrix, np.inf) 
+            np.fill_diagonal(dist_matrix, np.inf)
             for _ in range(k):
                 arg_min = np.argmin(dist_matrix, axis=1)
                 edges.extend(list(enumerate(arg_min)))
@@ -647,7 +661,7 @@ class NNG(ProximityGraph):
         else:
             for i in range(self.n):
                 dist = np.linalg.norm(self.points - self.points[i], axis=1)
-                dist[i] = np.inf 
+                dist[i] = np.inf
                 for _ in range(k):
                     arg_min = np.argmin(dist)
                     edges.append((i, arg_min))
@@ -682,6 +696,7 @@ class Sigma_Graph(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints, sigma=1, closed=False):
         """
         Initializes a Sigma_Graph object.
@@ -745,7 +760,7 @@ class Sigma_Graph(ProximityGraph):
                     empty_test_2 = np.delete(empty_test_2, pairs[i])
                     if not np.any(empty_test_2):
                         edges.append(pairs[i])
-        else: # Iterative approach for larger datasets
+        else:  # Iterative approach for larger datasets
             for pair in pairs:
                 p = self.points[pair[0]]
                 q = self.points[pair[1]]
@@ -786,6 +801,7 @@ class Unit_Disk(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints, dist_max, closed=True):
         """
         Initializes a Unit_Disk object.
@@ -836,7 +852,7 @@ class Unit_Disk(ProximityGraph):
             dist_pairs = pdist(self.points)
             dist_disk = self.inequality(dist_pairs, dist_max)
             edges = pairs[dist_disk]
-        else: # Iterative approach for larger datasets
+        else:  # Iterative approach for larger datasets
             edges = []
             for i in range(self.n):
                 # Calculate distance from point i to all other points
@@ -876,6 +892,7 @@ class SIG(ProximityGraph):
 
     """
     # CONSTRUCTOR
+
     def __init__(self, setpoints, closed=False):
         """
         Initializes a SIG object.
@@ -918,14 +935,14 @@ class SIG(ProximityGraph):
         # Vectorized approach for smaller datasets
         if self.n <= self._GeometricGraph__limit_vec:
             pairs = np.array(list(pairs))
-            dist_min_sum = lambda p, q: dist_min[p] + dist_min[q]
+            def dist_min_sum(p, q): return dist_min[p] + dist_min[q]
             dist_min_sum_vec = np.vectorize(dist_min_sum)
             # Check if distance between pairs is less than sum of radii
             influence = self.inequality(pdist(self.points),
                                         dist_min_sum_vec(pairs[:, 0],
                                                          pairs[:, 1]))
             edges = pairs[influence]
-        else: # Iterative approach for larger datasets
+        else:  # Iterative approach for larger datasets
             edges = []
             for p, q in pairs:
                 dist = np.linalg.norm(self.points[p] - self.points[q])
@@ -984,17 +1001,17 @@ class Elliptic_GabrielG(ProximityGraph):
         ----------
         alpha : float
             The elliptic elongation factor.
-        """            
+        """
         edges = []
         for pair in pairs:
             p = self.points[pair[0]]
             q = self.points[pair[1]]
             # Punto medio entre p y q
             mean_point = np.mean([p, q], axis=0)
-            # Vector del punto medio hacia hacia q 
-            v = q - mean_point   
-            # Dirección de la recta pq (normalización v)                  
-            v_n = v / np.linalg.norm(v)       
+            # Vector del punto medio hacia hacia q
+            v = q - mean_point
+            # Dirección de la recta pq (normalización v)
+            v_n = v / np.linalg.norm(v)
             # angle to rotate vector to z axis
             angle = -np.arctan2(v_n[1], v_n[0])
             # Construct the 2D rotation matrixes
@@ -1010,9 +1027,9 @@ class Elliptic_GabrielG(ProximityGraph):
             x = rotation[:, 0]
             y = rotation[:, 1]
 
-            dist_to_foci = np.power(x,2) + np.power((y/alpha),2)
+            dist_to_foci = np.power(x, 2) + np.power((y/alpha), 2)
             dist_pq = np.linalg.norm(p - q)
-            dist_pq_sqr = np.power(dist_pq/2,2)
+            dist_pq_sqr = np.power(dist_pq/2, 2)
 
             # Check for each point z if x**2+(y/alpha)**2 <= dist(p,q)**2
             empty_test = self.__inequality(dist_to_foci, dist_pq_sqr)
@@ -1053,8 +1070,8 @@ class Elliptic_GabrielG(ProximityGraph):
         egg._GeometricGraph__size()
         egg._GeometricGraph__add_lengths()
         return egg
-    
-    
+
+
 class Alpha_Shape(ProximityGraph):
     """
     Constructs the α-Shape boundary of a planar point set.
@@ -1187,7 +1204,8 @@ class Alpha_Shape(ProximityGraph):
         A = points[triangles_idx[:, 0]]
         B = points[triangles_idx[:, 1]]
         C = points[triangles_idx[:, 2]]
-        shoelace = (B[:, 0] - A[:, 0]) * (C[:, 1] - A[:, 1]) - (B[:, 1] - A[:, 1]) * (C[:, 0] - A[:, 0])
+        shoelace = (B[:, 0] - A[:, 0]) * (C[:, 1] - A[:, 1]) - \
+            (B[:, 1] - A[:, 1]) * (C[:, 0] - A[:, 0])
         twice_area = np.abs(shoelace)
         a = np.linalg.norm(B - C, axis=1)
         b = np.linalg.norm(A - C, axis=1)
@@ -1249,7 +1267,8 @@ class Alpha_Shape(ProximityGraph):
         E = set()
         for i, j in boundary_edges:
             u, v = (i, j) if i < j else (j, i)
-            neighbors[u].append(v); neighbors[v].append(u)
+            neighbors[u].append(v)
+            neighbors[v].append(u)
             E.add((u, v))
         cycles = []
         while E:
@@ -1360,8 +1379,8 @@ class Alpha_Hull(ProximityGraph):
         pts = self.points
         n = self.n
 
-        if n < 2: 
-            self._GeometricGraph__size() 
+        if n < 2:
+            self._GeometricGraph__size()
             self._GeometricGraph__add_lengths()
             return
         if np.isclose(alpha, 0.0):
@@ -1372,7 +1391,8 @@ class Alpha_Hull(ProximityGraph):
             self.segments = [(cyc[t], cyc[(t+1) % k]) for t in range(k)]
         else:
             # reuse α-shape boundary cycles
-            shape = Alpha_Shape(setpoints, alpha, tol=tol, qhull_options=qhull_options)
+            shape = Alpha_Shape(setpoints, alpha, tol=tol,
+                                qhull_options=qhull_options)
             bedges = shape.graph.get_edgelist()
             cycles = Alpha_Shape._boundary_cycles_2regular(bedges)
             R = 1.0 / abs(alpha)
@@ -1391,12 +1411,16 @@ class Alpha_Hull(ProximityGraph):
                     s0 = e[0]*(centers[0][1]-p[1]) - e[1]*(centers[0][0]-p[0])
                     s1 = e[0]*(centers[1][1]-p[1]) - e[1]*(centers[1][0]-p[0])
                     if alpha < 0:  # exterior
-                        chosen = centers[0] if (area > 0 and s0 < s1) or (area < 0 and s0 > s1) else centers[1]
+                        chosen = centers[0] if (area > 0 and s0 < s1) or (
+                            area < 0 and s0 > s1) else centers[1]
                     else:          # interior
-                        chosen = centers[0] if (area > 0 and s0 > s1) or (area < 0 and s0 < s1) else centers[1]
-                    arc_pts = self._arc_points_minor(chosen, R, p, q, n_points=n_points_per_arc)
+                        chosen = centers[0] if (area > 0 and s0 > s1) or (
+                            area < 0 and s0 < s1) else centers[1]
+                    arc_pts = self._arc_points_minor(
+                        chosen, R, p, q, n_points=n_points_per_arc)
                     self.arcs.append(arc_pts)
-                    self.segments.append((i, j))  # keep straight edge in graph for analytics
+                    # keep straight edge in graph for analytics
+                    self.segments.append((i, j))
 
         if self.segments:
             self.graph.add_edges(self.segments)
@@ -1528,14 +1552,16 @@ class Alpha_Hull(ProximityGraph):
                 fig = gcf()
                 # savefig default implementation has no return, so mypy is unhappy
                 # presumably this is here because subclasses can return?
-                res = fig.savefig(*args, **kwargs)  # type: ignore[func-returns-value]
-                fig.canvas.draw_idle()  # Need this if 'transparent=True', to reset colors.
+                # type: ignore[func-returns-value]
+                res = fig.savefig(*args, **kwargs)
+                # Need this if 'transparent=True', to reset colors.
+                fig.canvas.draw_idle()
                 return res
             savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
             return fig, ax
 
-
     # ---------- helpers ----------
+
     @staticmethod
     def _polygon_signed_area(xy: np.ndarray) -> float:
         """
@@ -1639,8 +1665,6 @@ class Alpha_Hull(ProximityGraph):
         return center + np.column_stack([np.cos(thetas), np.sin(thetas)]) * radius
 
 
-
-
 class Gamma_Graph(ProximityGraph):
     """
     Constructs the γ-Neighborhood Graph (y-Graph) as defined by Veltkamp (1992).
@@ -1668,13 +1692,18 @@ class Gamma_Graph(ProximityGraph):
     def __init__(self, setpoints, gamma0=0.0, gamma1=0.0, closed=False, block_size=512):
 
         # Allow -1 <= gamma <= 1 for the special cases in Veltkamp
-        self._ProximityGraph__check_parameter(gamma0, range_min=-1, strict=False)
-        self._ProximityGraph__check_parameter(gamma0, range_max=1, strict=False)
-        self._ProximityGraph__check_parameter(gamma1, range_min=-1, strict=False)
-        self._ProximityGraph__check_parameter(gamma1, range_max=1, strict=False)
+        self._ProximityGraph__check_parameter(
+            gamma0, range_min=-1, strict=False)
+        self._ProximityGraph__check_parameter(
+            gamma0, range_max=1, strict=False)
+        self._ProximityGraph__check_parameter(
+            gamma1, range_min=-1, strict=False)
+        self._ProximityGraph__check_parameter(
+            gamma1, range_max=1, strict=False)
 
         if abs(gamma0) > abs(gamma1):
-            raise ValueError("|gamma0| must be less than or equal to |gamma1|.")
+            raise ValueError(
+                "|gamma0| must be less than or equal to |gamma1|.")
         if not isinstance(closed, bool):
             raise TypeError("closed must be a boolean.")
         if type(block_size) not in [int, np.int64] or block_size <= 0:
@@ -1751,7 +1780,8 @@ class Gamma_Graph(ProximityGraph):
         g._ProximityGraph__check_parameter(gamma1, range_max=1, strict=False)
 
         if abs(gamma0) > abs(gamma1):
-            raise ValueError("|gamma0| must be less than or equal to |gamma1|.")
+            raise ValueError(
+                "|gamma0| must be less than or equal to |gamma1|.")
         if not isinstance(closed, bool):
             raise TypeError("closed must be a boolean.")
         if type(block_size) not in [int, np.int64] or block_size <= 0:
@@ -1853,9 +1883,9 @@ class Gamma_Graph(ProximityGraph):
         # open vs closed comparison on squared distances
         closed = self.__inequality(0.0, 0.0)  # True iff <= is used
         if closed:
-            comp = lambda dist2, R2: dist2 <= R2
+            def comp(dist2, R2): return dist2 <= R2
         else:
-            comp = lambda dist2, R2: dist2 < R2
+            def comp(dist2, R2): return dist2 < R2
 
         intersection_mode = (g1 <= 0.0)
         edges_out = []
@@ -1877,8 +1907,11 @@ class Gamma_Graph(ProximityGraph):
             nz = d2 > 0.0
             if not np.all(nz):
                 blk = blk[nz]
-                i = i[nz]; j = j[nz]
-                p = p[nz]; q = q[nz]; v = v[nz]
+                i = i[nz]
+                j = j[nz]
+                p = p[nz]
+                q = q[nz]
+                v = v[nz]
                 d2 = d2[nz]
                 if blk.size == 0:
                     continue
@@ -1890,7 +1923,7 @@ class Gamma_Graph(ProximityGraph):
             # unit normal n = rot90(v)/||v||
             nvec = np.empty_like(v)
             nvec[:, 0] = -v[:, 1]
-            nvec[:, 1] =  v[:, 0]
+            nvec[:, 1] = v[:, 0]
             nvec /= d[:, None]
 
             m_mid = (p + q) / 2.0  # (B,2)
@@ -1929,13 +1962,16 @@ class Gamma_Graph(ProximityGraph):
                     ca_norm2 = np.einsum("ij,ij->i", c_a, c_a)
                     cb_norm2 = np.einsum("ij,ij->i", c_b, c_b)
 
-                    dist_a2 = pts_norm2[None, :] + ca_norm2[:, None] - 2.0 * (c_a @ pts.T)
-                    dist_b2 = pts_norm2[None, :] + cb_norm2[:, None] - 2.0 * (c_b @ pts.T)
+                    dist_a2 = pts_norm2[None, :] + \
+                        ca_norm2[:, None] - 2.0 * (c_a @ pts.T)
+                    dist_b2 = pts_norm2[None, :] + \
+                        cb_norm2[:, None] - 2.0 * (c_b @ pts.T)
 
                     in_a = comp(dist_a2, R0_2[:, None])
                     in_b = comp(dist_b2, R1_2[:, None])
 
-                    inside = (in_a & in_b) if intersection_mode else (in_a | in_b)
+                    inside = (in_a & in_b) if intersection_mode else (
+                        in_a | in_b)
 
                     inside[np.arange(B), i] = False
                     inside[np.arange(B), j] = False
@@ -1950,8 +1986,10 @@ class Gamma_Graph(ProximityGraph):
                 ca_norm2 = np.einsum("ij,ij->i", c_a, c_a)
                 cb_norm2 = np.einsum("ij,ij->i", c_b, c_b)
 
-                dist_a2 = pts_norm2[None, :] + ca_norm2[:, None] - 2.0 * (c_a @ pts.T)
-                dist_b2 = pts_norm2[None, :] + cb_norm2[:, None] - 2.0 * (c_b @ pts.T)
+                dist_a2 = pts_norm2[None, :] + \
+                    ca_norm2[:, None] - 2.0 * (c_a @ pts.T)
+                dist_b2 = pts_norm2[None, :] + \
+                    cb_norm2[:, None] - 2.0 * (c_b @ pts.T)
 
                 in_a = comp(dist_a2, R0_2[:, None])
                 in_b = comp(dist_b2, R1_2[:, None])

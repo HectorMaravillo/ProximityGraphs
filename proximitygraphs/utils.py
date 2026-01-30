@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def points_on_sphere(n, dims=2, seed=None, rng=None):
     """
     Generate n points uniformly on the surface of the unit (dims-1)-sphere.
@@ -46,7 +47,7 @@ def points_on_sphere(n, dims=2, seed=None, rng=None):
 
     # Normalize rows if ||X||=0
     zero = (X_norm == 0.0).ravel()
-    
+
     while np.any(zero):
         X[zero] = rng.normal(size=(zero.sum(), dims))
         X_norm[zero] = np.linalg.norm(X[zero], axis=1, keepdims=True)
@@ -54,4 +55,3 @@ def points_on_sphere(n, dims=2, seed=None, rng=None):
 
     Y = X / X_norm
     return Y
-
