@@ -40,9 +40,13 @@
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Proximity_graphs/stepping_stone';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gamma_Graph" href="gamma_graph.html" />
+    <link rel="prev" title="Alpha Hull" href="alpha_hull.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -105,8 +109,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -149,7 +151,7 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../points.html">Points</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -182,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/data_export.html">Data Export and Conversion</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../proximitygraphs.html">ProximityGraph</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../proximitygraphs.html">ProximityGraph</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="delaunay.html">Delaunay Triangulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="convex_hull.html">Convex Hull</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MST.html">Minimum Spanning Tree (MST)</a></li>
@@ -194,6 +196,8 @@
 <li class="toctree-l2"><a class="reference internal" href="unit_disk.html">Class: Unit_Disk</a></li>
 <li class="toctree-l2"><a class="reference internal" href="alpha_shapes.html">Alpha_Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="alpha_hull.html">Alpha Hull</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Stepping_Stone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamma_graph.html">Gamma_Graph</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
@@ -369,7 +373,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="stepping-stone">
 <h1>Stepping_Stone<a class="headerlink" href="#stepping-stone" title="Link to this heading">#</a></h1>
-<p>A <strong>d-diversion / stepping-stone proximity graph</strong> defined by <strong>d-neighborhood emptiness</strong>: two sites (p,q) are adjacent when a super-elliptic “lens” neighborhood around segment (pq) contains at most (k) other sites.</p>
+<p>A <strong>d-diversion / stepping-stone proximity graph</strong> defined by <strong>d-neighborhood emptiness</strong>: two sites <span class="math notranslate nohighlight">\(p,q\)</span> are adjacent when a super-elliptic “lens” neighborhood around segment <span class="math notranslate nohighlight">\(pq\)</span> contains at most <span class="math notranslate nohighlight">\(k\)</span> other sites.</p>
 <section id="constructor">
 <h2>Constructor<a class="headerlink" href="#constructor" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Stepping_Stone</span><span class="p">(</span><span class="n">setpoints</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -377,45 +381,48 @@ document.write(`
 </div>
 <p><strong>Parameters:</strong></p>
 <ul class="simple">
-<li><p><strong>setpoints</strong> (SetPoints): The set of points (P={p_1,\dots,p_n}\subset\mathbb{R}^D).</p></li>
-<li><p><strong>d</strong> (float): Shape exponent (must satisfy (d\ge 1)).</p>
+<li><p><strong>setpoints</strong> (SetPoints): The set of points <span class="math notranslate nohighlight">\(P=\{p_1,\dots,p_n\}\subset\mathbb{R}^D\)</span>.</p></li>
+<li><p><strong>d</strong> (float): Shape exponent (must satisfy <span class="math notranslate nohighlight">\(d\ge 1\)</span>).</p>
 <ul>
-<li><p>(d=2): the neighborhood equals the <strong>Gabriel diametral ball</strong> (see Special Cases).</p></li>
-<li><p>Larger (d) yields a <em>larger</em> neighborhood, typically producing a <em>sparser</em> graph for fixed (k).</p></li>
+<li><p><span class="math notranslate nohighlight">\(d=2\)</span>: the neighborhood equals the <strong>Gabriel diametral ball</strong> (see Special Cases).</p></li>
+<li><p>Larger <span class="math notranslate nohighlight">\(d\)</span> yields a <em>larger</em> neighborhood, typically producing a <em>sparser</em> graph for fixed <span class="math notranslate nohighlight">\(k\)</span>.</p></li>
 </ul>
 </li>
-<li><p><strong>k</strong> (int): Allowed number of other sites inside the neighborhood (must satisfy (k\ge 0)).</p></li>
-<li><p><strong>closed</strong> (bool): If True, uses (\le) (closed neighborhood). If False, uses (&lt;) (open neighborhood).</p></li>
+<li><p><strong>k</strong> (int): Allowed number of other sites inside the neighborhood (must satisfy <span class="math notranslate nohighlight">\(k\ge 0\)</span>).</p></li>
+<li><p><strong>closed</strong> (bool): If True, uses <span class="math notranslate nohighlight">\(\le\)</span> (closed neighborhood). If False, uses <span class="math notranslate nohighlight">\(&lt;\)</span> (open neighborhood).</p></li>
 </ul>
 </section>
 <section id="mathematical-definition">
 <h2>Mathematical Definition:<a class="headerlink" href="#mathematical-definition" title="Link to this heading">#</a></h2>
-<p>Let (P\subset\mathbb{R}^D) with Euclidean norm (|\cdot|). For two distinct sites (p,q\in P), define the <strong>d-diversion neighborhood</strong></p>
-<p>[
+<p>Let <span class="math notranslate nohighlight">\(P\subset\mathbb{R}^D\)</span> with Euclidean norm <span class="math notranslate nohighlight">\(\|\cdot\|\)</span>. For two distinct sites <span class="math notranslate nohighlight">\(p,q\in P\)</span>, define the <strong>d-diversion neighborhood</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 N_d(p,q)=\begin{cases}
-{x\in\mathbb{R}^D: |x-p|^d+|x-q|^d\le |p-q|^d}, &amp; \text{if }\texttt{closed}=\texttt{True},\
-{x\in\mathbb{R}^D: |x-p|^d+|x-q|^d&lt; |p-q|^d}, &amp; \text{if }\texttt{closed}=\texttt{False}.
+\{x\in\mathbb{R}^D: \|x-p\|^d+\|x-q\|^d\le \|p-q\|^d\}, &amp; \text{if }\texttt{closed}=\texttt{True},\\
+\{x\in\mathbb{R}^D: \|x-p\|^d+\|x-q\|^d&lt; \|p-q\|^d\}, &amp; \text{if }\texttt{closed}=\texttt{False}.
 \end{cases}
-]</p>
-<p>Define the interior count
-[
-\operatorname{count}_d(p,q)=\bigl|{x\in P\setminus{p,q}: x\in N_d(p,q)}\bigr|.
-]</p>
-<p>The stepping-stone graph is
-[
-\mathrm{SS}_{d,k}(P)={(p,q): \operatorname{count}_d(p,q)\le k}.
-]</p>
+\end{split}\]</div>
+<p>Define the interior count</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{count}_d(p,q)=\bigl|\{x\in P\setminus\{p,q\}: x\in N_d(p,q)\}\bigr|.
+\]</div>
+<p>The stepping-stone graph is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{SS}_{d,k}(P)=\{(p,q): \operatorname{count}_d(p,q)\le k\}.
+\]</div>
 </section>
 <section id="special-cases">
 <h2>Special Cases:<a class="headerlink" href="#special-cases" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>(d=2) (Gabriel neighborhood):</strong> writing (m=(p+q)/2) and (L=|p-q|), the inequality
-(|x-p|^2+|x-q|^2\le L^2) is equivalent to (|x-m|\le L/2). Hence
-(N_2(p,q)) is the <strong>diametral ball</strong> with center (m) and radius (L/2), i.e. the Gabriel test region.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(d=2\)</span> (Gabriel neighborhood):</strong> writing <span class="math notranslate nohighlight">\(m=(p+q)/2\)</span> and <span class="math notranslate nohighlight">\(L=\|p-q\|\)</span>, the inequality
+<span class="math notranslate nohighlight">\(\|x-p\|^2+\|x-q\|^2\le L^2\)</span> is equivalent to <span class="math notranslate nohighlight">\(\|x-m\|\le L/2\)</span>. Hence
+<span class="math notranslate nohighlight">\(N_2(p,q)\)</span> is the <strong>diametral ball</strong> with center <span class="math notranslate nohighlight">\(m\)</span> and radius <span class="math notranslate nohighlight">\(L/2\)</span>, i.e. the Gabriel test region.</p></li>
 <li><p><strong>Limits:</strong></p>
 <ul>
-<li><p>(d\to 1^+): by the triangle inequality, (|x-p|+|x-q|\le|p-q|) forces (x) to lie essentially on the segment ([p,q]) (degenerate “thin corridor”).</p></li>
-<li><p>(d\to\infty): the condition approaches (\max(|x-p|,|x-q|)\le |p-q|), i.e. (x) lies in the <strong>intersection</strong> of the two radius-(|p-q|) balls centered at (p) and (q) (a lens).</p></li>
+<li><p><span class="math notranslate nohighlight">\(d\to 1^+\)</span>: by the triangle inequality, <span class="math notranslate nohighlight">\(\|x-p\|+\|x-q\|\le\|p-q\|\)</span> forces <span class="math notranslate nohighlight">\(x\)</span> to lie essentially on the segment <span class="math notranslate nohighlight">\([p,q]\)</span> (degenerate “thin corridor”).</p></li>
+<li><p><span class="math notranslate nohighlight">\(d\to\infty\)</span>: the condition approaches <span class="math notranslate nohighlight">\(\max(\|x-p\|,\|x-q\|)\le \|p-q\|\)</span>, i.e. <span class="math notranslate nohighlight">\(x\)</span> lies in the <strong>intersection</strong> of the two radius-<span class="math notranslate nohighlight">\(\|p-q\|\)</span> balls centered at <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> (a lens).</p></li>
 </ul>
 </li>
 </ul>
@@ -423,18 +430,18 @@ N_d(p,q)=\begin{cases}
 <section id="properties">
 <h2>Properties:<a class="headerlink" href="#properties" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Monotonicity in (d):</strong> for fixed (p,q), increasing (d) enlarges (N_d(p,q)), so the emptiness constraint is stricter; thus edges typically <strong>disappear</strong> as (d) increases (for fixed (k)).</p></li>
-<li><p><strong>Monotonicity in (k):</strong> increasing (k) relaxes the emptiness constraint; thus edges typically <strong>appear</strong> as (k) increases.</p></li>
-<li><p><strong>Containment for (d\ge 2):</strong> in fixed dimension, (\ell_p) norm monotonicity implies
-(N_2(p,q)\subseteq N_d(p,q)) for (d\ge 2). Consequently, when (k=0),
-(\mathrm{SS}_{d,0}(P)\subseteq \mathrm{GG}(P)) for (d\ge 2), and in nondegenerate 2D cases this is also a subgraph of the Delaunay triangulation.</p></li>
+<li><p><strong>Monotonicity in <span class="math notranslate nohighlight">\(d\)</span>:</strong> for fixed <span class="math notranslate nohighlight">\(p,q\)</span>, increasing <span class="math notranslate nohighlight">\(d\)</span> enlarges <span class="math notranslate nohighlight">\(N_d(p,q)\)</span>, so the emptiness constraint is stricter; thus edges typically <strong>disappear</strong> as <span class="math notranslate nohighlight">\(d\)</span> increases (for fixed <span class="math notranslate nohighlight">\(k\)</span>).</p></li>
+<li><p><strong>Monotonicity in <span class="math notranslate nohighlight">\(k\)</span>:</strong> increasing <span class="math notranslate nohighlight">\(k\)</span> relaxes the emptiness constraint; thus edges typically <strong>appear</strong> as <span class="math notranslate nohighlight">\(k\)</span> increases.</p></li>
+<li><p><strong>Containment for <span class="math notranslate nohighlight">\(d\ge 2\)</span>:</strong> in fixed dimension, <span class="math notranslate nohighlight">\(\ell_p\)</span> norm monotonicity implies
+<span class="math notranslate nohighlight">\(N_2(p,q)\subseteq N_d(p,q)\)</span> for <span class="math notranslate nohighlight">\(d\ge 2\)</span>. Consequently, when <span class="math notranslate nohighlight">\(k=0\)</span>,
+<span class="math notranslate nohighlight">\(\mathrm{SS}_{d,0}(P)\subseteq \mathrm{GG}(P)\)</span> for <span class="math notranslate nohighlight">\(d\ge 2\)</span>, and in nondegenerate 2D cases this is also a subgraph of the Delaunay triangulation.</p></li>
 </ul>
 </section>
 <section id="value-errors-limitations">
 <h2>Value Errors / Limitations:<a class="headerlink" href="#value-errors-limitations" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if (d &lt; 1).</p></li>
-<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if (k &lt; 0).</p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if <span class="math notranslate nohighlight">\(d &lt; 1\)</span>.</p></li>
+<li><p>Raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if <span class="math notranslate nohighlight">\(k &lt; 0\)</span>.</p></li>
 <li><p>Raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> if <code class="docutils literal notranslate"><span class="pre">k</span></code> is not an integer.</p></li>
 <li><p>Raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> if <code class="docutils literal notranslate"><span class="pre">closed</span></code> is not boolean.</p></li>
 </ul>
@@ -469,6 +476,24 @@ N_d(p,q)=\begin{cases}
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="alpha_hull.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Alpha Hull</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="gamma_graph.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gamma_Graph</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               

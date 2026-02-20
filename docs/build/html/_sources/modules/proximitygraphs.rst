@@ -39,5 +39,8 @@ Submodules
    Proximity_graphs/unit_disk
    Proximity_graphs/alpha_shapes
    Proximity_graphs/alpha_hull
+   Proximity_graphs/stepping_stone
+   Proximity_graphs/gamma_graph
+   
 
 

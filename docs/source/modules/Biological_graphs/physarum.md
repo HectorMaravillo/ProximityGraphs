@@ -183,7 +183,7 @@ def _reconnect_components(self)
 
 Reconnects disconnected graph components by adding edges between nearest points.
 
-![Example graphs](images/physarum.md)
+![Example graphs](images/physarum.png)
 
 
 **Algorithm:**

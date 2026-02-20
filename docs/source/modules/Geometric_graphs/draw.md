@@ -1,6 +1,8 @@
 # Vizualization
 
-## `draw(figsize=(6,6), v_size=3, v_color='#00072D', v_alpha=1, e_size=1, e_color='#0A2472', e_alpha=1, title=True, fontsize=10, details=False, axis=False, save=None, *, fig_kwargs=None, v_kwargs=None, e_kwargs=None, title_kwargs=None, savefig_kwargs=None)`
+## code
+
+`draw(figsize=(6,6), v_size=3, v_color='#00072D', v_alpha=1, e_size=1, e_color='#0A2472', e_alpha=1, title=True, fontsize=10, details=False, axis=False, save=None, *, fig_kwargs=None, v_kwargs=None, e_kwargs=None, title_kwargs=None, savefig_kwargs=None)`
 Draws the geometric graph using Matplotlib.
 
 This method provides flexible visualization with extensive customization options for vertices, edges, and layout.
@@ -61,7 +63,9 @@ fig, ax = delaunay.draw(
 # Save to file
 delaunay.draw(save='my_delaunay_graph')
 ```
-## `draw_orientation(num_bins=36, figsize=(5,5), color="darkgreen", area=False, component="auto")`
+## code
+
+ `draw_orientation(num_bins=36, figsize=(5,5), color="darkgreen", area=False, component="auto")`
 
 Creates a polar histogram showing the distribution of edge orientations.
 

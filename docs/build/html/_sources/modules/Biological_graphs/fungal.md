@@ -581,5 +581,3 @@ The current implementation can be modified for specific use cases:
 3. **Tero, A., et al.** (2010). Rules for biologically inspired adaptive network design. *Science*, 327(5964), 439-442.
    - Referenced for PhysarumGraph backbone
 
----
-
