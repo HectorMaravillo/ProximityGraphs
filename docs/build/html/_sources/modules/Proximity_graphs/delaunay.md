@@ -36,23 +36,17 @@ where $c$ is the circumcenter and $r$ is the circumradius.
 - Raises `ValueError` if fewer than $d + 1$ points are provided (minimum for a simplex in dimension $d$)
 - Raises `QhullError` if points are degenerate (e.g., all collinear in 2D)
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import DelaunayG
+import proximitygraphs as pg
 
-# Create points
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
-# Construct Delaunay triangulation
-delaunay = DelaunayG(points)
-print(f"Vertices: {delaunay.n}, Edges: {delaunay.m}, Faces: {delaunay.f}")
-# Output: Vertices: 50, Edges: 141, Faces: 93
-
-# Check the empty circle property (triangulation is valid)
-print(f"Average degree: {2 * delaunay.m / delaunay.n:.2f}")
-
-# Visualize
-delaunay.draw(figsize=(8, 8), e_color='blue', v_size=20)
+G = pg.DelaunayG(pts)
+G.draw(figsize=(7, 7), details=True)
 ```
+
+
+![Example graphs](images/delaunay.png)
+

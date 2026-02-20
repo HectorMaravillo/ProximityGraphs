@@ -1,5 +1,5 @@
 ======================================
-Biological Graphs - Module Overview
+Biological Graphs
 ======================================
 
 

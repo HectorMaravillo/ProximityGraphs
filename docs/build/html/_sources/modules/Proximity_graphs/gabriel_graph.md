@@ -37,39 +37,20 @@ This is the "empty diametral circle" property.
 - Raises `TypeError` if `closed` is not boolean
 - Requires at least 2 points
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import GG, Beta_Skeleton
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
-gabriel = GG(points, closed=True)
-gabriel_open = GG(points, closed=False)
+G_closed = pg.GG(pts, closed=True)
+G_open   = pg.GG(pts, closed=False)
 
-print(f"Gabriel (closed): {gabriel.m} edges")
-print(f"Gabriel (open): {gabriel_open.m} edges")
-# Closed region has more edges
-
-# Verify Gabriel = Beta-Skeleton(beta=1)
-beta_1 = Beta_Skeleton(points, beta=1.0, type_region="lune", closed=True)
-print(f"β=1 lune: {beta_1.m} edges")
-print(f"Match: {gabriel.m == beta_1.m}")  # Should be True
-
-# Test empty circle property manually
-edges = gabriel.graph.get_edgelist()
-p = points.points
-valid_count = 0
-for i, j in edges[:5]:  # Check first 5 edges
-    center = (p[i] + p[j]) / 2
-    radius = np.linalg.norm(p[i] - p[j]) / 2
-    distances = np.linalg.norm(p - center, axis=1)
-    # Should have no points strictly inside
-    inside = np.sum((distances < radius) & (np.arange(len(p)) != i) & (np.arange(len(p)) != j))
-    if inside == 0:
-        valid_count += 1
-print(f"Edges satisfying empty circle: {valid_count}/5")
-
-gabriel.draw(figsize=(8, 8))
+graphs = [G_closed, G_open]
+pg.draw_grid(graphs, 1, 2, figsize=(12, 5), details=True)
 ```
+
+
+![Example graphs](images/gabriel_graph.png)
+

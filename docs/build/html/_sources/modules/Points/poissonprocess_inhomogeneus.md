@@ -23,16 +23,12 @@ The resulting retained points follow the inhomogeneous Poisson process defined b
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-import numpy as np
+import proximitygraphs as pg
 
-# Generate inhomogeneous Poisson process with intensity increasing with distance from origin
-intensity_fn = lambda x, y: 10 * (x**2 + y**2)
-inhom_poisson = SetPoints.poissonprocess_inhomogeneus(
-    fun_lambda=intensity_fn, 
-    limit=1, 
-    seed=789
-)
-inhom_poisson.draw(figsize=(8, 8), v_color='green', v_size=15)
+pts = pg.SetPoints.poissonprocess_inhomogeneus(fun_lambda=lambda x, y: x + y, limit=1, seed=7)
+
+pts.draw(figsize=(8, 8), v_color='#8c564b')
 ```
+
+![Example point set](images/poissonprocess_inhomogeneus.png)
 

@@ -31,27 +31,18 @@ The MST satisfies: MST $\subseteq$ RNG $\subseteq$ GG $\subseteq$ DT
 - Requires at least 2 points
 - Raises `ValueError` if `setpoints` contains fewer than 2 points
 
-## Example:**
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import MST
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
-mst = MST(points)
-total_length = mst.lengths.sum()
-print(f"MST total length: {total_length:.2f}")
-print(f"Number of edges: {mst.m}")  # Always n-1 = 49
-# Output: MST total length: 4.87, Number of edges: 49
-
-# Verify tree property: connected and acyclic
-print(f"Connected components: {mst.cc}")
-print(f"Is acyclic (no cycles): {mst.m == mst.n - 1}")
-# Output: Connected components: 1, Is acyclic: True
-
-# Average edge length
-print(f"Average edge length: {total_length / mst.m:.4f}")
-
-mst.draw(figsize=(8, 8), e_color='green', e_size=2)
+G = pg.MST(pts)
+G.draw(figsize=(7, 7), details=True)
 ```
+
+
+
+![Example graphs](images/mst.png)
+

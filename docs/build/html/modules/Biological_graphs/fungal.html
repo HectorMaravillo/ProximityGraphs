@@ -37,8 +37,8 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Biological_graphs/fungal';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -189,14 +189,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/gabriel_graph.html">Gabriel Graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/RNG.html">Relative Neighborhood Graph)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">K_Nearest_Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">NNG (k-nearest neighbor graph)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/unit_disk.html">Class: Unit_Disk</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_shapes.html">Alpha_Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_hull.html">Alpha Hull</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs - Module Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="physarum.html">PhysarumGraph</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">FungalGraph</a></li>
 </ul>
@@ -587,6 +587,7 @@ document.write(`
 </div>
 <p><strong>Description:</strong></p>
 <p>Constructs the fungal network through the three-phase algorithm.</p>
+<p><img alt="Example graphs" src="../../_images/fungal.png" /></p>
 <p><strong>Algorithm Details:</strong></p>
 <p><strong>Phase 1: Backbone Creation</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create PhysarumGraph as initial structure</span>

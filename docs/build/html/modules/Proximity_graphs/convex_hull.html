@@ -37,11 +37,11 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Proximity_graphs/convex_hull';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -188,6 +188,20 @@
 <li class="toctree-l2"><a class="reference internal" href="delaunay.html">Delaunay Triangulation</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Convex Hull</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MST.html">Minimum Spanning Tree (MST)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="beta_skeleton.html">Class: Beta_Skeleton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gabriel_graph.html">Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RNG.html">Relative Neighborhood Graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="KNN.html">NNG (k-nearest neighbor graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_disk.html">Class: Unit_Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="alpha_shapes.html">Alpha_Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="alpha_hull.html">Alpha Hull</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/physarum.html">PhysarumGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/fungal.html">FungalGraph</a></li>
 </ul>
 </details></li>
 </ul>
@@ -347,6 +361,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example:</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
 </ul>
             </nav>
         </div>
@@ -398,7 +413,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Create points with some interior points</span>
-<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="c1"># Compute convex hull</span>
 <span class="n">hull</span> <span class="o">=</span> <span class="n">Convex_Hull</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
@@ -442,7 +457,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.proximitygraphs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Convex_Hull</span>
 
 <span class="c1"># Create random points</span>
-<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
 
 <span class="c1"># Get convex hull</span>
 <span class="n">hull</span> <span class="o">=</span> <span class="n">Convex_Hull</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
@@ -459,6 +474,18 @@ document.write(`
 </pre></div>
 </div>
 </section>
+</section>
+<section id="id2">
+<h2>Example<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">proximitygraphs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pg</span>
+
+<span class="n">pts</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">SetPoints</span><span class="o">.</span><span class="n">uniform_square</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">Convex_Hull</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+<span class="n">G</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">details</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="Example graphs" src="../../_images/convex_hull.png" /></p>
 </section>
 </section>
 
@@ -516,6 +543,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example:</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Example</a></li>
 </ul>
   </nav></div>
 

@@ -37,14 +37,14 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Biological_graphs/physarum';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="FungalGraph" href="fungal.html" />
-    <link rel="prev" title="Biological Graphs - Module Overview" href="../biologicalgraphs.html" />
+    <link rel="prev" title="Biological Graphs" href="../biologicalgraphs.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -190,14 +190,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/gabriel_graph.html">Gabriel Graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/RNG.html">Relative Neighborhood Graph)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">K_Nearest_Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">NNG (k-nearest neighbor graph)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/unit_disk.html">Class: Unit_Disk</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_shapes.html">Alpha_Shape</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_hull.html">Alpha Hull</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs - Module Overview</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">PhysarumGraph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fungal.html">FungalGraph</a></li>
 </ul>
@@ -568,6 +568,7 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_update_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><img alt="Example graphs" src="../../_images/physarum.png" /></p>
 <p><strong>Description:</strong></p>
 <p>Performs one iteration of the Physarum dynamics.</p>
 <p><strong>Algorithm:</strong></p>
@@ -591,6 +592,7 @@ document.write(`
 </div>
 <p><strong>Description:</strong></p>
 <p>Reconnects disconnected graph components by adding edges between nearest points.</p>
+<p><img alt="Example graphs" src="modules/Biological_graphs/images/physarum.md" /></p>
 <p><strong>Algorithm:</strong></p>
 <ol class="arabic simple">
 <li><p>Find all connected components</p></li>
@@ -882,7 +884,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Biological Graphs - Module Overview</p>
+        <p class="prev-next-title">Biological Graphs</p>
       </div>
     </a>
     <a class="right-next"

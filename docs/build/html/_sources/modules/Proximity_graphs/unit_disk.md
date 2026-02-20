@@ -41,39 +41,23 @@ $$\text{UDG}_r(P) = \{(p, q) \in P \times P : p \neq q, \|p - q\| \leq r\}$$
 - Raises `TypeError` if `dist_max` is not numeric
 - Raises `TypeError` if `closed` is not boolean
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Unit_Disk
-import numpy as np
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=250, seed=7)
 
-# Different radii
-udg_01 = Unit_Disk(points, dist_max=0.1)
-udg_02 = Unit_Disk(points, dist_max=0.2)
-udg_03 = Unit_Disk(points, dist_max=0.3)
+G1 = pg.Unit_Disk(pts, dist_max=0.08, closed=True)
+G2 = pg.Unit_Disk(pts, dist_max=0.12, closed=True)
+G3 = pg.Unit_Disk(pts, dist_max=0.16, closed=True)
+G4 = pg.Unit_Disk(pts, dist_max=0.22, closed=True)
 
-print(f"r=0.1: {udg_01.m} edges, {udg_01.cc} components")
-print(f"r=0.2: {udg_02.m} edges, {udg_02.cc} components")
-print(f"r=0.3: {udg_03.m} edges, {udg_03.cc} components")
-# Larger radius → more edges, fewer components
+graphs = [G1, G2, G3, G4]
 
-# Find connectivity threshold
-for r in np.linspace(0.05, 0.5, 50):
-    udg = Unit_Disk(points, dist_max=r)
-    if udg.cc == 1:
-        print(f"Connectivity threshold: r ≈ {r:.3f}")
-        print(f"Edges at threshold: {udg.m}")
-        break
-
-# Compare open vs closed
-udg_closed = Unit_Disk(points, dist_max=0.15, closed=True)
-udg_open = Unit_Disk(points, dist_max=0.15, closed=False)
-print(f"Closed (≤): {udg_closed.m} edges")
-print(f"Open (<): {udg_open.m} edges")
-# Closed typically has more edges
-
-udg_02.draw(figsize=(8, 8), e_color='purple')
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
+
+
+![Example graphs](images/unit_disk.png)
+

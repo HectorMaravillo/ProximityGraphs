@@ -1,23 +1,22 @@
-# K_Nearest_Neighbors
+# NNG (k-nearest neighbor graph)
 
 Connects each point to its k nearest neighbors.
 
 ## Constructor
 
 ```python
-K_Nearest_Neighbors(setpoints, k, closed=False)
+NNG(setpoints, k=1)
 ```
 
 **Parameters:**
 - **setpoints** (SetPoints): The set of points.
 - **k** (int): Number of nearest neighbors (must be $1 \leq k < n$).
-- **closed** (bool): If False (default), ignores ties. If True, includes all points at distance equal to the k-th neighbor.
 
 ## Mathematical Definition:
 
 For each point $p \in P$, let $N_k(p)$ denote the $k$ nearest neighbors of $p$ (excluding $p$ itself). The k-nearest neighbors graph is:
 
-$$\text{kNN}(P, k) = \{(p, q) : q \in N_k(p) \text{ or } p \in N_k(q)\}$$
+$$\text{k-NNG}(P, k) = \{(p, q) : q \in N_k(p) \text{ or } p \in N_k(q)\}$$
 
 Note: This is typically a directed graph, but this implementation creates undirected edges (symmetric).
 
@@ -37,35 +36,24 @@ where $B(p, r) = \{q \in P : \|q - p\| \leq r\}$.
 **Value Errors:**
 - Raises `ValueError` if $k < 1$ or $k \geq n$
 - Raises `TypeError` if `k` is not an integer
-- Raises `TypeError` if `closed` is not boolean
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import K_Nearest_Neighbors
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=100, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=250, seed=42)
 
-# Different k values
-knn_3 = K_Nearest_Neighbors(points, k=3)
-knn_5 = K_Nearest_Neighbors(points, k=5)
-knn_10 = K_Nearest_Neighbors(points, k=10)
+G3  = pg.NNG(pts, k=3)
+G5  = pg.NNG(pts, k=5)
+G10 = pg.NNG(pts, k=10)
+G20 = pg.NNG(pts, k=20)
 
-print(f"k=3: {knn_3.m} edges, {knn_3.cc} components")
-print(f"k=5: {knn_5.m} edges, {knn_5.cc} components")
-print(f"k=10: {knn_10.m} edges, {knn_10.cc} components")
-# Output: k=3: ~150 edges, k=5: ~250 edges, k=10: ~500 edges
-
-# Verify connectivity for different k
-for k in [1, 2, 3, 5, 10]:
-    knn = K_Nearest_Neighbors(points, k=k)
-    print(f"k={k}: connected = {knn.cc == 1}")
-
-# Average degree
-print(f"k=5 average degree: {2 * knn_5.m / points.n:.2f}")
-# Should be close to 2*k = 10
-
-# Visualize
-knn_5.draw(figsize=(8, 8), e_color='orange', e_size=1)
+graphs = [G3, G5, G10, G20]
+pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
+
+
+
+![Example graphs](images/knn.png)
+

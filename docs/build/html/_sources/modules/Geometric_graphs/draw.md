@@ -38,7 +38,7 @@ This method provides flexible visualization with extensive customization options
 from proximitygraphs.proximitygraphs import DelaunayG
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+points = SetPoints.uniform_square(n=50, seed=42)
 delaunay = DelaunayG(points)
 
 # Basic visualization

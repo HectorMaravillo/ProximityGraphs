@@ -37,8 +37,8 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Points/poissonprocess_circle';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -151,6 +151,7 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../points.html">Points</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uniform_over_sphere.html">uniform_over_sphere</a></li>
@@ -164,6 +165,41 @@
 <li class="toctree-l2"><a class="reference internal" href="poissonprocess_inhomogeneus.html">poissonprocess_inhomogeneus</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cluster_square.html">cluster_square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="from_geopandas.html">from_geopandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transformations.html">Transformation Methods</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="draw.html">Draw</a></li>
+</ul>
+</details></li>
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../geometricgraphs.html">GeometricGraphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/complete.html"><code class="docutils literal notranslate"><span class="pre">complete(setpoints)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/from_graph.html"><code class="docutils literal notranslate"><span class="pre">from_graph(graph,</span> <span class="pre">points,</span> <span class="pre">name=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/random_graph.html"><code class="docutils literal notranslate"><span class="pre">random_graph(setpoints,</span> <span class="pre">p,</span> <span class="pre">seed=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/instance_methods.html">Instance Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/draw.html">Vizualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/graph_operations.html">Graph Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Geometric_graphs/data_export.html">Data Export and Conversion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../proximitygraphs.html">ProximityGraph</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/delaunay.html">Delaunay Triangulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/convex_hull.html">Convex Hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/MST.html">Minimum Spanning Tree (MST)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/beta_skeleton.html">Class: Beta_Skeleton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/gabriel_graph.html">Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/RNG.html">Relative Neighborhood Graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">NNG (k-nearest neighbor graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/unit_disk.html">Class: Unit_Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_shapes.html">Alpha_Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_hull.html">Alpha Hull</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/physarum.html">PhysarumGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/fungal.html">FungalGraph</a></li>
 </ul>
 </details></li>
 </ul>
@@ -354,13 +390,14 @@ document.write(`
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proximitygraphs.points</span><span class="w"> </span><span class="kn">import</span> <span class="n">SetPoints</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">proximitygraphs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pg</span>
 
-<span class="c1"># Generate Poisson process on circle circumference</span>
-<span class="n">poisson_circ</span> <span class="o">=</span> <span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_circle</span><span class="p">(</span><span class="n">intensity</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">456</span><span class="p">)</span>
-<span class="n">poisson_circ</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">v_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">SetPoints</span><span class="o">.</span><span class="n">poissonprocess_circle</span><span class="p">(</span><span class="n">intensity</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">pts</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">v_color</span><span class="o">=</span><span class="s1">&#39;#17becf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><img alt="Example point set" src="../../_images/poissonprocess_circle.png" /></p>
 </section>
 </section>
 

@@ -42,7 +42,7 @@ from proximitygraphs.proximitygraphs import Convex_Hull
 import numpy as np
 
 # Create points with some interior points
-points = SetPoints.uniform_square(n=100, dims=2, seed=42)
+points = SetPoints.uniform_square(n=100, seed=42)
 
 # Compute convex hull
 hull = Convex_Hull(points)
@@ -88,7 +88,7 @@ from proximitygraphs.points import SetPoints
 from proximitygraphs.proximitygraphs import Convex_Hull
 
 # Create random points
-points = SetPoints.uniform_square(n=100, dims=2, seed=123)
+points = SetPoints.uniform_square(n=100, seed=123)
 
 # Get convex hull
 hull = Convex_Hull(points)
@@ -103,3 +103,16 @@ perimeter_points = hull_verts.n
 interior_points = points.n - perimeter_points
 print(f"Perimeter: {perimeter_points}, Interior: {interior_points}")
 ```
+
+## Example
+
+```python
+import proximitygraphs as pg
+
+pts = pg.SetPoints.uniform_square(n=200, seed=42)
+
+G = pg.Convex_Hull(pts)
+G.draw(figsize=(7, 7), details=True)
+```
+
+![Example graphs](images/convex_hull.png)

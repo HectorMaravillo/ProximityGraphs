@@ -23,11 +23,13 @@ The generation process:
 
 ## Example
 
-
 ```python
-from proximitygraphs.points import SetPoints
+import proximitygraphs as pg
 
-# Generate Poisson process on circle circumference
-poisson_circ = SetPoints.poissonprocess_circle(intensity=20, radius=2, seed=456)
-poisson_circ.draw(figsize=(8, 8), v_color='blue', v_size=30)
+pts = pg.SetPoints.poissonprocess_circle(intensity=150, radius=1, seed=7)
+
+pts.draw(figsize=(8, 8), v_color='#17becf')
 ```
+
+![Example point set](images/poissonprocess_circle.png)
+

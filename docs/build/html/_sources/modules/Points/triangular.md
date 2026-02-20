@@ -21,9 +21,12 @@ Each point in the lattice has 6 equidistant neighbors, forming equilateral trian
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
+import proximitygraphs as pg
 
-# Create a triangular lattice
-tri_points = SetPoints.triangular(n_x=6, n_y=6)
-tri_points.draw(figsize=(8, 8), v_color='cyan', v_size=30)
+pts = pg.SetPoints.triangular(n_x=10, n_y=10)
+
+pts.draw(figsize=(8, 8), v_color='#d62728', v_size=18)
 ```
+
+![Example point set](images/triangular.png)
+

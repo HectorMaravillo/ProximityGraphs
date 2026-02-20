@@ -22,9 +22,12 @@ The combination produces the characteristic hexagonal pattern.
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
+import proximitygraphs as pg
 
-# Create a hexagonal lattice
-hex_points = SetPoints.hexagonal(n_x=5, n_y=5)
-hex_points.draw(figsize=(8, 8), v_color='orange', v_size=30)
+pts = pg.SetPoints.hexagonal(n_x=10, n_y=10)
+
+pts.draw(figsize=(8, 8), v_color='#ff7f0e', v_size=18)
 ```
+
+![Example point set](images/hexagonal.png)
+

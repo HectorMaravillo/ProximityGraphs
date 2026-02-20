@@ -37,12 +37,14 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=4e5c4217"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/Geometric_graphs/from_graph';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="random_graph(setpoints, p, seed=None) [classmethod]" href="random_graph.html" />
+    <link rel="prev" title="complete(setpoints) [classmethod]" href="complete.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -105,8 +107,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -149,9 +149,9 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../geometricgraphs.html">GeometricGraphs</a></li>
+
 <li class="toctree-l1 has-children"><a class="reference internal" href="../points.html">Points</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Points/uniform_square.html">Uniform square</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Points/uniform_over_sphere.html">uniform_over_sphere</a></li>
@@ -172,6 +172,36 @@
 </details></li>
 
 
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../geometricgraphs.html">GeometricGraphs</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="complete.html"><code class="docutils literal notranslate"><span class="pre">complete(setpoints)</span></code> [classmethod]</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">from_graph(graph,</span> <span class="pre">points,</span> <span class="pre">name=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="random_graph.html"><code class="docutils literal notranslate"><span class="pre">random_graph(setpoints,</span> <span class="pre">p,</span> <span class="pre">seed=None)</span></code> [classmethod]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instance_methods.html">Instance Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="draw.html">Vizualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graph_operations.html">Graph Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_export.html">Data Export and Conversion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../proximitygraphs.html">ProximityGraph</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/delaunay.html">Delaunay Triangulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/convex_hull.html">Convex Hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/MST.html">Minimum Spanning Tree (MST)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/beta_skeleton.html">Class: Beta_Skeleton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/gabriel_graph.html">Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/Eliptic_gg.html">Elliptic Gabriel Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/RNG.html">Relative Neighborhood Graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/KNN.html">NNG (k-nearest neighbor graph)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/unit_disk.html">Class: Unit_Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_shapes.html">Alpha_Shape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Proximity_graphs/alpha_hull.html">Alpha Hull</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Experiments.html">Experiments</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../biologicalgraphs.html">Biological Graphs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/physarum.html">PhysarumGraph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Biological_graphs/fungal.html">FungalGraph</a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -390,6 +420,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="complete.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">complete(setpoints)</span></code> [classmethod]</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="random_graph.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><code class="docutils literal notranslate"><span class="pre">random_graph(setpoints,</span> <span class="pre">p,</span> <span class="pre">seed=None)</span></code> [classmethod]</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               

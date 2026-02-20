@@ -26,7 +26,7 @@ from proximitygraphs.points import SetPoints
 from proximitygraphs.geometricgraphs import GeometricGraph
 
 # Create points
-points = SetPoints.uniform_square(n=30, dims=2, seed=1)
+points = SetPoints.uniform_square(n=30, seed=1)
 
 # Create random graphs with different edge probabilities
 sparse = GeometricGraph.random_graph(points, p=0.1, seed=42)

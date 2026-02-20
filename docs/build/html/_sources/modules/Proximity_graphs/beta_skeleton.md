@@ -58,36 +58,6 @@ $$L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}$$
 - Raises `ValueError` if $\beta < 1$ and `type_region != "intersection"`
 - Raises `TypeError` if `closed` is not a boolean
 
-## Example:
-
-```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Beta_Skeleton
-
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
-
-# Different β values produce different graphs
-beta_0_5 = Beta_Skeleton(points, beta=0.5, type_region="intersection")
-beta_1_0 = Beta_Skeleton(points, beta=1.0, type_region="lune")
-beta_1_5 = Beta_Skeleton(points, beta=1.5, type_region="lune")
-beta_2_0 = Beta_Skeleton(points, beta=2.0, type_region="lune")
-beta_2_5 = Beta_Skeleton(points, beta=2.5, type_region="lune")
-
-print(f"β=0.5: {beta_0_5.m} edges")
-print(f"β=1.0 (Gabriel): {beta_1_0.m} edges")
-print(f"β=1.5: {beta_1_5.m} edges")
-print(f"β=2.0 (RNG): {beta_2_0.m} edges")
-print(f"β=2.5: {beta_2_5.m} edges")
-# Expected: decreasing number of edges as β increases
-
-# Verify hierarchy: larger β means fewer edges
-print(f"Hierarchy satisfied: {beta_0_5.m >= beta_1_0.m >= beta_1_5.m >= beta_2_0.m >= beta_2_5.m}")
-
-# Compare lune vs circle regions
-beta_circle = Beta_Skeleton(points, beta=1.5, type_region="circle")
-print(f"β=1.5 circle: {beta_circle.m} edges (different from lune: {beta_1_5.m})")
-```
-
 ## Class Method: from_graph
 
 ```python
@@ -117,24 +87,22 @@ This is much faster when $|E| \ll \binom{n}{2}$, such as when $G$ is the Delauna
 - Same as constructor
 - Raises `TypeError` if `geom_graph` is not a `GeometricGraph`
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Beta_Skeleton, DelaunayG
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=200, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=120, seed=42)
 
-# Compute from all pairs (slow for large n)
-# beta_all = Beta_Skeleton(points, beta=1.5)
+B08 = pg.Beta_Skeleton(pts, beta=0.8, type_region="intersection", closed=False)
+B10 = pg.Beta_Skeleton(pts, beta=1.0, type_region="lune", closed=False)
+B15 = pg.Beta_Skeleton(pts, beta=1.5, type_region="lune", closed=False)
+B20 = pg.Beta_Skeleton(pts, beta=2.0, type_region="lune", closed=False)
+B25 = pg.Beta_Skeleton(pts, beta=2.5, type_region="lune", closed=False)
+B15c = pg.Beta_Skeleton(pts, beta=1.5, type_region="circle", closed=False)
 
-# Fast: use Delaunay edges as candidates
-delaunay = DelaunayG(points)
-beta_fast = Beta_Skeleton.from_graph(delaunay, beta=1.5, type_region="lune")
-
-print(f"β-skeleton from Delaunay: {beta_fast.m} edges")
-print(f"Delaunay edges tested: {delaunay.m} (vs {200*199//2} all pairs)")
-# Massive speedup for large point sets!
+graphs = [B08, B10, B15, B20, B25, B15c]
+pg.draw_grid(graphs, 2, 3, figsize=(15, 9), details=True)
 ```
 
-
+![Example graphs](images/beta_skeleton.png)

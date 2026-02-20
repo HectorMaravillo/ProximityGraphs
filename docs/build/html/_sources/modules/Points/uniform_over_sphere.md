@@ -21,9 +21,12 @@ This produces a rotationally-invariant (uniform) distribution on S^1.
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
+import proximitygraphs as pg
 
-# Create a SetPoints object with 10 points on a 2D circle
-disk_points = SetPoints.uniform_sphere(n=200, seed=99)
-disk_points.draw(figsize=(8, 8), v_color='green')
+pts = pg.SetPoints.uniform_over_sphere(n=200, seed=99)
+
+pts.draw(figsize=(8, 8), v_color='#2ca02c')
 ```
+
+![Example point set](images/uniform_over_sphere.png)
+

@@ -167,6 +167,8 @@ def _initialize_network(self, distance_threshold_percentile,
 
 Constructs the fungal network through the three-phase algorithm.
 
+![Example graphs](images/fungal.png)
+
 **Algorithm Details:**
 
 **Phase 1: Backbone Creation**

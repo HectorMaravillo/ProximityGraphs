@@ -36,7 +36,7 @@ This method provides flexible visualization of point sets with customizable styl
 ```python
 from proximitygraphs.points import SetPoints
 
-points = SetPoints.uniform_square(n=200, dims=2, seed=42)
+points = SetPoints.uniform_square(n=200, seed=42)
 
 # Basic plot
 fig, ax = points.draw()
@@ -54,3 +54,15 @@ fig, ax = points.draw(
 # Save to file
 points.draw(save='my_points')  # Saves as 'my_points.png'
 ```
+
+## Example
+
+```python
+import proximitygraphs as pg
+
+pts = pg.SetPoints.uniform_square(n=250, seed=7)
+
+pts.draw(figsize=(8, 8), v_color='#00072D', v_size=10, details=True)
+```
+
+![Example point set](images/draw.png)

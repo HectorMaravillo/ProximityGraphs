@@ -45,42 +45,21 @@ $$E_\alpha(p, q) \cap P \subseteq \{p, q\}$$
 - Raises `TypeError` if `alpha` is not numeric
 - Raises `TypeError` if `closed` is not boolean
 
-## Example:
+## Example
 
 ```python
-from proximitygraphs.points import SetPoints
-from proximitygraphs.proximitygraphs import Elliptic_GabrielG, GG
+import proximitygraphs as pg
 
-points = SetPoints.uniform_square(n=50, dims=2, seed=42)
+pts = pg.SetPoints.uniform_square(n=150, seed=42)
 
-gabriel = GG(points)
-elliptic_1_0 = Elliptic_GabrielG(points, alpha=1.0)  # Should equal GG
-elliptic_1_5 = Elliptic_GabrielG(points, alpha=1.5)
-elliptic_2_0 = Elliptic_GabrielG(points, alpha=2.0)
-elliptic_3_0 = Elliptic_GabrielG(points, alpha=3.0)
+G1 = pg.Elliptic_GabrielG(pts, alpha=1.0, closed=False)  # equals GG
+G2 = pg.Elliptic_GabrielG(pts, alpha=1.5, closed=False)
+G3 = pg.Elliptic_GabrielG(pts, alpha=2.0, closed=False)
 
-print(f"Gabriel: {gabriel.m} edges")
-print(f"EGG (α=1.0): {elliptic_1_0.m} edges (match: {gabriel.m == elliptic_1_0.m})")
-print(f"EGG (α=1.5): {elliptic_1_5.m} edges")
-print(f"EGG (α=2.0): {elliptic_2_0.m} edges")
-print(f"EGG (α=3.0): {elliptic_3_0.m} edges")
-# Increasing α → more edges
-
-# Verify monotonicity
-print(f"Monotonic: {elliptic_1_0.m <= elliptic_1_5.m <= elliptic_2_0.m <= elliptic_3_0.m}")
-
-# Visualize different α values
-import matplotlib.pyplot as plt
-fig, axes = plt.subplots(1, 3, figsize=(15, 5))
-
-for ax, (alpha, graph) in zip(axes, [
-    (1.0, elliptic_1_0),
-    (1.5, elliptic_1_5),
-    (2.0, elliptic_2_0)
-]):
-    graph.draw(ax=ax, e_color='blue', v_size=30)
-    ax.set_title(f'α={alpha}, edges={graph.m}')
-
-plt.tight_layout()
-plt.show()
+graphs = [G1, G2, G3]
+pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
 ```
+
+
+![Example graphs](images/eliptic_gg.png)
+

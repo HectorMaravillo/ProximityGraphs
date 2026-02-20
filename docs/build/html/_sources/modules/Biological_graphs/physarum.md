@@ -153,6 +153,7 @@ Runs the Physarum dynamics for a specified number of time steps, updating edge c
 ```python
 def _update_step(self)
 ```
+![Example graphs](images/physarum.png)
 
 **Description:**
 
@@ -181,6 +182,9 @@ def _reconnect_components(self)
 **Description:**
 
 Reconnects disconnected graph components by adding edges between nearest points.
+
+![Example graphs](images/physarum.md)
+
 
 **Algorithm:**
 

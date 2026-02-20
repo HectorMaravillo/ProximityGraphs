@@ -23,10 +23,12 @@ This results in points randomly and uniformly distributed within [0, limit]².
 ## Example
 
 ```python
-from proximitygraphs.points import SetPoints
+import proximitygraphs as pg
 
-# Generate Poisson process with intensity 50 in unit square
-poisson_sq = SetPoints.poissonprocess_square(intensity=50, limit=1, seed=123)
-poisson_sq.draw(figsize=(8, 8), v_color='red', v_size=20)
+pts = pg.SetPoints.poissonprocess_square(intensity=150, limit=1, seed=7)
+
+pts.draw(figsize=(8, 8), v_color='#17becf')
 ```
+
+![Example point set](images/poissonprocess_square.png)
 
