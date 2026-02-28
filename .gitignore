@@ -12,3 +12,5 @@ logs/
 
 # ignore ALL the __pycache__ folders in any subdirectory
 **/__pycache__/
+
+.vscode/
