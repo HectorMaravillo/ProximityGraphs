@@ -23,7 +23,7 @@ def circle_centroid(setpoints):
         Max Euclidean distance from `centroid` to `setpoints.points`.
     """
     centroid = setpoints.centroid
-    radius = np.linalg.norm(centroid-setpoints.points, axis=1).max()
+    radius = np.linalg.norm(centroid - setpoints.points, axis=1).max()
     return centroid, radius
 
 
@@ -50,6 +50,7 @@ def circle_smallest(setpoints):
 # Smallest circle
 ###################
 
+
 def slope(p, q):
     """
     Slope between two points.
@@ -64,8 +65,8 @@ def slope(p, q):
     float
         `(p_y - q_y) / (p_x - q_x)` if `p_x != q_x`, else `np.inf`.
     """
-    delta_x = p[0]-q[0]
-    delta_y = p[1]-q[1]
+    delta_x = p[0] - q[0]
+    delta_y = p[1] - q[1]
     if delta_x == 0:
         return np.inf
     else:
@@ -90,7 +91,7 @@ def is_in_circle(center, radius, point):
     bool
         True if `||point - center||_2 <= radius`, else False.
     """
-    return np.linalg.norm(center-point) <= radius
+    return np.linalg.norm(center - point) <= radius
 
 
 def circle_through_two_points(points):
@@ -109,8 +110,8 @@ def circle_through_two_points(points):
     radius : float
         Half the inter-point distance.
     """
-    middle_point = (points[0]+points[1])/2
-    radius = np.linalg.norm(middle_point-points[0])
+    middle_point = (points[0] + points[1]) / 2
+    radius = np.linalg.norm(middle_point - points[0])
     return middle_point, radius
 
 
@@ -136,7 +137,7 @@ def circle_through_three_points(points):
     if slope_1_2 == slope_1_3:
         max_dist = 0
         for p, q in combinations(points, 2):
-            dist = np.linalg.norm(p-q)
+            dist = np.linalg.norm(p - q)
             if dist > max_dist:
                 max_dist = dist
                 max_p = p
@@ -145,18 +146,23 @@ def circle_through_three_points(points):
     # Returns the circle through the three points if they are collinear
     else:
         # Calculate the midpoint of two sides
-        midpoint_12 = (points[0]+points[1])/2
-        midpoint_13 = (points[0]+points[2])/2
+        midpoint_12 = (points[0] + points[1]) / 2
+        midpoint_13 = (points[0] + points[2]) / 2
         # Calculate the slope of the perpendicular of two sides
-        slope_perpendicular_12 = -1/slope_1_2
-        slope_perpendicular_13 = -1/slope_1_3
+        slope_perpendicular_12 = -1 / slope_1_2
+        slope_perpendicular_13 = -1 / slope_1_3
         # Finding the point of intersection of two lines
-        matrix_a = np.array([[-slope_perpendicular_12, 1],
-                             [-slope_perpendicular_13, 1]])
-        b = np.array([midpoint_12[1]-slope_perpendicular_12*midpoint_12[0],
-                      midpoint_13[1]-slope_perpendicular_13*midpoint_13[0]])
+        matrix_a = np.array(
+            [[-slope_perpendicular_12, 1], [-slope_perpendicular_13, 1]]
+        )
+        b = np.array(
+            [
+                midpoint_12[1] - slope_perpendicular_12 * midpoint_12[0],
+                midpoint_13[1] - slope_perpendicular_13 * midpoint_13[0],
+            ]
+        )
         center = np.linalg.solve(matrix_a, b)
-        radius = np.linalg.norm(center-points[0])
+        radius = np.linalg.norm(center - points[0])
         return center, radius
 
 

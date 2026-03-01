@@ -1,15 +1,32 @@
 # https://hpaulkeeler.com/ para point process
 
 import numpy as np
-import geopandas as gpd
-from shapely.geometry import Point
 
-from matplotlib.pyplot import figure
 from scipy.stats import poisson, uniform
 from scipy.optimize import minimize
-from matplotlib.pyplot import savefig, close, subplots
+from matplotlib.pyplot import savefig, subplots
 
 from .utils import points_on_sphere
+
+
+def _require_gis_dependencies():
+    try:
+        import geopandas as gpd
+    except ImportError as exc:
+        raise ImportError(
+            "GeoPandas support requires the optional GIS dependencies. "
+            "Install them with: pip install -e .[gis]"
+        ) from exc
+
+    try:
+        from shapely.geometry import Point
+    except ImportError as exc:
+        raise ImportError(
+            "Shapely support requires the optional GIS dependencies. "
+            "Install them with: pip install -e .[gis]"
+        ) from exc
+
+    return gpd, Point
 
 
 class SetPoints:
@@ -46,7 +63,7 @@ class SetPoints:
     # CONSTRUCTORS
 
     def __init__(self, points, seed=None):
-        '''
+        """
         Base constructor for SetPoints.
         attributes:
         ----------
@@ -55,12 +72,12 @@ class SetPoints:
         seed : int, optional
             A seed for the random number generator to ensure reproducibility. If None, a default random generator is used.
         Raises:
-        ------ 
+        ------
         TypeError: If points is not a numpy.ndarray.
 
 
         returns  a SetPoints object containing the points.
-        '''
+        """
 
         if not isinstance(points, np.ndarray):
             raise TypeError("Input 'points' must be a numpy.ndarray.")
@@ -241,7 +258,7 @@ class SetPoints:
 
     @classmethod
     def hexagonal(cls, n_x=3, n_y=3):
-        '''
+        """
         Generates points forming a hexagonal lattice in a 2D plane.
 
         A hexagonal lattice can be represented as the union of two interleaved
@@ -272,24 +289,24 @@ class SetPoints:
         n_y : int
             Determines the extent of the hexagonal grid along an axis roughly aligned
             with the y-direction. It influences the number of rows.
-        '''
+        """
         try:
             if n_x <= 0 or n_y <= 0:
                 raise ValueError("n_x and n_y must be positive integers")
         except ValueError as e:
             print(e)
 
-        x = np.cumsum(np.array([1, 2]*n_x))
+        x = np.cumsum(np.array([1, 2] * n_x))
         x = np.insert(x, 0, 0)
-        y = np.cumsum(np.array([np.sqrt(3)]*2*n_y))
+        y = np.cumsum(np.array([np.sqrt(3)] * 2 * n_y))
         y = np.insert(y, 0, 0)
         xv, yv = np.meshgrid(x, y)
         grid_1 = np.array(list(zip(xv.flat, yv.flat)))
         x = np.cumsum(np.array([2, 1] * n_x))
         x = np.insert(x, 0, 0) - 0.5
-        y = np.cumsum(np.array([np.sqrt(3)]*2*n_y))
+        y = np.cumsum(np.array([np.sqrt(3)] * 2 * n_y))
         y = np.insert(y, 0, 0)
-        y = y + 0.5*np.sqrt(3)
+        y = y + 0.5 * np.sqrt(3)
         xv, yv = np.meshgrid(x, y)
         grid_2 = np.array(list(zip(xv.flat, yv.flat)))
         points = np.concatenate((grid_1, grid_2))
@@ -297,7 +314,7 @@ class SetPoints:
 
     @classmethod
     def triangular(cls, n_x=3, n_y=3):
-        '''
+        """
         Generates points forming a triangular lattice in a 2D plane.
 
         A triangular lattice can be seen as the centers of a triangular tessellation
@@ -332,19 +349,19 @@ class SetPoints:
         n_y : int
             Determines the extent of the triangular grid along the y-direction.
             It influences the number of rows in the sub-grids.
-        '''
+        """
         try:
             if n_x <= 0 or n_y <= 0:
                 raise ValueError("n_x and n_y must be positive integers")
         except ValueError as e:
             print(e)
 
-        x = np.arange(0, n_x+1)
-        y = np.arange(0, np.sqrt(3) * np.floor(n_y/2)+1, np.sqrt(3))
+        x = np.arange(0, n_x + 1)
+        y = np.arange(0, np.sqrt(3) * np.floor(n_y / 2) + 1, np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
         grid_1 = np.array(list(zip(xv.flat, yv.flat)))
-        x = x+0.5
-        y = np.arange(np.sqrt(3)/2, np.sqrt(3) * np.ceil(n_y/2), np.sqrt(3))
+        x = x + 0.5
+        y = np.arange(np.sqrt(3) / 2, np.sqrt(3) * np.ceil(n_y / 2), np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
         grid_2 = np.array(list(zip(xv.flat, yv.flat)))
         points = np.concatenate((grid_1, grid_2))
@@ -352,7 +369,7 @@ class SetPoints:
 
     @classmethod
     def poissonprocess_square(cls, intensity=10, limit=1, seed=None):
-        '''
+        """
         Generates points according to a homogeneous Poisson point process in a square region.
 
         A 2D homogeneous Poisson point process is characterized by a constant intensity
@@ -383,7 +400,7 @@ class SetPoints:
         seed : int, optional
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
-        '''
+        """
         try:
             if intensity <= 0 or limit <= 0:
                 raise ValueError("intensity and limit must be positive values")
@@ -391,25 +408,22 @@ class SetPoints:
             print(e)
 
         rng = np.random.default_rng(seed=seed)
-        limits = ((0, limit),
-                  (0, limit))
+        limits = ((0, limit), (0, limit))
         # Simulation window parameters
         xmin, xmax = limits[0]
         ymin, ymax = limits[1]
-        xdelta = xmax-xmin
-        ydelta = ymax-ymin
-        area = xdelta*ydelta
-        n_points = poisson(intensity*area).rvs(random_state=rng)
-        x = xdelta*uniform.rvs(0, 1, size=((n_points, 1)),
-                               random_state=rng)+xmin
-        y = ydelta*uniform.rvs(0, 1, size=((n_points, 1)),
-                               random_state=rng)+ymin
+        xdelta = xmax - xmin
+        ydelta = ymax - ymin
+        area = xdelta * ydelta
+        n_points = poisson(intensity * area).rvs(random_state=rng)
+        x = xdelta * uniform.rvs(0, 1, size=((n_points, 1)), random_state=rng) + xmin
+        y = ydelta * uniform.rvs(0, 1, size=((n_points, 1)), random_state=rng) + ymin
         points = np.hstack((x, y))
-        return cls(points, seed=rng.integers(low=0, high=2**32-1))
+        return cls(points, seed=rng.integers(low=0, high=2**32 - 1))
 
     @classmethod
     def poissonprocess_circle(cls, intensity=10, radius=1, seed=None):
-        '''
+        """
         Generates points according to a homogeneous Poisson point process on the circumference of a circle.
 
         This method simulates points positioned on the perimeter of a circle of a given `radius`.
@@ -441,21 +455,25 @@ class SetPoints:
         seed : int, optional
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
-        '''
+        """
         rng = np.random.default_rng(seed=seed)
-        length = 2*np.pi*radius
-        n_points = rng.poisson(intensity*length)
-        theta = 2*np.pi*rng.uniform(0, 1, n_points)
-        x = radius*np.cos(theta)
-        y = radius*np.sin(theta)
+        length = 2 * np.pi * radius
+        n_points = rng.poisson(intensity * length)
+        theta = 2 * np.pi * rng.uniform(0, 1, n_points)
+        x = radius * np.cos(theta)
+        y = radius * np.sin(theta)
         points = np.stack((x, y), axis=1)
-        return cls(points, seed=rng.integers(low=0, high=2**32-1))
+        return cls(points, seed=rng.integers(low=0, high=2**32 - 1))
 
     @classmethod
-    def poissonprocess_inhomogeneus(cls, fun_lambda=lambda x, y: x+y,
-                                    n_sim=1,  # This parameter is unused
-                                    limit=1, seed=None):
-        '''
+    def poissonprocess_inhomogeneus(
+        cls,
+        fun_lambda=lambda x, y: x + y,
+        n_sim=1,  # This parameter is unused
+        limit=1,
+        seed=None,
+    ):
+        """
         Generates points according to an inhomogeneous Poisson point process in a square region using thinning.
 
         An inhomogeneous (or nonhomogeneous) Poisson point process is characterized by an
@@ -497,30 +515,34 @@ class SetPoints:
         seed : int, optional
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
-        '''
+        """
         rng = np.random.default_rng(seed=seed)
-        limits = ((0, limit),
-                  (0, limit))
+        limits = ((0, limit), (0, limit))
         # fun_lambda = lambda x,y: np.cos(2*x)+np.cos(2*y)
         xmin, xmax = limits[0]
         ymin, ymax = limits[1]
         xdelta = xmax - xmin
         ydelta = ymax - ymin
-        area = xdelta*ydelta
+        area = xdelta * ydelta
+
         # Find maximum lambda
-        def fun_neg(x): return -fun_lambda(x[0], x[1])
+        def fun_neg(x):
+            return -fun_lambda(x[0], x[1])
+
         xy0 = [(xmin + xmax) / 2, (ymin + ymax) / 2]
-        results_opt = minimize(fun_neg, xy0,
-                               bounds=((xmin, xmax), (ymin, ymax)))
+        results_opt = minimize(fun_neg, xy0, bounds=((xmin, xmax), (ymin, ymax)))
         lambda_neg_min = results_opt.fun
         lambda_max = -lambda_neg_min
+
         # define thinning probability function
-        def fun_p(x, y): return fun_lambda(x, y)/lambda_max
+        def fun_p(x, y):
+            return fun_lambda(x, y) / lambda_max
+
         # Simulate a Poisson point process
         # Corrected n_poins to n_points
-        n_points = rng.poisson(area*lambda_max)
-        x = rng.uniform(0, xdelta, size=((n_points, 1)))+xmin
-        y = rng.uniform(0, ydelta, size=((n_points, 1)))+ymin
+        n_points = rng.poisson(area * lambda_max)
+        x = rng.uniform(0, xdelta, size=((n_points, 1))) + xmin
+        y = rng.uniform(0, ydelta, size=((n_points, 1))) + ymin
         # calculate spatially-dependent thinning probabilities
         p = fun_p(x, y)
         # Generate Bernoulli variables (ie coin flips) for thinning
@@ -529,13 +551,17 @@ class SetPoints:
         x_retained = x[retained]
         y_retained = y[retained]
         points = np.stack((x_retained, y_retained), axis=1)
-        return cls(points, seed=rng.integers(low=0, high=2**32-1))
+        return cls(points, seed=rng.integers(low=0, high=2**32 - 1))
 
     @classmethod
-    def cluster_square(cls, intensity=(10, 10),
-                       cluster={"name": "Matern", "param": 0.1},
-                       limit=1, seed=None):
-        '''
+    def cluster_square(
+        cls,
+        intensity=(10, 10),
+        cluster={"name": "Matern", "param": 0.1},
+        limit=1,
+        seed=None,
+    ):
+        """
         Generates points according to a Neyman-Scott cluster process in a square region.
 
         A Neyman-Scott process is a type of cluster point process where "parent" points
@@ -591,10 +617,9 @@ class SetPoints:
         seed : int, optional
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
-        '''
+        """
         rng = np.random.default_rng(seed=seed)
-        limits = ((0, limit),
-                  (0, limit))
+        limits = ((0, limit), (0, limit))
         # intensity[0] - density of parent Poisson point process
         # indensity[1] - mean number of points in each cluster
         # Extended simulation window parameters
@@ -603,28 +628,28 @@ class SetPoints:
         if cluster["name"] == "Matern":
             radius = cluster["param"]
         elif cluster["name"] == "Thomas":
-            radius = 5*cluster["param"]
-        xmin_ext = xmin-radius
-        xmax_ext = xmax+radius
-        ymin_ext = ymin-radius
-        ymax_ext = ymax+radius
-        xdelta = xmax_ext-xmin_ext
-        ydelta = ymax_ext-ymin_ext
-        area = xdelta*ydelta
+            radius = 5 * cluster["param"]
+        xmin_ext = xmin - radius
+        xmax_ext = xmax + radius
+        ymin_ext = ymin - radius
+        ymax_ext = ymax + radius
+        xdelta = xmax_ext - xmin_ext
+        ydelta = ymax_ext - ymin_ext
+        area = xdelta * ydelta
         # Simulated Poisson points process for the parents
-        n_points_parent = rng.poisson(area*intensity[0])
-        x_parent = xmin_ext+xdelta*rng.uniform(0, 1, n_points_parent)
-        y_parent = ymin_ext+ydelta*rng.uniform(0, 1, n_points_parent)
+        n_points_parent = rng.poisson(area * intensity[0])
+        x_parent = xmin_ext + xdelta * rng.uniform(0, 1, n_points_parent)
+        y_parent = ymin_ext + ydelta * rng.uniform(0, 1, n_points_parent)
         # Simulate Poisson point process for the daughters
         n_points_daughter = rng.poisson(intensity[1], size=n_points_parent)
         n_points = sum(n_points_daughter)
         if cluster["name"] == "Matern":
             # Generate the (relative) locations in polar coordinates
-            theta = 2*np.pi*rng.uniform(0, 1, n_points)
-            rho = radius*np.sqrt(rng.uniform(0, 1, n_points))
+            theta = 2 * np.pi * rng.uniform(0, 1, n_points)
+            rho = radius * np.sqrt(rng.uniform(0, 1, n_points))
             # Convert from polar to Cartesian coordinates
-            x_aux = rho*np.cos(theta)
-            y_aux = rho*np.sin(theta)
+            x_aux = rho * np.cos(theta)
+            y_aux = rho * np.sin(theta)
         elif cluster["name"] == "Thomas":
             # Generate the (relative) locations in Cartesian coordinates
             x_aux = rng.normal(0, cluster["param"], n_points)
@@ -632,15 +657,15 @@ class SetPoints:
         # replicate parent points (ie centres of disks/clusters)
         x = np.repeat(x_parent, n_points_daughter)
         y = np.repeat(y_parent, n_points_daughter)
-        x = x+x_aux
-        y = y+y_aux
+        x = x + x_aux
+        y = y + y_aux
         # thin points if outside the simulation window
-        inside = ((x >= xmin) & (x <= xmax) & (y >= ymin) & (y <= ymax))
+        inside = (x >= xmin) & (x <= xmax) & (y >= ymin) & (y <= ymax)
         # retain points inside simulation window
         x = x[inside]
         y = y[inside]
         points = np.stack((x, y), axis=1)
-        return cls(points, seed=rng.integers(low=0, high=2**32-1))
+        return cls(points, seed=rng.integers(low=0, high=2**32 - 1))
 
     @classmethod
     def from_geopandas(cls, geoseries, seed=None):
@@ -666,6 +691,8 @@ class SetPoints:
         ValueError
             If geoseries is empty or contains non-Point geometries.
         """
+        gpd, Point = _require_gis_dependencies()
+
         if not isinstance(geoseries, gpd.GeoSeries):
             raise TypeError("Input 'geoseries' must be a geopandas.GeoSeries.")
 
@@ -674,7 +701,8 @@ class SetPoints:
 
         if not all(isinstance(geom, Point) for geom in geoseries):
             raise ValueError(
-                "All geometries in 'geoseries' must be shapely.geometry.Point instances.")
+                "All geometries in 'geoseries' must be shapely.geometry.Point instances."
+            )
 
         coords = np.array([(point.x, point.y) for point in geoseries])
         return cls(coords, seed=seed)
@@ -750,7 +778,8 @@ class SetPoints:
             raise AttributeError("Object has no attribute 'points'")
         if self.points.ndim != 2 or self.points.shape[1] != 2:
             raise ValueError(
-                f"draw() is 2D-only: expected points with shape (n, 2); got {self.points.shape}")
+                f"draw() is 2D-only: expected points with shape (n, 2); got {self.points.shape}"
+            )
 
         # figure and axes (same as geometric graphs)
         fig, ax = subplots(figsize=figsize, **fig_kwargs)
@@ -761,8 +790,8 @@ class SetPoints:
                 s=v_size,
                 c=v_color,
                 alpha=v_alpha,
-                linewidths=0,     # no outline
-                edgecolors="none"  # no outline
+                linewidths=0,  # no outline
+                edgecolors="none",  # no outline
             )
             scatter_kwargs.update(v_kwargs)  # user overrides defaults
             ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
@@ -790,10 +819,8 @@ class SetPoints:
             savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
             return fig, ax
 
-    def __affin_transformation(self,
-                               matrix=None,
-                               c=None):
-        '''
+    def __affin_transformation(self, matrix=None, c=None):
+        """
         Applies a general affine transformation to the set of points.
 
         An affine transformation combines a linear transformation (like rotation,
@@ -826,7 +853,7 @@ class SetPoints:
         -------
         SetPoints
             A new SetPoints object containing the transformed points.
-        '''
+        """
         if matrix is None:
             matrix = np.eye(self.dim)
         if c is None:
@@ -838,7 +865,7 @@ class SetPoints:
         return SetPoints(np.asanyarray(trasnformation))
 
     def rotation(self, angle, degree=True):
-        '''
+        """
         Applies a 2D rotation to the set of points around the origin (0,0).
 
         This method rotates the points counter-clockwise by a given angle `theta`.
@@ -872,19 +899,18 @@ class SetPoints:
         ------
         ValueError
             If the dimension of the points is not 2.
-        '''
+        """
         if self.dim != 2:
             raise ValueError("Rotation is only implemented for 2D points.")
         if degree:
             angle = np.radians(angle)
         cos = np.cos(angle)
         sin = np.sin(angle)
-        matrix = np.matrix([[cos, sin],
-                            [-sin, cos]])
+        matrix = np.matrix([[cos, sin], [-sin, cos]])
         return self.__affin_transformation(matrix)
 
     def scaling(self, scale):
-        '''
+        """
         Applies a scaling transformation to the set of points, relative to the origin.
 
         This method scales the coordinates of each point. The scaling can be uniform
@@ -925,20 +951,21 @@ class SetPoints:
         ------
         ValueError
             If `scale` is an array-like and its shape is not `(self.dim,)`.
-        '''
+        """
         if np.isscalar(scale):
             scale = np.full(self.dim, scale)
 
         scale = np.asarray(scale)
         if scale.shape != (self.dim,):
             raise ValueError(
-                f"Scale vector must have shape ({self.dim},), but got {scale.shape}")
+                f"Scale vector must have shape ({self.dim},), but got {scale.shape}"
+            )
 
         matrix = np.diag(scale)
         return self.__affin_transformation(matrix=matrix)
 
     def traslation(self, c):
-        '''
+        """
         Applies a translation to the set of points.
 
         This method shifts all points in the set by a given vector `c`.
@@ -968,19 +995,20 @@ class SetPoints:
         ------
         ValueError
             If `c` is an array-like and its shape is not `(self.dim,)`.
-        '''
+        """
         if np.isscalar(c):
             c = np.full(self.dim, c)
         else:
             c = np.asarray(c)
             if c.shape != (self.dim,):
                 raise ValueError(
-                    f"Translation vector must have shape ({self.dim},), but got {c.shape}")
+                    f"Translation vector must have shape ({self.dim},), but got {c.shape}"
+                )
 
         return self.__affin_transformation(c=c)
 
-    def perturb(self,  radius):
-        '''
+    def perturb(self, radius):
+        """
         Applies a random perturbation to each point in the set.
 
         Each point `p` in the original set is moved to a new location `p' = p + v`,
@@ -1036,23 +1064,21 @@ class SetPoints:
         ------
         ValueError
             If `radius` is not positive.
-        '''
+        """
         if radius < 0:
             raise ValueError("Radius must be positive")
 
         # Ensure self._rng exists, initialized in __init__
-        if not hasattr(self, '_rng') or self._rng is None:
-
+        if not hasattr(self, "_rng") or self._rng is None:
             rng_to_use = np.random.default_rng()
         else:
             rng_to_use = self._rng
 
-        r_magnitudes = rng_to_use.uniform(0, radius, self.n)**(1/self.dim)
+        r_magnitudes = rng_to_use.uniform(0, radius, self.n) ** (1 / self.dim)
 
-        unit_sphere_surface = points_on_sphere(
-            self.n, self.dim, rng=rng_to_use)
+        unit_sphere_surface = points_on_sphere(self.n, self.dim, rng=rng_to_use)
 
         perturbations = r_magnitudes.reshape(-1, 1) * unit_sphere_surface
-        new_seed_for_next_instance = rng_to_use.integers(low=0, high=2**32-1)
+        new_seed_for_next_instance = rng_to_use.integers(low=0, high=2**32 - 1)
 
         return SetPoints(self.points + perturbations, seed=new_seed_for_next_instance)

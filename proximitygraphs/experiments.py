@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Callable, Any, Optional, Union, Tuple
-from collections import defaultdict
+from typing import Dict, List, Callable, Any, Optional, Tuple
 import warnings
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
@@ -9,8 +8,6 @@ from matplotlib.axes import Axes
 
 from .points import SetPoints
 from .geometricgraphs import GeometricGraph
-from .proximitygraphs import ProximityGraph
-from .biologicalgraphs import BiologicalGraph
 
 
 class Experiment:
@@ -49,7 +46,7 @@ class Experiment:
         graph_configs: Optional[List[Dict[str, Any]]] = None,
         n_simulations: int = 30,
         seed: Optional[int] = None,
-        verbose: bool = True
+        verbose: bool = True,
     ):
         """
         Initialize an Experiment.
@@ -64,7 +61,7 @@ class Experiment:
             - 'params': dict, parameters to pass to the method
             - 'transformations': list of dict (optional), transformations to apply
             Example: {
-                'method': 'uniform_square', 
+                'method': 'uniform_square',
                 'params': {'n': 100},
                 'transformations': [
                     {'method': 'rotation', 'params': {'angle': 45}},
@@ -111,34 +108,36 @@ class Experiment:
     def _validate_config(self):
         """Validate experiment configuration."""
         if not self.point_config:
-            warnings.warn(
-                "No point configuration provided. Use add_point_config().")
+            warnings.warn("No point configuration provided. Use add_point_config().")
 
         if not self.graph_configs:
-            warnings.warn(
-                "No graph configurations provided. Use add_graph_config().")
+            warnings.warn("No graph configurations provided. Use add_graph_config().")
 
         if self.n_simulations < 1:
             raise ValueError("n_simulations must be at least 1.")
 
         # Validate point config structure
         if self.point_config:
-            if 'method' not in self.point_config:
+            if "method" not in self.point_config:
                 raise ValueError("point_config must contain 'method' key.")
-            if 'params' not in self.point_config:
-                self.point_config['params'] = {}
+            if "params" not in self.point_config:
+                self.point_config["params"] = {}
 
         # Validate graph configs structure
         for i, gc in enumerate(self.graph_configs):
-            if 'class' not in gc:
-                raise ValueError(
-                    f"graph_configs[{i}] must contain 'class' key.")
-            if 'params' not in gc:
-                gc['params'] = {}
-            if 'name' not in gc:
-                gc['name'] = gc['class'].__name__
+            if "class" not in gc:
+                raise ValueError(f"graph_configs[{i}] must contain 'class' key.")
+            if "params" not in gc:
+                gc["params"] = {}
+            if "name" not in gc:
+                gc["name"] = gc["class"].__name__
 
-    def add_point_config(self, method: str, transformations: Optional[List[Dict[str, Any]]] = None, **params):
+    def add_point_config(
+        self,
+        method: str,
+        transformations: Optional[List[Dict[str, Any]]] = None,
+        **params,
+    ):
         """
         Add or update point generation configuration.
 
@@ -165,7 +164,7 @@ class Experiment:
 
         >>> # With transformations
         >>> exp.add_point_config(
-        ...     'uniform_square', 
+        ...     'uniform_square',
         ...     n=100,
         ...     transformations=[
         ...         {'method': 'rotation', 'params': {'angle': 45}},
@@ -175,8 +174,8 @@ class Experiment:
 
         >>> # Poisson process with perturbation
         >>> exp.add_point_config(
-        ...     'poissonprocess_square', 
-        ...     intensity=50, 
+        ...     'poissonprocess_square',
+        ...     intensity=50,
         ...     limit=1,
         ...     transformations=[
         ...         {'method': 'perturb', 'params': {'radius': 0.05}}
@@ -184,9 +183,9 @@ class Experiment:
         ... )
         """
         self.point_config = {
-            'method': method,
-            'params': params,
-            'transformations': transformations or []
+            "method": method,
+            "params": params,
+            "transformations": transformations or [],
         }
         self._validate_config()
 
@@ -210,9 +209,9 @@ class Experiment:
         >>> exp.add_graph_config(pg.PhysarumGraph, sources=[0], sinks=[50], steps=100)
         """
         config = {
-            'class': graph_class,
-            'params': params,
-            'name': name or graph_class.__name__
+            "class": graph_class,
+            "params": params,
+            "name": name or graph_class.__name__,
         }
         self.graph_configs.append(config)
 
@@ -233,13 +232,13 @@ class Experiment:
         >>> # Define custom metric
         >>> def avg_edge_length(g):
         ...     return g.lengths.mean() if g.m > 0 else 0.0
-        >>> 
+        >>>
         >>> exp.add_custom_metric('avg_edge_length', avg_edge_length)
 
         >>> # Define another custom metric
         >>> def clustering_coefficient(g):
         ...     return g.graph.transitivity_undirected()
-        >>> 
+        >>>
         >>> exp.add_custom_metric('clustering', clustering_coefficient)
         """
         if not callable(func):
@@ -264,7 +263,8 @@ class Experiment:
         """
         if not self.point_config or not self.graph_configs:
             raise ValueError(
-                "Both point_config and graph_configs must be set before running.")
+                "Both point_config and graph_configs must be set before running."
+            )
 
         results_list = []
 
@@ -279,32 +279,31 @@ class Experiment:
                 print(f"Progress: {sim + 1}/{self.n_simulations} simulations")
 
             # Generate seed for this simulation
-            sim_seed = self._rng.integers(
-                0, 2**31) if self.seed is not None else None
+            sim_seed = self._rng.integers(0, 2**31) if self.seed is not None else None
 
             # Generate points
             try:
                 points = self._generate_points(sim_seed)
             except Exception as e:
-                warnings.warn(
-                    f"Failed to generate points in simulation {sim}: {e}")
+                warnings.warn(f"Failed to generate points in simulation {sim}: {e}")
                 continue
 
             # Build graphs for this point set
             for graph_config in self.graph_configs:
                 try:
                     graph = self._build_graph(points, graph_config)
-                    metrics = self._extract_metrics(
-                        graph, sim, graph_config['name'])
+                    metrics = self._extract_metrics(graph, sim, graph_config["name"])
                     results_list.append(metrics)
 
                     if store_graphs:
-                        self._raw_graphs.append({
-                            'simulation': sim,
-                            'graph_type': graph_config['name'],
-                            'graph': graph,
-                            'points': points
-                        })
+                        self._raw_graphs.append(
+                            {
+                                "simulation": sim,
+                                "graph_type": graph_config["name"],
+                                "graph": graph,
+                                "points": points,
+                            }
+                        )
 
                 except Exception as e:
                     warnings.warn(
@@ -320,19 +319,18 @@ class Experiment:
 
         if self.verbose:
             print("-" * 50)
-            print(
-                f"Experiment complete. {len(self.results)} results collected.")
+            print(f"Experiment complete. {len(self.results)} results collected.")
 
         return self.results
 
     def _generate_points(self, seed: Optional[int]) -> SetPoints:
         """Generate a point set according to configuration and apply transformations."""
-        method_name = self.point_config['method']
-        params = self.point_config['params'].copy()
+        method_name = self.point_config["method"]
+        params = self.point_config["params"].copy()
 
         # Add seed to params
         if seed is not None:
-            params['seed'] = seed
+            params["seed"] = seed
 
         # Get the method from SetPoints class
         if not hasattr(SetPoints, method_name):
@@ -342,10 +340,10 @@ class Experiment:
         points = method(**params)
 
         # Apply transformations if any
-        transformations = self.point_config.get('transformations', [])
+        transformations = self.point_config.get("transformations", [])
         for transform in transformations:
-            transform_method = transform.get('method')
-            transform_params = transform.get('params', {})
+            transform_method = transform.get("method")
+            transform_params = transform.get("params", {})
 
             if not transform_method:
                 warnings.warn("Transformation missing 'method' key, skipping.")
@@ -354,7 +352,8 @@ class Experiment:
             # Check if the transformation method exists
             if not hasattr(points, transform_method):
                 warnings.warn(
-                    f"SetPoints has no transformation method '{transform_method}', skipping.")
+                    f"SetPoints has no transformation method '{transform_method}', skipping."
+                )
                 continue
 
             # Apply the transformation
@@ -363,91 +362,88 @@ class Experiment:
                 points = transform_func(**transform_params)
             except Exception as e:
                 warnings.warn(
-                    f"Failed to apply transformation '{transform_method}': {e}")
+                    f"Failed to apply transformation '{transform_method}': {e}"
+                )
                 continue
 
         return points
 
     def _build_graph(self, points: SetPoints, config: Dict[str, Any]) -> GeometricGraph:
         """Build a graph according to configuration."""
-        graph_class = config['class']
-        params = config['params'].copy()
+        graph_class = config["class"]
+        params = config["params"].copy()
 
         # Instantiate graph
         return graph_class(points, **params)
 
     def _extract_metrics(
-        self,
-        graph: GeometricGraph,
-        simulation: int,
-        graph_type: str
+        self, graph: GeometricGraph, simulation: int, graph_type: str
     ) -> Dict[str, Any]:
         """Extract all metrics from a graph."""
         metrics = {
-            'simulation': simulation,
-            'graph_type': graph_type,
+            "simulation": simulation,
+            "graph_type": graph_type,
         }
 
         # Built-in topological metrics
-        metrics['n_vertices'] = graph.n
-        metrics['n_edges'] = graph.m
-        metrics['n_components'] = graph.cc
-        metrics['n_faces'] = graph.f
+        metrics["n_vertices"] = graph.n
+        metrics["n_edges"] = graph.m
+        metrics["n_components"] = graph.cc
+        metrics["n_faces"] = graph.f
 
         # Degree statistics
         if graph.n > 0:
             degrees = graph.graph.degree()
-            metrics['mean_degree'] = np.mean(degrees) if degrees else 0.0
-            metrics['std_degree'] = np.std(degrees) if degrees else 0.0
-            metrics['min_degree'] = min(degrees) if degrees else 0.0
-            metrics['max_degree'] = max(degrees) if degrees else 0.0
+            metrics["mean_degree"] = np.mean(degrees) if degrees else 0.0
+            metrics["std_degree"] = np.std(degrees) if degrees else 0.0
+            metrics["min_degree"] = min(degrees) if degrees else 0.0
+            metrics["max_degree"] = max(degrees) if degrees else 0.0
         else:
-            metrics['mean_degree'] = 0.0
-            metrics['std_degree'] = 0.0
-            metrics['min_degree'] = 0.0
-            metrics['max_degree'] = 0.0
+            metrics["mean_degree"] = 0.0
+            metrics["std_degree"] = 0.0
+            metrics["min_degree"] = 0.0
+            metrics["max_degree"] = 0.0
 
         # Edge length statistics
         if graph.m > 0:
             lengths = graph.lengths
-            metrics['mean_length'] = float(np.mean(lengths))
-            metrics['std_length'] = float(np.std(lengths))
-            metrics['min_length'] = float(np.min(lengths))
-            metrics['max_length'] = float(np.max(lengths))
-            metrics['total_length'] = float(np.sum(lengths))
+            metrics["mean_length"] = float(np.mean(lengths))
+            metrics["std_length"] = float(np.std(lengths))
+            metrics["min_length"] = float(np.min(lengths))
+            metrics["max_length"] = float(np.max(lengths))
+            metrics["total_length"] = float(np.sum(lengths))
         else:
-            metrics['mean_length'] = 0.0
-            metrics['std_length'] = 0.0
-            metrics['min_length'] = 0.0
-            metrics['max_length'] = 0.0
-            metrics['total_length'] = 0.0
+            metrics["mean_length"] = 0.0
+            metrics["std_length"] = 0.0
+            metrics["min_length"] = 0.0
+            metrics["max_length"] = 0.0
+            metrics["total_length"] = 0.0
 
         # Entropy metrics (if applicable)
         try:
-            metrics['entropy_degree'] = graph.entropy('degree', bins=10)
+            metrics["entropy_degree"] = graph.entropy("degree", bins=10)
         except:
-            metrics['entropy_degree'] = 0.0
+            metrics["entropy_degree"] = 0.0
 
         try:
-            metrics['entropy_length'] = graph.entropy('length', bins=10)
+            metrics["entropy_length"] = graph.entropy("length", bins=10)
         except:
-            metrics['entropy_length'] = 0.0
+            metrics["entropy_length"] = 0.0
 
         try:
-            metrics['entropy_orientation'] = graph.entropy(
-                'orientation', bins=36)
+            metrics["entropy_orientation"] = graph.entropy("orientation", bins=36)
         except:
-            metrics['entropy_orientation'] = 0.0
+            metrics["entropy_orientation"] = 0.0
 
         # Graph connectivity
-        metrics['is_connected'] = (graph.cc == 1)
+        metrics["is_connected"] = graph.cc == 1
 
         # Density (for non-empty graphs)
         if graph.n > 1:
             max_edges = graph.n * (graph.n - 1) / 2
-            metrics['density'] = graph.m / max_edges if max_edges > 0 else 0.0
+            metrics["density"] = graph.m / max_edges if max_edges > 0 else 0.0
         else:
-            metrics['density'] = 0.0
+            metrics["density"] = 0.0
 
         # Apply custom metrics
         for metric_name, metric_func in self._custom_metrics.items():
@@ -460,9 +456,7 @@ class Experiment:
         return metrics
 
     def aggregate(
-        self,
-        groupby: str = 'graph_type',
-        metrics: Optional[List[str]] = None
+        self, groupby: str = "graph_type", metrics: Optional[List[str]] = None
     ) -> pd.DataFrame:
         """
         Aggregate results across simulations.
@@ -485,13 +479,14 @@ class Experiment:
         if metrics is None:
             # Get all numeric columns except 'simulation'
             metrics = [
-                col for col in self.results.columns
-                if col not in ['simulation', 'graph_type']
+                col
+                for col in self.results.columns
+                if col not in ["simulation", "graph_type"]
                 and pd.api.types.is_numeric_dtype(self.results[col])
             ]
 
         # Aggregate
-        agg_dict = {m: ['mean', 'std', 'min', 'max'] for m in metrics}
+        agg_dict = {m: ["mean", "std", "min", "max"] for m in metrics}
         self.aggregated = self.results.groupby(groupby).agg(agg_dict)
 
         return self.aggregated
@@ -527,10 +522,10 @@ class Experiment:
     def plot_metric(
         self,
         metric: str,
-        kind: str = 'bar',
+        kind: str = "bar",
         figsize: Tuple[int, int] = (10, 6),
         title: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> Tuple[Figure, Axes]:
         """
         Plot a specific metric across graph types.
@@ -560,46 +555,49 @@ class Experiment:
 
         fig, ax = plt.subplots(figsize=figsize)
 
-        if kind == 'bar':
+        if kind == "bar":
             # Bar plot with error bars
             if self.aggregated is None:
                 self.aggregate()
 
-            means = self.aggregated[metric]['mean']
-            stds = self.aggregated[metric]['std']
+            means = self.aggregated[metric]["mean"]
+            stds = self.aggregated[metric]["std"]
 
-            means.plot(kind='bar', yerr=stds, ax=ax, capsize=5, **kwargs)
-            ax.set_ylabel(metric.replace('_', ' ').title())
-            ax.set_xlabel('Graph Type')
+            means.plot(kind="bar", yerr=stds, ax=ax, capsize=5, **kwargs)
+            ax.set_ylabel(metric.replace("_", " ").title())
+            ax.set_xlabel("Graph Type")
 
-        elif kind == 'box':
+        elif kind == "box":
             # Box plot
-            self.results.boxplot(
-                column=metric, by='graph_type', ax=ax, **kwargs)
-            ax.set_ylabel(metric.replace('_', ' ').title())
-            ax.set_xlabel('Graph Type')
-            plt.suptitle('')  # Remove automatic title
+            self.results.boxplot(column=metric, by="graph_type", ax=ax, **kwargs)
+            ax.set_ylabel(metric.replace("_", " ").title())
+            ax.set_xlabel("Graph Type")
+            plt.suptitle("")  # Remove automatic title
 
-        elif kind == 'violin':
+        elif kind == "violin":
             # Violin plot (requires seaborn)
             try:
                 import seaborn as sns
-                sns.violinplot(data=self.results, x='graph_type',
-                               y=metric, ax=ax, **kwargs)
-                ax.set_ylabel(metric.replace('_', ' ').title())
-                ax.set_xlabel('Graph Type')
+
+                sns.violinplot(
+                    data=self.results, x="graph_type", y=metric, ax=ax, **kwargs
+                )
+                ax.set_ylabel(metric.replace("_", " ").title())
+                ax.set_xlabel("Graph Type")
             except ImportError:
                 raise ImportError(
-                    "Seaborn required for violin plots. Install with: pip install seaborn")
+                    "Seaborn required for violin plots. Install with: pip install seaborn"
+                )
 
-        elif kind == 'line':
+        elif kind == "line":
             # Line plot (useful for showing trends across simulations)
-            for graph_type in self.results['graph_type'].unique():
-                subset = self.results[self.results['graph_type'] == graph_type]
-                ax.plot(subset['simulation'], subset[metric],
-                        label=graph_type, **kwargs)
-            ax.set_xlabel('Simulation')
-            ax.set_ylabel(metric.replace('_', ' ').title())
+            for graph_type in self.results["graph_type"].unique():
+                subset = self.results[self.results["graph_type"] == graph_type]
+                ax.plot(
+                    subset["simulation"], subset[metric], label=graph_type, **kwargs
+                )
+            ax.set_xlabel("Simulation")
+            ax.set_ylabel(metric.replace("_", " ").title())
             ax.legend()
 
         else:
@@ -613,10 +611,7 @@ class Experiment:
         return fig, ax
 
     def compare_metrics(
-        self,
-        metrics: List[str],
-        figsize: Tuple[int, int] = (14, 10),
-        **kwargs
+        self, metrics: List[str], figsize: Tuple[int, int] = (14, 10), **kwargs
     ) -> Tuple[Figure, np.ndarray]:
         """
         Create a grid of plots comparing multiple metrics.
@@ -652,11 +647,10 @@ class Experiment:
             ax = axes[idx]
 
             # Box plot for each metric
-            self.results.boxplot(
-                column=metric, by='graph_type', ax=ax, **kwargs)
-            ax.set_title(metric.replace('_', ' ').title())
-            ax.set_xlabel('')
-            plt.suptitle('')
+            self.results.boxplot(column=metric, by="graph_type", ax=ax, **kwargs)
+            ax.set_title(metric.replace("_", " ").title())
+            ax.set_xlabel("")
+            plt.suptitle("")
 
         # Hide unused subplots
         for idx in range(n_metrics, len(axes)):
@@ -667,7 +661,7 @@ class Experiment:
 
         return fig, axes
 
-    def export_results(self, filepath: str, format: str = 'csv'):
+    def export_results(self, filepath: str, format: str = "csv"):
         """
         Export results to file.
 
@@ -681,13 +675,13 @@ class Experiment:
         if self.results is None:
             raise RuntimeError("No results available. Run experiment first.")
 
-        if format == 'csv':
+        if format == "csv":
             self.results.to_csv(filepath, index=False)
-        elif format == 'excel':
+        elif format == "excel":
             self.results.to_excel(filepath, index=False)
-        elif format == 'json':
-            self.results.to_json(filepath, orient='records', indent=2)
-        elif format == 'pickle':
+        elif format == "json":
+            self.results.to_json(filepath, orient="records", indent=2)
+        elif format == "pickle":
             self.results.to_pickle(filepath)
         else:
             raise ValueError(f"Unknown format: {format}")
@@ -713,12 +707,13 @@ class Experiment:
         """
         if not self._raw_graphs:
             warnings.warn(
-                "Graphs were not stored. Run experiment with store_graphs=True.")
+                "Graphs were not stored. Run experiment with store_graphs=True."
+            )
             return None
 
         for entry in self._raw_graphs:
-            if entry['simulation'] == simulation and entry['graph_type'] == graph_type:
-                return entry['graph']
+            if entry["simulation"] == simulation and entry["graph_type"] == graph_type:
+                return entry["graph"]
 
         return None
 

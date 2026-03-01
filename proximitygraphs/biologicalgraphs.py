@@ -1,10 +1,8 @@
 from .points import SetPoints
 from .geometricgraphs import GeometricGraph
-from .geometricgraphs import load_graph
 
 import numpy as np
-import igraph as ig
-from .proximitygraphs import DelaunayG, MST
+from .proximitygraphs import DelaunayG
 
 # ===========================================================
 # BASE CLASS
@@ -37,9 +35,17 @@ class PhysarumGraph(BiologicalGraph):
     - Optional base graphs: 'delaunay' or 'complete'
     """
 
-    def __init__(self, setpoints, sources=None,
-                 dt=0.1, gamma=1.5, eps=1e-3, steps=200,
-                 base_graph="delaunay", reconnect=True):
+    def __init__(
+        self,
+        setpoints,
+        sources=None,
+        dt=0.1,
+        gamma=1.5,
+        eps=1e-3,
+        steps=200,
+        base_graph="delaunay",
+        reconnect=True,
+    ):
         if not isinstance(setpoints, SetPoints):
             raise TypeError("setpoints must be a SetPoints instance.")
         super().__init__(setpoints)
@@ -132,7 +138,7 @@ class PhysarumGraph(BiologicalGraph):
             p, *_ = np.linalg.lstsq(A + np.eye(n) * 1e-6, b, rcond=None)
 
         Q = D * (p[edges[:, 0]] - p[edges[:, 1]]) / L_safe
-        D_new = D + self.dt * (np.abs(Q)**self.gamma - D)
+        D_new = D + self.dt * (np.abs(Q) ** self.gamma - D)
 
         D_new = np.maximum(D_new, 1e-5)
 
@@ -152,9 +158,11 @@ class PhysarumGraph(BiologicalGraph):
         centroids = np.array(centroids)
 
         dist_matrix = np.linalg.norm(
-            centroids[:, None, :] - centroids[None, :, :], axis=2)
+            centroids[:, None, :] - centroids[None, :, :], axis=2
+        )
         i, j = np.unravel_index(
-            np.argmin(dist_matrix + np.eye(len(centroids)) * 1e9), dist_matrix.shape)
+            np.argmin(dist_matrix + np.eye(len(centroids)) * 1e9), dist_matrix.shape
+        )
 
         comp_i = comps[i]
         comp_j = comps[j]
@@ -162,8 +170,7 @@ class PhysarumGraph(BiologicalGraph):
         best_pair = None
         for u in comp_i:
             for v in comp_j:
-                d = np.linalg.norm(
-                    self.setpoints.coords[u] - self.setpoints.coords[v])
+                d = np.linalg.norm(self.setpoints.coords[u] - self.setpoints.coords[v])
                 if d < min_dist:
                     min_dist = d
                     best_pair = (u, v)
@@ -178,6 +185,7 @@ class PhysarumGraph(BiologicalGraph):
 
 # ------------------------------------------------------------------
 # FungalGraph
+
 
 class FungalGraph(BiologicalGraph):
     """
@@ -207,14 +215,20 @@ class FungalGraph(BiologicalGraph):
         Maximum degree allowed per vertex
     """
 
-    def __init__(self, setpoints,
-                 max_degree=6,
-                 distance_threshold_percentile=75,
-                 growth_iterations=100,
-                 prune_weak_factor=0.3,
-                 sources=None,
-                 dt=0.1, gamma=1.5, eps=1e-3, steps=200,
-                 seed=None):
+    def __init__(
+        self,
+        setpoints,
+        max_degree=6,
+        distance_threshold_percentile=75,
+        growth_iterations=100,
+        prune_weak_factor=0.3,
+        sources=None,
+        dt=0.1,
+        gamma=1.5,
+        eps=1e-3,
+        steps=200,
+        seed=None,
+    ):
         """
         Initialize a FungalGraph through bio-inspired expansion.
 
@@ -255,11 +269,12 @@ class FungalGraph(BiologicalGraph):
             distance_threshold_percentile=distance_threshold_percentile,
             growth_iterations=growth_iterations,
             prune_weak_factor=prune_weak_factor,
-            seed=seed
+            seed=seed,
         )
 
-    def _initialize_network(self, distance_threshold_percentile, growth_iterations,
-                            prune_weak_factor, seed):
+    def _initialize_network(
+        self, distance_threshold_percentile, growth_iterations, prune_weak_factor, seed
+    ):
         """Construct the fungal network using bio-inspired growth."""
         n = self.n
         if n < 2:
@@ -268,13 +283,21 @@ class FungalGraph(BiologicalGraph):
         rng = np.random.default_rng(seed)
 
         from scipy.spatial.distance import pdist, squareform
+
         coords = self.setpoints.points
         dist_condensed = pdist(coords)
         dist_matrix = squareform(dist_condensed)
 
-        base = PhysarumGraph(self.setpoints, self.sources,
-                             dt=self.dt, gamma=self.gamma, eps=self.eps, steps=self.steps,
-                             base_graph="delaunay", reconnect=True)
+        base = PhysarumGraph(
+            self.setpoints,
+            self.sources,
+            dt=self.dt,
+            gamma=self.gamma,
+            eps=self.eps,
+            steps=self.steps,
+            base_graph="delaunay",
+            reconnect=True,
+        )
         base_edges = base.graph.get_edgelist()
         self.graph.add_edges(base_edges)
 
@@ -284,8 +307,7 @@ class FungalGraph(BiologicalGraph):
 
         self._GeometricGraph__size()
 
-        threshold_dist = np.percentile(
-            dist_condensed, distance_threshold_percentile)
+        threshold_dist = np.percentile(dist_condensed, distance_threshold_percentile)
 
         candidate_edges = []
         for i in range(n):
@@ -319,9 +341,9 @@ class FungalGraph(BiologicalGraph):
                 except:
                     shortcut_benefit = 1.0  # Not connected yet
 
-                benefit = (0.4 * dist_score +
-                           0.3 * degree_balance +
-                           0.3 * shortcut_benefit)
+                benefit = (
+                    0.4 * dist_score + 0.3 * degree_balance + 0.3 * shortcut_benefit
+                )
 
                 if rng.random() < benefit * 0.5:
                     self.graph.add_edge(i, j)
@@ -367,16 +389,18 @@ class FungalGraph(BiologicalGraph):
 
             edges_to_keep = set(range(len(base_edges)))
 
-            non_base_edges = [(i, betweenness[i])
-                              for i in range(len(base_edges), self.graph.ecount())]
+            non_base_edges = [
+                (i, betweenness[i]) for i in range(len(base_edges), self.graph.ecount())
+            ]
             non_base_edges.sort(key=lambda x: x[1], reverse=True)
 
             n_to_keep = int(len(non_base_edges) * (1 - prune_weak_factor))
             for i in range(min(n_to_keep, len(non_base_edges))):
                 edges_to_keep.add(non_base_edges[i][0])
 
-            edges_to_delete = [i for i in range(self.graph.ecount())
-                               if i not in edges_to_keep]
+            edges_to_delete = [
+                i for i in range(self.graph.ecount()) if i not in edges_to_keep
+            ]
             if edges_to_delete:
                 self.graph.delete_edges(edges_to_delete)
 
