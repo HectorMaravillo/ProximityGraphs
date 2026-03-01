@@ -4,8 +4,8 @@ title: "ProximityGraphs"
 type: software
 version: 0.1.0
 # TODO: add Zenodo DOI after archival release.
-url: "https://github.com/HectorMaravillo/proximitygraphs"
-repository-code: "https://github.com/HectorMaravillo/proximitygraphs"
+url: "https://github.com/HectorMaravillo/ProximityGraphs"
+repository-code: "https://github.com/HectorMaravillo/ProximityGraphs"
 license: MIT
 date-released: 2026-02-28
 authors:

@@ -16,11 +16,6 @@ authors:
   - name: Heriberto Espino-Montelongo
     affiliation: 2
     orcid: Universidad de las Américas Puebla, México
-affiliations:
-  - name: "TODO: confirm JOSS affiliation text for Héctor Maravillo"
-    index: 1
-  - name: "TODO: confirm JOSS affiliation text for Diego Villarreal and Heriberto Espino"
-    index: 2
 date: 28 February 2026
 bibliography: paper.bib
 ---
