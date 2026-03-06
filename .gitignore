@@ -12,3 +12,11 @@ logs/
 
 # ignore ALL the __pycache__ folders in any subdirectory
 **/__pycache__/
+
+# ignore LaTeX temporary files
+*.aux
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
