@@ -41,6 +41,8 @@ Example (pseudocode)::
   >>> G_p = pg.PhysarumGraph(pts)   # physarum-inspired graph
 """
 
+__version__ = "0.1.0"
+
 # Re-export selected symbols from submodules
 from .points import SetPoints
 
@@ -105,10 +107,8 @@ __all__ = [
     "proximitygraphs",
     "experiments",
     "biologicalgraphs",
-
     # points
     "SetPoints",
-
     # envelops
     "circle_centroid",
     "circle_smallest",
@@ -119,12 +119,10 @@ __all__ = [
     "trivial_circle",
     "smallest_circle_helper",
     "smallest_circle",
-
     # geometricgraphs
     "GeometricGraph",
     "load_graph",
     "draw_grid",
-
     # proximitygraphs
     "ProximityGraph",
     "DelaunayG",
@@ -142,12 +140,8 @@ __all__ = [
     "Alpha_Shape",
     "Alpha_Hull",
     "Gamma_Graph",
-
     # experiments
     "Experiment",
-
     # biologicalgraphs
     "PhysarumGraph",
 ]
-
-__version__ = "0.0.1"

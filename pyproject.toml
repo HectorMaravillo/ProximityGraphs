@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proximitygraphs"
+dynamic = ["version"]
+description = "Python tools for constructing, comparing, and experimenting with proximity graphs on planar point sets."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+  {name = "Hector Maravillo"},
+  {name = "Diego Villarreal"},
+  {name = "Heriberto Espino-Montelongo"},
+]
+dependencies = [
+  "igraph>=0.11",
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "scipy>=1.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/HectorMaravillo/proximitygraphs"
+Repository = "https://github.com/HectorMaravillo/proximitygraphs"
+Issues = "https://github.com/HectorMaravillo/proximitygraphs/issues"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "ruff>=0.9",
+]
+docs = [
+  "myst-parser>=4",
+  "Sphinx>=8",
+  "sphinx-autodoc-typehints>=3",
+  "sphinx-book-theme>=1.1",
+]
+gis = [
+  "geopandas>=1.0",
+  "shapely>=2.0",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "proximitygraphs.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["proximitygraphs*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+exclude = [
+  "article",
+  "docs/build",
+  "generate_all_doc_images.py",
+  "*.ipynb",
+]
+
+[tool.ruff.lint]
+select = ["F"]
