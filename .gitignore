@@ -20,6 +20,7 @@ logs/
 *.blg
 *.fls
 *.fdb_latexmk
+*.synctex.gz
 
 .vscode/
 
