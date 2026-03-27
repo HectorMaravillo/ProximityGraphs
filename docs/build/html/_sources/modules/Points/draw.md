@@ -4,7 +4,7 @@ Draws 2D points using Matplotlib.
 
 This method provides flexible visualization of point sets with customizable styling options.
 
-#### Parameters
+## Parameters
 
 - **figsize** (tuple of (float, float), optional): Figure size in inches. Default (6, 6).
 - **v_size** (float, optional): Marker size for points. 0 disables scatter. Default 8.
@@ -16,22 +16,22 @@ This method provides flexible visualization of point sets with customizable styl
 - **axis** (bool, optional): If True, show axes. Default False.
 - **save** (str or None, optional): If set, saves a ".png" at save + ".png". If None, returns (fig, ax).
 
-#### Other Parameters
+## Other Parameters
 
 - **fig_kwargs** (dict, optional): Extra keyword arguments passed to matplotlib.pyplot.subplots.
 - **v_kwargs** (dict, optional): Extra keyword arguments passed to ax.scatter. These override v_size, v_color, v_alpha if duplicated.
 - **title_kwargs** (dict, optional): Extra keyword arguments passed to ax.set_title. These override fontsize if duplicated.
 - **savefig_kwargs** (dict, optional): Extra keyword arguments passed to matplotlib.pyplot.savefig.
 
-#### Returns
+## Returns
 
 - **(fig, ax)** (tuple): Matplotlib figure and axes objects.
 
-#### Raises
+## Raises
 
 - **ValueError**: If points are not 2D.
 
-#### Example
+## Example
 
 ```python
 from proximitygraphs.points import SetPoints

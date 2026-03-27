@@ -999,4 +999,3 @@ Quick Reference
    * - ``get_graph()``
      - Retrieve specific graph
 
-----
