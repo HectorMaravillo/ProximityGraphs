@@ -10,7 +10,7 @@ authors:
     affiliation: 1
     corresponding: true
     orcid: Universidad Autónoma de la Ciudad de México, Mexico
-  - name: Diego Villarreal
+  - name: Diego Villarreal De La Cerda
     affiliation: 2
     orcid: Universidad de las Américas Puebla, México
   - name: Heriberto Espino-Montelongo
