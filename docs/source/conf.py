@@ -42,12 +42,10 @@ exclude_patterns = []
 html_theme = 'sphinx_book_theme'
 html_static_path = ['_static']
 
-# Agregar CSS personalizado
 html_css_files = [
     'custom.css',
 ]
 
-# Configuración del tema sphinx_book_theme
 html_theme_options = {
     
   
