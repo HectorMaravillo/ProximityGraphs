@@ -1,3 +1,5 @@
+"""Checks package imports and a few core API behaviors on tiny inputs."""
+
 import numpy as np
 import pytest
 

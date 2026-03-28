@@ -1,0 +1,1164 @@
+{
+  "point_config": {
+    "method": "uniform_square",
+    "params": {
+      "n": 12,
+      "seed": 20260328
+    }
+  },
+  "graph_order": [
+    "delaunay",
+    "convex_hull",
+    "mst",
+    "beta_skeleton_circle",
+    "rng",
+    "gg",
+    "stepping_stone",
+    "nng",
+    "sigma_graph",
+    "unit_disk",
+    "sig",
+    "elliptic_gabriel",
+    "alpha_shape",
+    "alpha_hull",
+    "gamma_graph"
+  ],
+  "points": [
+    [
+      0.875291138539,
+      0.218306354473
+    ],
+    [
+      0.319139137417,
+      0.190961736797
+    ],
+    [
+      0.179066173525,
+      0.453302265813
+    ],
+    [
+      0.363342338951,
+      0.006997333793
+    ],
+    [
+      0.844801111308,
+      0.245752880157
+    ],
+    [
+      0.291678773009,
+      0.420742897515
+    ],
+    [
+      0.99259996528,
+      0.97227019435
+    ],
+    [
+      0.571455650525,
+      0.391461498241
+    ],
+    [
+      0.354061295934,
+      0.462507307335
+    ],
+    [
+      0.82582488255,
+      0.166133471234
+    ],
+    [
+      0.613103792938,
+      0.700893438611
+    ],
+    [
+      0.9181464177,
+      0.984009877666
+    ]
+  ],
+  "graphs": {
+    "alpha_hull": {
+      "metrics": {
+        "graph_type": "alpha_hull",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 8,
+        "n_components": 5,
+        "n_faces": 2,
+        "mean_degree": 1.333333333333,
+        "std_degree": 0.942809041582,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.350232955439,
+        "std_length": 0.223080173496,
+        "min_length": 0.071895203088,
+        "max_length": 0.763035276166,
+        "total_length": 2.801863643511,
+        "entropy_degree": 0.918295834054,
+        "entropy_length": 2.5,
+        "entropy_orientation": 3.0,
+        "density": 0.121212121212,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "alpha_shape": {
+      "metrics": {
+        "graph_type": "alpha_shape",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 8,
+        "n_components": 5,
+        "n_faces": 2,
+        "mean_degree": 1.333333333333,
+        "std_degree": 0.942809041582,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.350232955439,
+        "std_length": 0.223080173496,
+        "min_length": 0.071895203088,
+        "max_length": 0.763035276166,
+        "total_length": 2.801863643511,
+        "entropy_degree": 0.918295834054,
+        "entropy_length": 2.5,
+        "entropy_orientation": 3.0,
+        "density": 0.121212121212,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "beta_skeleton_circle": {
+      "metrics": {
+        "graph_type": "beta_skeleton_circle",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 5,
+        "n_components": 7,
+        "n_faces": 1,
+        "mean_degree": 0.833333333333,
+        "std_degree": 0.552770798393,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.099579004049,
+        "std_length": 0.05090892638,
+        "min_length": 0.041023816652,
+        "max_length": 0.189200487839,
+        "total_length": 0.497895020247,
+        "entropy_degree": 1.188721875541,
+        "entropy_length": 1.921928094887,
+        "entropy_orientation": 2.321928094887,
+        "density": 0.075757575758,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ]
+      ]
+    },
+    "convex_hull": {
+      "metrics": {
+        "graph_type": "convex_hull",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 6,
+        "n_components": 7,
+        "n_faces": 2,
+        "mean_degree": 1.0,
+        "std_degree": 1.0,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.465355972344,
+        "std_length": 0.314639000895,
+        "min_length": 0.071895203088,
+        "max_length": 0.909884705119,
+        "total_length": 2.792135834066,
+        "entropy_degree": 1.0,
+        "entropy_length": 1.918295834054,
+        "entropy_orientation": 2.584962500721,
+        "density": 0.090909090909,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ]
+      ]
+    },
+    "delaunay": {
+      "metrics": {
+        "graph_type": "delaunay",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 27,
+        "n_components": 1,
+        "n_faces": 17,
+        "mean_degree": 4.5,
+        "std_degree": 1.11803398875,
+        "min_degree": 3.0,
+        "max_degree": 6.0,
+        "mean_length": 0.341143309184,
+        "std_length": 0.218878956883,
+        "min_length": 0.041023816652,
+        "max_length": 0.909884705119,
+        "total_length": 9.210869347968,
+        "entropy_degree": 2.0,
+        "entropy_length": 2.833617021388,
+        "entropy_orientation": 4.254525464966,
+        "density": 0.409090909091,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "elliptic_gabriel": {
+      "metrics": {
+        "graph_type": "elliptic_gabriel",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 11,
+        "n_components": 1,
+        "n_faces": 1,
+        "mean_degree": 1.833333333333,
+        "std_degree": 0.687184270936,
+        "min_degree": 1.0,
+        "max_degree": 3.0,
+        "mean_length": 0.188006700661,
+        "std_length": 0.11731632165,
+        "min_length": 0.041023816652,
+        "max_length": 0.416180154483,
+        "total_length": 2.068073707276,
+        "entropy_degree": 1.459147917027,
+        "entropy_length": 2.368522527728,
+        "entropy_orientation": 3.459431618637,
+        "density": 0.166666666667,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "gamma_graph": {
+      "metrics": {
+        "graph_type": "gamma_graph",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 5,
+        "n_components": 7,
+        "n_faces": 1,
+        "mean_degree": 0.833333333333,
+        "std_degree": 0.552770798393,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.159370026926,
+        "std_length": 0.137846775596,
+        "min_length": 0.041023816652,
+        "max_length": 0.416180154483,
+        "total_length": 0.796850134629,
+        "entropy_degree": 1.188721875541,
+        "entropy_length": 1.370950594455,
+        "entropy_orientation": 2.321928094887,
+        "density": 0.075757575758,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "gg": {
+      "metrics": {
+        "graph_type": "gg",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 15,
+        "n_components": 1,
+        "n_faces": 5,
+        "mean_degree": 2.5,
+        "std_degree": 0.866025403784,
+        "min_degree": 1.0,
+        "max_degree": 4.0,
+        "mean_length": 0.220889072549,
+        "std_length": 0.137121550047,
+        "min_length": 0.041023816652,
+        "max_length": 0.48909550537,
+        "total_length": 3.313336088233,
+        "entropy_degree": 1.729573958514,
+        "entropy_length": 2.682588730502,
+        "entropy_orientation": 3.589898095464,
+        "density": 0.227272727273,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "mst": {
+      "metrics": {
+        "graph_type": "mst",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 11,
+        "n_components": 1,
+        "n_faces": 1,
+        "mean_degree": 1.833333333333,
+        "std_degree": 0.687184270936,
+        "min_degree": 1.0,
+        "max_degree": 3.0,
+        "mean_length": 0.188006700661,
+        "std_length": 0.11731632165,
+        "min_length": 0.041023816652,
+        "max_length": 0.416180154483,
+        "total_length": 2.068073707276,
+        "entropy_degree": 1.459147917027,
+        "entropy_length": 2.368522527728,
+        "entropy_orientation": 3.459431618637,
+        "density": 0.166666666667,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "nng": {
+      "metrics": {
+        "graph_type": "nng",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 8,
+        "n_components": 4,
+        "n_faces": 1,
+        "mean_degree": 1.333333333333,
+        "std_degree": 0.471404520791,
+        "min_degree": 1.0,
+        "max_degree": 2.0,
+        "mean_length": 0.138840177741,
+        "std_length": 0.088941800237,
+        "min_length": 0.041023816652,
+        "max_length": 0.312222186092,
+        "total_length": 1.110721421924,
+        "entropy_degree": 0.918295834054,
+        "entropy_length": 2.40563906223,
+        "entropy_orientation": 3.0,
+        "density": 0.121212121212,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ]
+      ]
+    },
+    "rng": {
+      "metrics": {
+        "graph_type": "rng",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 11,
+        "n_components": 1,
+        "n_faces": 1,
+        "mean_degree": 1.833333333333,
+        "std_degree": 0.687184270936,
+        "min_degree": 1.0,
+        "max_degree": 3.0,
+        "mean_length": 0.188006700661,
+        "std_length": 0.11731632165,
+        "min_length": 0.041023816652,
+        "max_length": 0.416180154483,
+        "total_length": 2.068073707276,
+        "entropy_degree": 1.459147917027,
+        "entropy_length": 2.368522527728,
+        "entropy_orientation": 3.459431618637,
+        "density": 0.166666666667,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "sig": {
+      "metrics": {
+        "graph_type": "sig",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 15,
+        "n_components": 3,
+        "n_faces": 7,
+        "mean_degree": 2.5,
+        "std_degree": 1.190238071424,
+        "min_degree": 1.0,
+        "max_degree": 4.0,
+        "mean_length": 0.190149346691,
+        "std_length": 0.103755274911,
+        "min_length": 0.041023816652,
+        "max_length": 0.352038297403,
+        "total_length": 2.85224020036,
+        "entropy_degree": 1.855388542208,
+        "entropy_length": 2.923231428798,
+        "entropy_orientation": 3.773557262275,
+        "density": 0.227272727273,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ]
+      ]
+    },
+    "sigma_graph": {
+      "metrics": {
+        "graph_type": "sigma_graph",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 9,
+        "n_components": 4,
+        "n_faces": 2,
+        "mean_degree": 1.5,
+        "std_degree": 0.5,
+        "min_degree": 1.0,
+        "max_degree": 2.0,
+        "mean_length": 0.142904554179,
+        "std_length": 0.101081824992,
+        "min_length": 0.041023816652,
+        "max_length": 0.322279036125,
+        "total_length": 1.28614098761,
+        "entropy_degree": 1.0,
+        "entropy_length": 2.058813890331,
+        "entropy_orientation": 2.94770277922,
+        "density": 0.136363636364,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          10
+        ]
+      ]
+    },
+    "stepping_stone": {
+      "metrics": {
+        "graph_type": "stepping_stone",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 17,
+        "n_components": 1,
+        "n_faces": 7,
+        "mean_degree": 2.833333333333,
+        "std_degree": 0.986013297183,
+        "min_degree": 1.0,
+        "max_degree": 4.0,
+        "mean_length": 0.268354611427,
+        "std_length": 0.187348678855,
+        "min_length": 0.041023816652,
+        "max_length": 0.741398616844,
+        "total_length": 4.562028394267,
+        "entropy_degree": 1.855388542208,
+        "entropy_length": 2.771902372039,
+        "entropy_orientation": 3.690116517594,
+        "density": 0.257575757576,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "unit_disk": {
+      "metrics": {
+        "graph_type": "unit_disk",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 18,
+        "n_components": 2,
+        "n_faces": 9,
+        "mean_degree": 3.0,
+        "std_degree": 1.779513042005,
+        "min_degree": 1.0,
+        "max_degree": 7.0,
+        "mean_length": 0.209626129727,
+        "std_length": 0.104775521177,
+        "min_length": 0.041023816652,
+        "max_length": 0.349712321187,
+        "total_length": 3.773270335077,
+        "entropy_degree": 2.084962500721,
+        "entropy_length": 2.863826390091,
+        "entropy_orientation": 3.836591668109,
+        "density": 0.272727272727,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ]
+      ]
+    }
+  }
+}
