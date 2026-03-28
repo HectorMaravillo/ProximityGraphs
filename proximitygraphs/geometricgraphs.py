@@ -4,7 +4,6 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from matplotlib.pyplot import subplots
 from scipy.stats import entropy
-from matplotlib.pyplot import savefig
 from matplotlib.collections import LineCollection
 
 from .points import SetPoints
@@ -412,6 +411,7 @@ class GeometricGraph:
         details=False,
         axis=False,
         save=None,
+        transparent=True,
         *,
         ax=None,
         fig_kwargs=None,
@@ -450,6 +450,9 @@ class GeometricGraph:
         save : str or None, optional
             If set, saves a ``.png`` at ``save + ".png"``.
             If ``None``, returns the live figure and axes. Default ``None``.
+        transparent : bool, optional
+            If True and ``save`` is set, saves the PNG with a transparent
+            background. Default False.
 
         Other Parameters
         ----------------
@@ -521,7 +524,10 @@ class GeometricGraph:
         if save is None:
             return fig, ax
         else:
-            savefig(save + ".png", bbox_inches="tight", **savefig_kwargs)
+            savefig_args = dict(bbox_inches="tight", transparent=transparent)
+            savefig_args.update(savefig_kwargs)
+            fig.savefig(save + ".png", **savefig_args)
+            fig.canvas.draw_idle()
             return fig, ax
 
     def __dist_nearest(self):
