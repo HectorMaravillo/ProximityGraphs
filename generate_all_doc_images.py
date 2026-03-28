@@ -36,7 +36,7 @@ import numpy as np
 import proximitygraphs as pg
 
 DOC_ELEMENT_COLOR = "#4a6fa5"
-DOC_BG_COLOR = "#f2f0eb"
+DOC_BG_COLOR = "#ffffff"
 DOC_FONT_COLOR = "#000000"
 
 
