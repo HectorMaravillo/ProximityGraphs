@@ -2,6 +2,8 @@ import numpy as np
 from collections import Counter, defaultdict
 from scipy.spatial import Delaunay
 from scipy.spatial import ConvexHull
+from scipy.spatial import QhullError
+from scipy.spatial import cKDTree
 from scipy.spatial.distance import cdist, pdist
 from itertools import combinations
 from igraph import Graph
@@ -1750,6 +1752,7 @@ class Gamma_Graph(ProximityGraph):
         self.__gamma1 = float(gamma1)
         self.__inequality = self._ProximityGraph__closed_region(closed)
         self.__block_size = int(block_size)
+        self.__planar_fast_ok = False
 
         g0 = self.__gamma0
         g1 = self.__gamma1
@@ -1785,7 +1788,13 @@ class Gamma_Graph(ProximityGraph):
 
         # ---- Generic finite-radius case (no |γ| = 1) ----
         pairs = self.__defined_pairs()
-        self.__assign_edges(pairs)  # uses self.__block_size
+        # Only replace the all-points scan in the theorem-safe planar regime.
+        # Otherwise the existing vectorized verifier remains the correctness
+        # fallback.
+        if self.__can_use_planar_fast_gamma():
+            self.__assign_edges_planar_fast(pairs)
+        else:
+            self.__assign_edges(pairs)  # uses self.__block_size
 
         self.graph.simplify()
         self._GeometricGraph__size()
@@ -1832,6 +1841,8 @@ class Gamma_Graph(ProximityGraph):
         g.__gamma1 = float(gamma1)
         g.__inequality = g._ProximityGraph__closed_region(closed)
         g.__block_size = int(block_size)
+        planar_delaunay_pairs = g.__safe_planar_delaunay_pairs()
+        g.__planar_fast_ok = planar_delaunay_pairs is not None
 
         g0 = g.__gamma0
         g1 = g.__gamma1
@@ -1864,7 +1875,21 @@ class Gamma_Graph(ProximityGraph):
 
         # Generic finite-radius case: use the base graph's edges as candidates
         candidate_pairs = np.array(geom_graph.graph.get_edgelist(), dtype=int)
-        g.__assign_edges(candidate_pairs)  # uses g.__block_size
+        if g.__planar_fast_ok:
+            delaunay_edge_set = {
+                tuple(edge) for edge in map(tuple, planar_delaunay_pairs.tolist())
+            }
+            g.__planar_fast_ok = all(
+                tuple(sorted(map(int, edge))) in delaunay_edge_set
+                for edge in candidate_pairs
+            )
+        # The fast planar branch is only used when the Delaunay-subgraph
+        # assumptions are safely satisfied; otherwise keep the current
+        # blockwise verifier as the source of correctness.
+        if g.__can_use_planar_fast_gamma():
+            g.__assign_edges_planar_fast(candidate_pairs)
+        else:
+            g.__assign_edges(candidate_pairs)  # uses g.__block_size
 
         g.graph.simplify()
         g._GeometricGraph__size()
@@ -1883,6 +1908,7 @@ class Gamma_Graph(ProximityGraph):
         """
         g0, g1 = self.__gamma0, self.__gamma1
         dim = self.points.shape[1]
+        self.__planar_fast_ok = False
 
         # special/unsafe ranges -> all pairs
         if abs(g0) == 1.0 or abs(g1) == 1.0 or g1 < 0.0:
@@ -1893,8 +1919,162 @@ class Gamma_Graph(ProximityGraph):
             return np.array(list(combinations(range(self.n), 2)), dtype=int)
 
         # DT candidates
-        g_dt = DelaunayG(self.setpoints)
-        return np.array(g_dt.graph.get_edgelist(), dtype=int)
+        pairs = self.__safe_planar_delaunay_pairs()
+        if pairs is None:
+            return np.array(list(combinations(range(self.n), 2)), dtype=int)
+
+        self.__planar_fast_ok = True
+        return pairs
+
+    def __safe_planar_delaunay_pairs(self):
+        """
+        Return planar Delaunay edges when the 2D subgraph regime is safe.
+
+        Any uncertainty falls back to ``None`` so the existing brute-force
+        verifier remains responsible for correctness.
+        """
+        if self.points.shape[1] != 2 or self.n < 3:
+            return None
+
+        if not np.isfinite(self.points).all():
+            return None
+
+        if np.unique(self.points, axis=0).shape[0] != self.n:
+            return None
+
+        try:
+            delaunay = Delaunay(self.points)
+        except (QhullError, ValueError):
+            return None
+
+        simplices = np.asarray(delaunay.simplices, dtype=int)
+        if simplices.ndim != 2 or simplices.shape[1] != 3 or simplices.size == 0:
+            return None
+
+        edges = set()
+        for tri in simplices:
+            a, b, c = map(int, tri)
+            edges.add(tuple(sorted((a, b))))
+            edges.add(tuple(sorted((b, c))))
+            edges.add(tuple(sorted((a, c))))
+
+        if not edges:
+            return None
+
+        return np.array(sorted(edges), dtype=int)
+
+    def __can_use_planar_fast_gamma(self):
+        """
+        The fast path is only valid in the safe planar Delaunay-subgraph regime.
+
+        This keeps the optimization inside the requested gamma1 window while
+        routing degenerate or half-plane-limit cases back to the existing
+        verifier.
+        """
+        g0, g1 = self.__gamma0, self.__gamma1
+        if not (0.0 <= g1 <= 1.0):
+            return False
+
+        if abs(g0) == 1.0 or abs(g1) == 1.0:
+            return False
+
+        return self.__planar_fast_ok
+
+    def __assign_edges_planar_fast(self, pairs):
+        """
+        Exact emptiness test for the safe planar regime using local KD-tree queries.
+
+        On planar Delaunay candidates this avoids the fallback's global all-points
+        scan while preserving the current neighborhood and boundary semantics.
+        """
+        if self.n < 2 or pairs.size == 0:
+            return
+
+        pts = self.points
+        tree = cKDTree(pts)
+
+        g0, g1 = self.__gamma0, self.__gamma1
+
+        closed = self.__inequality(0.0, 0.0)  # True iff <= is used
+        if closed:
+
+            def comp(dist2, R2):
+                return dist2 <= R2
+        else:
+
+            def comp(dist2, R2):
+                return dist2 < R2
+
+        intersection_mode = g1 <= 0.0
+        edges_out = []
+
+        for i, j in pairs:
+            p = pts[i]
+            q = pts[j]
+            v = q - p
+
+            d2 = float(np.dot(v, v))
+            if d2 <= 0.0:
+                continue
+
+            d = np.sqrt(d2)
+            r = d / 2.0
+            r2 = d2 / 4.0
+
+            nvec = np.array([-v[1], v[0]], dtype=float) / d
+            m_mid = (p + q) / 2.0
+
+            R0 = r / (1.0 - abs(g0))
+            R1 = r / (1.0 - abs(g1))
+            R0_2 = R0 * R0
+            R1_2 = R1 * R1
+
+            s0 = np.sqrt(max(R0_2 - r2, 0.0))
+            s1 = np.sqrt(max(R1_2 - r2, 0.0))
+
+            c0_up = m_mid + s0 * nvec
+            c0_dn = m_mid - s0 * nvec
+            c1_up = m_mid + s1 * nvec
+            c1_dn = m_mid - s1 * nvec
+
+            if g0 != 0.0 and g1 != 0.0:
+                if g0 * g1 > 0.0:
+                    neighborhoods = ((c0_up, c1_dn), (c0_dn, c1_up))
+                else:
+                    neighborhoods = ((c0_up, c1_up), (c0_dn, c1_dn))
+            else:
+                neighborhoods = ((c0_up, c1_up),)
+
+            empty_any = False
+            for c_a, c_b in neighborhoods:
+                candidates = set(tree.query_ball_point(c_a, R0))
+                candidates.update(tree.query_ball_point(c_b, R1))
+                candidates.discard(int(i))
+                candidates.discard(int(j))
+
+                if not candidates:
+                    empty_any = True
+                    break
+
+                idx = np.fromiter(candidates, dtype=int)
+                test_points = pts[idx]
+
+                dist_a2 = np.einsum("ij,ij->i", test_points - c_a, test_points - c_a)
+                dist_b2 = np.einsum("ij,ij->i", test_points - c_b, test_points - c_b)
+
+                in_a = comp(dist_a2, R0_2)
+                in_b = comp(dist_b2, R1_2)
+                inside = (in_a & in_b) if intersection_mode else (in_a | in_b)
+
+                if not np.any(inside):
+                    empty_any = True
+                    break
+
+            if empty_any:
+                edges_out.append((int(i), int(j)))
+
+        if edges_out:
+            self.graph.add_edges(edges_out)
 
     def __assign_edges(self, pairs):
         """
