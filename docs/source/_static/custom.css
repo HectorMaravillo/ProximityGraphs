@@ -1,42 +1,36 @@
-/* ============================================================
-   PALETA PRINCIPAL — tono único: índigo ahumado
-   Claro: fondos cálidos marfil, no blancos puros
-   Oscuro: fondos pizarra profunda, no negros puros
-   ============================================================ */
 
 :root {
     --primary-color: #4a6fa5;
-    /* índigo ahumado — único acento */
+    
     --primary-soft: #7294bc;
-    /* versión más clara del acento */
+    
     --primary-muted: #3a5a8a;
-    /* versión más oscura del acento */
+    
     --accent-color: #4a6fa5;
-    /* mismo color como acento puro */
+    
 
     --text-color: #2e2e38;
-    /* casi negro cálido */
+    
     --text-muted: #6b6b80;
-    /* gris violáceo suave */
+    
 
     --bg-page: #f2f0eb;
-    /* marfil cálido */
+  
     --bg-light: #eceae4;
-    /* un paso más oscuro que la página */
+
     --bg-card: #e8e5de;
-    /* tarjetas / sidebar */
+
 
     --border-color: #d4d0c8;
-    /* borde sutil cálido */
+
     --code-bg: #e4e1da;
 
     --table-hover: #e8e5de;
 
-    /* prev/next specific */
     --nav-subtitle-color: #7294bc;
-    /* tono suave del acento */
+  
     --nav-title-color: #2e2e38;
-    /* texto principal */
+
 }
 
 [data-theme="dark"] {
@@ -49,7 +43,6 @@
     --text-muted: #9a95a8;
 
     --bg-page: #1c1c24;
-    /* pizarra profunda — no negro */
     --bg-light: #23232e;
     --bg-card: #2a2a38;
 
@@ -57,7 +50,6 @@
     --code-bg: #2a2a38;
     --table-hover: #2a2a38;
 
-    /* prev/next specific */
     --nav-subtitle-color: #7294bc;
     --nav-title-color: #ddd8ce;
 }
@@ -375,3 +367,16 @@ img {
         width: 100%;
     }
 }/* This file intentionally left blank. */
+
+.author-photo {
+    border-radius: 50% !important;
+    box-shadow: 0 4px 16px rgba(74, 111, 165, 0.25) !important;
+    margin: 0 24px 16px 0 !important;
+    border: 3px solid var(--primary-color);
+    object-fit: cover;
+}
+
+[data-theme="dark"] .author-photo {
+    box-shadow: 0 4px 16px rgba(74, 111, 165, 0.45) !important;
+    opacity: 1 !important;
+}

@@ -95,8 +95,12 @@ def test_gamma_graph_special_cases_remain_unchanged():
 
     assert pg.Gamma_Graph(points, gamma0=1.0, gamma1=1.0).m == 0
     assert pg.Gamma_Graph(points, gamma0=-1.0, gamma1=-1.0).m == 6
-    assert _edge_list(pg.Gamma_Graph(points, gamma0=-1.0, gamma1=1.0)) == convex_hull_edges
-    assert _edge_list(pg.Gamma_Graph(points, gamma0=1.0, gamma1=-1.0)) == convex_hull_edges
+    assert (
+        _edge_list(pg.Gamma_Graph(points, gamma0=-1.0, gamma1=1.0)) == convex_hull_edges
+    )
+    assert (
+        _edge_list(pg.Gamma_Graph(points, gamma0=1.0, gamma1=-1.0)) == convex_hull_edges
+    )
 
 
 def test_gamma_graph_degenerate_planar_input_falls_back_cleanly():

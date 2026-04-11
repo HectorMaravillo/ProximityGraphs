@@ -19,9 +19,7 @@ def timed_build(points, use_fast, repeats=3):
             graph = pg.Gamma_Graph(points, gamma0=0.25, gamma1=0.75, closed=False)
         else:
             with patch.object(pg.Gamma_Graph, CAN_USE_METHOD, return_value=False):
-                graph = pg.Gamma_Graph(
-                    points, gamma0=0.25, gamma1=0.75, closed=False
-                )
+                graph = pg.Gamma_Graph(points, gamma0=0.25, gamma1=0.75, closed=False)
         timings.append(perf_counter() - start)
 
     return graph, min(timings)
@@ -35,7 +33,9 @@ def main():
     fast_graph, fast_time = timed_build(points, use_fast=True)
     fallback_graph, fallback_time = timed_build(points, use_fast=False)
 
-    if sorted(fast_graph.graph.get_edgelist()) != sorted(fallback_graph.graph.get_edgelist()):
+    if sorted(fast_graph.graph.get_edgelist()) != sorted(
+        fallback_graph.graph.get_edgelist()
+    ):
         raise AssertionError("Fast path does not match the preserved fallback graph.")
 
     speedup = fallback_time / fast_time if fast_time > 0.0 else float("inf")
