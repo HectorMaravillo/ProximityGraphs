@@ -41,7 +41,7 @@ Example (pseudocode)::
   >>> G_p = pg.PhysarumGraph(pts)   # physarum-inspired graph
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.0a1"
 
 # Re-export selected symbols from submodules
 from .points import SetPoints

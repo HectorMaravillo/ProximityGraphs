@@ -80,7 +80,7 @@ python -m ruff format --check .
 
 ## Citation
 
-Software citation metadata is provided in [CITATION.cff](CITATION.cff). A JOSS-ready manuscript draft is provided in [paper.md](paper.md).
+Software citation metadata is provided in [CITATION.cff](CITATION.cff). A JOSS-ready manuscript draft is provided in [paper.md](paper/paper.md).
 
 The Zenodo DOI is still pending. Until archival metadata is finalized, use the versioned software citation in `CITATION.cff` and update it after a DOI is minted.
 
