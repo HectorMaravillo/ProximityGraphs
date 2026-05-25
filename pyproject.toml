@@ -8,12 +8,15 @@ dynamic = ["version"]
 description = "Python tools for constructing, comparing, and experimenting with proximity graphs on planar point sets."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
+
 authors = [
-  {name = "Hector Maravillo"},
-  {name = "Diego Villarreal"},
-  {name = "Heriberto Espino-Montelongo"},
+  { name = "Hector Maravillo" },
+  { name = "Diego Villarreal" },
+  { name = "Heriberto Espino-Montelongo" },
 ]
+
 dependencies = [
   "igraph>=0.11",
   "matplotlib>=3.8",
@@ -22,29 +25,54 @@ dependencies = [
   "scipy>=1.11",
 ]
 
+keywords = [
+  "proximity graphs",
+  "computational geometry",
+  "random geometric graphs",
+  "gabriel graph",
+  "relative neighborhood graph",
+  "delaunay triangulation",
+  "geometric networks",
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Education",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Scientific/Engineering :: GIS",
+]
+
 [project.urls]
-Homepage = "https://github.com/HectorMaravillo/proximitygraphs"
-Repository = "https://github.com/HectorMaravillo/proximitygraphs"
-Issues = "https://github.com/HectorMaravillo/proximitygraphs/issues"
+Homepage = "https://github.com/HectorMaravillo/ProximityGraphs"
+Repository = "https://github.com/HectorMaravillo/ProximityGraphs"
+Issues = "https://github.com/HectorMaravillo/ProximityGraphs/issues"
+Documentation = "https://hectormaravillo.github.io/ProximityGraphs/"
 
 [project.optional-dependencies]
 dev = [
   "pytest>=8",
   "ruff>=0.9",
 ]
+
 docs = [
   "myst-parser>=4",
   "Sphinx>=8",
   "sphinx-autodoc-typehints>=3",
   "sphinx-book-theme>=1.1",
 ]
+
 gis = [
   "geopandas>=1.0",
   "shapely>=2.0",
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "proximitygraphs.__version__"}
+version = { attr = "proximitygraphs.__version__" }
 
 [tool.setuptools.packages.find]
 include = ["proximitygraphs*"]
@@ -56,6 +84,7 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 88
+target-version = "py310"
 exclude = [
   "article",
   "docs/build",
