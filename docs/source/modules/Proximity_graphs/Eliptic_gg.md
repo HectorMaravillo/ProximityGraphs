@@ -61,5 +61,5 @@ pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
 ```
 
 
-![Example graphs](images/eliptic_gg.png)
+![Example graphs](images/eliptic_gg.svg)
 

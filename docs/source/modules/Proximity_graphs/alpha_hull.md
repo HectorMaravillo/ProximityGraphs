@@ -105,4 +105,4 @@ pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 
 
 
-![Example graphs](images/alpha_hull.png)
+![Example graphs](images/alpha_hull.svg)

@@ -30,5 +30,5 @@ pts = pg.SetPoints.poissonprocess_inhomogeneus(fun_lambda=lambda x, y: x + y, li
 pts.draw(figsize=(8, 8), v_color='#8c564b')
 ```
 
-![Example point set](images/poissonprocess_inhomogeneus.png)
+![Example point set](images/poissonprocess_inhomogeneus.svg)
 

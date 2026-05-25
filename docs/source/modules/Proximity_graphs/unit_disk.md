@@ -59,5 +59,5 @@ pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
 
 
-![Example graphs](images/unit_disk.png)
+![Example graphs](images/unit_disk.svg)
 

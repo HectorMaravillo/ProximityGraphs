@@ -36,5 +36,5 @@ pts = pg.SetPoints.cluster_square(intensity=(12, 12), cluster={"name": "Matern",
 pts.draw(figsize=(8, 8), v_color='#e377c2')
 ```
 
-![Example point set](images/cluster_square.png)
+![Example point set](images/cluster_square.svg)
 

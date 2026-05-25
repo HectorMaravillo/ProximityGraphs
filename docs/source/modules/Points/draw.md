@@ -65,4 +65,4 @@ pts = pg.SetPoints.uniform_square(n=250, seed=7)
 pts.draw(figsize=(8, 8), v_color='#00072D', v_size=10, details=True)
 ```
 
-![Example point set](images/draw.png)
+![Example point set](images/draw.svg)

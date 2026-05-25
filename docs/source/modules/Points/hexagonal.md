@@ -29,5 +29,5 @@ pts = pg.SetPoints.hexagonal(n_x=10, n_y=10)
 pts.draw(figsize=(8, 8), v_color='#ff7f0e', v_size=18)
 ```
 
-![Example point set](images/hexagonal.png)
+![Example point set](images/hexagonal.svg)
 

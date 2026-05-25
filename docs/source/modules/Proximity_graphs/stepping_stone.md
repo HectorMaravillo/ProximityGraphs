@@ -79,4 +79,4 @@ graphs = [G1, G2, G3, G4]
 pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 ```
 
-![Example graphs](images/stepping_stone.png)
+![Example graphs](images/stepping_stone.svg)

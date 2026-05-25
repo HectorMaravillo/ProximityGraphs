@@ -28,5 +28,5 @@ pts = pg.SetPoints.uniform_over_sphere(n=200, seed=99)
 pts.draw(figsize=(8, 8), v_color='#2ca02c')
 ```
 
-![Example point set](images/uniform_over_sphere.png)
+![Example point set](images/uniform_over_sphere.svg)
 

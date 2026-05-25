@@ -30,5 +30,5 @@ pts = pg.SetPoints.poissonprocess_square(intensity=150, limit=1, seed=7)
 pts.draw(figsize=(8, 8), v_color='#17becf')
 ```
 
-![Example point set](images/poissonprocess_square.png)
+![Example point set](images/poissonprocess_square.svg)
 

@@ -55,5 +55,5 @@ pg.draw_grid(graphs, 1, 3, figsize=(15, 5), details=True)
 ```
 
 
-![Example graphs](images/rng.png)
+![Example graphs](images/rng.svg)
 

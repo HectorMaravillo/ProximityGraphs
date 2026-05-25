@@ -27,5 +27,5 @@ pts = pg.SetPoints.grid(shape=(18, 18))
 pts.draw(figsize=(8, 8), v_color='#ff7f0e', v_size=18)
 ```
 
-![Example point set](images/grid.png)
+![Example point set](images/grid.svg)
 

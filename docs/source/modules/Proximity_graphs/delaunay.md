@@ -48,5 +48,5 @@ G.draw(figsize=(7, 7), details=True)
 ```
 
 
-![Example graphs](images/delaunay.png)
+![Example graphs](images/delaunay.svg)
 

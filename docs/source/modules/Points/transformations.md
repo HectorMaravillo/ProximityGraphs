@@ -237,4 +237,4 @@ for ax, (name, pts) in zip(
 fig.savefig(pi=200, bbox_inches="tight")
 ```
 
-![Affine transformations (2×2)](images/transformations.png)
+![Affine transformations (2×2)](images/transformations.svg)

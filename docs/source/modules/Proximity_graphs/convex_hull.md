@@ -115,4 +115,4 @@ G = pg.Convex_Hull(pts)
 G.draw(figsize=(7, 7), details=True)
 ```
 
-![Example graphs](images/convex_hull.png)
+![Example graphs](images/convex_hull.svg)

@@ -105,4 +105,4 @@ graphs = [B08, B10, B15, B20, B25, B15c]
 pg.draw_grid(graphs, 2, 3, figsize=(15, 9), details=True)
 ```
 
-![Example graphs](images/beta_skeleton.png)
+![Example graphs](images/beta_skeleton.svg)
