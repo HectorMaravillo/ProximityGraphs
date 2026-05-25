@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - ".github/workflows/docs.yml"
       - "docs/**"
       - "proximitygraphs/**"
       - "pyproject.toml"
@@ -46,6 +47,11 @@ jobs:
         run: |
           sphinx-build -b html docs/source docs/build/html
           touch docs/build/html/.nojekyll
+
+      - name: Verify Pages artifact
+        run: |
+          test -f docs/build/html/index.html
+          find docs/build/html -maxdepth 2 -type f | sort | head -50
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
