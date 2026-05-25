@@ -15,7 +15,7 @@ authors = [
   { name = "Hector Maravillo" },
   { name = "Diego Villarreal" },
   { name = "Heriberto Espino Montelongo" },
-]
+]y
 
 dependencies = [
   "igraph>=0.11",
