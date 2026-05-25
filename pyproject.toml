@@ -14,7 +14,7 @@ license-files = ["LICENSE"]
 authors = [
   { name = "Hector Maravillo" },
   { name = "Diego Villarreal" },
-  { name = "Heriberto Espino-Montelongo" },
+  { name = "Heriberto Espino Montelongo" },
 ]
 
 dependencies = [
