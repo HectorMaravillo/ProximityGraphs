@@ -39,6 +39,9 @@ jobs:
           python -m pip install -U pip
           pip install -e ".[docs]"
 
+      - name: Check installed dependencies
+        run: python -m pip check
+
       - name: Build Sphinx site
         run: |
           sphinx-build -b html docs/source docs/build/html

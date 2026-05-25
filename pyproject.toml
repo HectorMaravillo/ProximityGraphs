@@ -83,6 +83,15 @@ include = ["proximitygraphs*"]
 addopts = "-q"
 python_files = ["test_*.py"]
 testpaths = ["tests"]
+markers = [
+  "gis: tests requiring optional GIS dependencies",
+]
+filterwarnings = [
+  "error::DeprecationWarning:proximitygraphs.*",
+  "error::FutureWarning:proximitygraphs.*",
+  "default::DeprecationWarning",
+  "default::FutureWarning",
+]
 
 [tool.ruff]
 line-length = 88

@@ -67,7 +67,7 @@ This repository is configured and tested for:
 
 - Windows local development
 - GitHub Actions on Ubuntu
-- Python 3.10, 3.11, and 3.12
+- Python 3.10, 3.11, 3.12, 3.13 and 3.14
 
 The recommended validation sequence is:
 
