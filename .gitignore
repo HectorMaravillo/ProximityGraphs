@@ -1,26 +1,23 @@
-# ignore the logs folder
-logs/
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
 
-# ignore the .log files
-*.log
+# Virtual environments
+.venv/
+venv/
+env/
 
-# ignore the .pyc files
-*.pyc
+# Test/cache
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
-# ignore the .py.log files
-*.py.log
+# Documentation build
+docs/build/
 
-# ignore ALL the __pycache__ folders in any subdirectory
-**/__pycache__/
-
-# ignore LaTeX temporary files
-*.aux
-*.out
-*.bbl
-*.blg
-*.fls
-*.fdb_latexmk
-*.synctex.gz
-
-.vscode/
-
+# OS/editor
+.DS_Store
+.idea/
