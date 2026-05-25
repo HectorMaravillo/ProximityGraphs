@@ -6,7 +6,7 @@
 \usepackage{hyperref}
 \usepackage{authblk}
 
-\title{ProximityG: A Python package for proximity and biological graphs in the plane}
+\title{ProximityG: A Python package for proximity graphs in the plane}
 \date{}
 
 \author[1]{Héctor Maravillo\thanks{Corresponding author.}}
@@ -26,36 +26,51 @@ Python; proximity graphs; biological graphs;
 
 \section*{Summary}
 
-    Introducción to proximity graphs (MST, RNG, GG, $\beta$-skeletons, Delaunay, SIG, NNG, Unit Disk) \cite{Mitchell2018, Mathieson2019}
+ %   Introducción to proximity graphs (MST, RNG, GG, $\beta$-skeletons, Delaunay, SIG, NNG, Unit Disk) \cite{Mitchell2018, Mathieson2019}
 
-    RNG, GG y $\beta$-skeletons, ($k$-RNG) \cite{Jaromczyk2002}
-    Internal and external shape descriptors ($\alph$-shape and hull, $\beta$-skeletons, NNG) \cite{Radke1988} \cite{Radke 1988}
+ %   RNG, GG y $\beta$-skeletons, ($k$-RNG) \cite{Jaromczyk2002} Internal and external shape descriptors ($\alph$-shape and hull, $\beta$-skeletons, NNG) \cite{Radke1988} \cite{Radke 1988}
 
-    Empty region graphs \cite{Cardinal2009}
+ %   Empty region graphs \cite{Cardinal2009}
 
-    Delaunay triangulation \cite{deBerg2008}, algorithms, properties and subgraphs of DT \cite{Aurenhammer2000}
+ %   Delaunay triangulation \cite{deBerg2008}, algorithms, properties and subgraphs of DT \cite{Aurenhammer2000}
 
-    $\gamma$-neighborhood graph \cite{Veltkamp1992}
+ %   $\gamma$-neighborhood graph \cite{Veltkamp1992}
 
-    $\alpha$-shapes, $\alpha$-hull \cite{Edelsbrunner1983}
+ %   $\alpha$-shapes, $\alpha$-hull \cite{Edelsbrunner1983}
 
-    $\beta$-skeletons \cite{Kirkpatrick1985} 
+ %   $\beta$-skeletons \cite{Kirkpatrick1985} 
 
-    Gabriel Graph \cite{Gabriel1969, Matula1980}
+ %   Gabriel Graph \cite{Gabriel1969, Matula1980}
 
-    Unit disk graph \cite{Clark1990}
+ %   Unit disk graph \cite{Clark1990}
 
-    Empty Elliptic graph \cite{Devillers2008}
+ %   Empty Elliptic graph \cite{Devillers2008}
 
-    Ellitic gabriel graph \cite{Park2006}
+ %   Ellitic gabriel graph \cite{Park2006}
 
-    RNG \cite{Toussaint1980, Jaromczyk2002}
+  %  RNG \cite{Toussaint1980, Jaromczyk2002}
 
-    Stepping Stone Graph \cite{Kannangara2018, Kannangara2019}
+ %   Stepping Stone Graph \cite{Kannangara2018, Kannangara2019}
 
-    Sigma-local graph \cite{Bose2010}
+ %   Sigma-local graph \cite{Bose2010}
 
-    sphere of influence \cite{Toussaint1988,Toussaint2014}
+ %   sphere of influence \cite{Toussaint1988,Toussaint2014}
+ 
+ 
+ Let $V$ be a (finite or discrete) point set in  $\mathbb{R}^d$, with $d\geq 2$. For each pair of different points $\{p,q\}\in V\times V$ is associated a region or neighborhood $N(p,q) \subset \mathbb{R}^d$ and let $\mathcal{P}$ be a geometrical property defined in the set   $\mathcal{N} = \left\{ N(p,q) : \{p,q\} \in V \times V \right\}$. A proximity graph, also called a neighborhood graph \cite{Jaromczyk2002}, with regions in $\mathcal{N}$ and the property $\mathcal{P}$, is a graph $G_{\mathcal{N},\mathcal{P}}(V,E)$ with the node set $V$ and the set of edges $E$ is such that
+ \begin{equation}
+ 	\{p,q\} \in E \quad \Leftrightarrow \quad  N(p,q)
+ 	\ \ \text{holds } \mathcal{P}
+ \end{equation}
+ In general, the property 
+ $\mathcal{P}$ is defined trying to represent some notion of closeness between a pair of points.  If the property $\mathcal{P}$ is 
+ \begin{equation}
+ 	N(p,q) \cap V \setminus \{p,q\} = \emptyset
+\end{equation}
+ it is called a empty neighborhood graph \cite{Cardinal2009}.
+ 
+ Two widely known proximity graphs defined to $d=2$ are the Gabriel graph (GG) and the relative neighborhood graph (RNG). In the first, the region is defined as the (open) circle whose boundary trough $p$ and $q$. In RNG, the neighborhood is the intersection of two (open) circles, with centers $p$ and $q$, respectively, and radius the (euclidean) distance between $p$ and $q$.
+ 
 
 \section*{Statement of need}
 
@@ -99,6 +114,6 @@ computational experiment about Asymptotic properties of $\beta$-skeletons \cite{
 \section*{References}
 
 \bibliographystyle{plain}
-\bibliography{paper}
+\bibliography{biblio}
 
 \end{document}
