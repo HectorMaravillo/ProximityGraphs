@@ -1,8 +1,8 @@
 # Alpha_Shape
 
-Constructs the α-shape boundary of a planar point set.
+Constructs the alpha-shape boundary of a planar point set.
 
-The α-shape is a generalization of the convex hull controlled by parameter α.
+The alpha-shape is a generalization of the convex hull controlled by parameter alpha.
 
 ## Constructor
 

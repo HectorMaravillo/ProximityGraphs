@@ -32,6 +32,7 @@ Main Components
    modules/proximitygraphs
    modules/biologicalgraphs
    modules/Experiments
+   modules/references
    about
 
 SetPoints
@@ -61,16 +62,16 @@ Specialized geometric graphs based on proximity relationships:
 - **Delaunay Triangulation** - Fundamental triangulation structure
 - **Convex Hull** - Boundary of point sets
 - **MST** (Minimum Spanning Tree) - Minimum cost connected graph
-- **Gabriel Graph** - β-skeleton with β=1
-- **RNG** (Relative Neighborhood Graph) - β-skeleton with β=2
-- **β-Skeleton** - Parameterized family of proximity graphs
+- **Gabriel Graph** - beta-skeleton with beta=1
+- **RNG** (Relative Neighborhood Graph) - beta-skeleton with beta=2
+- **beta-Skeleton** - Parameterized family of proximity graphs
 - **Unit Disk Graph** - Distance-based connectivity
 - **Sphere of Influence Graph** - Based on nearest neighbor spheres
-- **α-Shape** - Generalization of convex hull
-- **α-Hull** - Hull with circular arcs
-- **γ-Neighborhood Graph** - Veltkamp's generalized proximity graph
+- **alpha-Shape** - Generalization of convex hull
+- **alpha-Hull** - Hull with circular arcs
+- **gamma-Neighborhood Graph** - Veltkamp's generalized proximity graph
 - **Elliptic Gabriel Graph** - Gabriel graph with elliptical regions
-- **σ-Graph** - Scaled distance-based graph
+- **sigma-Graph** - Scaled distance-based graph
 - **Stepping Stone Graph** - Power-distance based connectivity
 
 Getting Started

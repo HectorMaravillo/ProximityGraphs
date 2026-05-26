@@ -1285,7 +1285,7 @@ z
      <use xlink:href="#DejaVuSans-70" transform="translate(935.888672 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(999.365234 0)"/>
     </g>
-    <!-- α=1.0 -->
+    <!-- alpha=1.0 -->
     <g transform="translate(153.125804 25.99625) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-3b1" d="M 2644 1628 
@@ -2124,7 +2124,7 @@ L 659.028852 318.35915
      <use xlink:href="#DejaVuSans-70" transform="translate(935.888672 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(999.365234 0)"/>
     </g>
-    <!-- α=1.5 -->
+    <!-- alpha=1.5 -->
     <g transform="translate(513.525644 25.99625) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-35" d="M 691 4666 
@@ -2782,7 +2782,7 @@ L 751.64381 293.328109
      <use xlink:href="#DejaVuSans-70" transform="translate(935.888672 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(999.365234 0)"/>
     </g>
-    <!-- α=2.0 -->
+    <!-- alpha=2.0 -->
     <g transform="translate(873.925484 25.99625) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-32" d="M 1228 531 

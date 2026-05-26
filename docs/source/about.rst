@@ -52,8 +52,8 @@ also contributing into the development of the documentation and this website.
 
 ----
 
-Heriberto Espino 
-~~~~~~~~~~~~~~~~
+Heriberto Espino Montelongo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: /_static/heriberto.jpg
    :width: 140px
@@ -78,7 +78,7 @@ If you use this library in your research, please cite it as:
 .. code-block:: bibtex
 
    @software{Maravillo_ProximityGraphs_2026,
-    author = {Maravillo, Héctor and Villarreal, Diego and Espino-Montelongo, Heriberto},
+    author = {Maravillo, Héctor and Villarreal, Diego and Espino Montelongo, Heriberto},
     license = {MIT},
     month = april,
     title = {{ProximityGraphs}},
@@ -87,7 +87,7 @@ If you use this library in your research, please cite it as:
     year = {2026}
     }
 
--------
+
 Contact
 -------
 

@@ -1,6 +1,6 @@
 # Relative Neighborhood Graph)
 
-The RNG is a β-skeleton with β=2.
+The RNG is a beta-skeleton with beta=2.
 
 Two points p and q are connected if the lune-shaped region between them contains no other points.
 

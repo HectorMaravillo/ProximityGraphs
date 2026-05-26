@@ -25,7 +25,6 @@ experiments
     Experiment helpers for constructing, running, and comparing graph
     models on shared point sets.
 
-
 Graph construction examples
 ---------------------------
 A typical workflow is:
@@ -46,11 +45,13 @@ __version__ = "0.1.0a1"
 # Re-export selected symbols from submodules
 # Re-export the submodules themselves
 from . import (
+    biological,
     biologicalgraphs,
     envelops,
     experiments,
     geometricgraphs,
     points,
+    proximity,
     proximitygraphs,
 )
 from .biologicalgraphs import (
@@ -116,6 +117,7 @@ __all__ = [
     "Sigma_Graph",
     "Stepping_Stone",
     "Unit_Disk",
+    "biological",
     "biologicalgraphs",
     "circle_centroid",
     "circle_smallest",
@@ -128,6 +130,7 @@ __all__ = [
     "is_in_circle",
     "load_graph",
     "points",
+    "proximity",
     "proximitygraphs",
     "slope",
     "smallest_circle",

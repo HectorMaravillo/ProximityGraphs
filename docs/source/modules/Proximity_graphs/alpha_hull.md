@@ -1,8 +1,8 @@
 # Alpha Hull
 
-Constructs the α-hull with circular arc boundaries.
+Constructs the alpha-hull with circular arc boundaries.
 
-The α-hull replaces straight edges with circular arcs of radius $R = \frac{1}{|\alpha|}$.
+The alpha-hull replaces straight edges with circular arcs of radius $R = \frac{1}{|\alpha|}$.
 
 ## Constructor
 

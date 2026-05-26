@@ -37,7 +37,7 @@ where:
 
 **Distance Score:**
 ```
-distance_score = 1 / (d_ij + ε)
+distance_score = 1 / (d_ij + epsilon)
 ```
 - Favors short edges (more efficient connections)
 
@@ -188,7 +188,7 @@ for iteration in growth_iterations:
             continue
         
         # Calculate benefit components
-        dist_score = 1 / (distance + ε)
+        dist_score = 1 / (distance + epsilon)
         degree_balance = 1 / (1 + |deg(i) - deg(j)|)
         shortcut_benefit = path_improvement / n
         

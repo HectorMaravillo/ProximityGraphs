@@ -1,6 +1,6 @@
 # Gamma_Graph
 
-A two-parameter family of planar proximity graphs based on **γ-neighborhood emptiness** (Veltkamp, 1992).
+A two-parameter family of planar proximity graphs based on **gamma-neighborhood emptiness** (Veltkamp, 1992).
 
 An undirected edge between two sites $p$ and $q$ is included when a parameterized neighborhood region around segment $pq$ contains at most $k$ other points.
 
@@ -47,7 +47,7 @@ $$
 Let $D(c,R)$ denote either the closed disc $\{x:\|x-c\|\le R\}$ if `closed=True`,
 or the open disc $\{x:\|x-c\|< R\}$ if `closed=False`.
 
-Define the γ-neighborhood
+Define the gamma-neighborhood
 
 $$
 N_{\gamma_0,\gamma_1}(p,q)=
@@ -105,4 +105,4 @@ pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)
 
 ## Reference
 
-- Remco C. Veltkamp (1992). *The γ-neighborhood graph*. Computational Geometry: Theory and Applications, 1, 227–246.
+- Remco C. Veltkamp (1992). *The gamma-neighborhood graph*. Computational Geometry: Theory and Applications, 1, 227–246.

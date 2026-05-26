@@ -3,34 +3,27 @@
 
 # ProximityGraphs
 
-ProximityGraphs is a Python library for generating planar point sets, building proximity graphs on top of them, and comparing graph families under a shared interface. The package combines geometric graph constructors such as Delaunay triangulations, Gabriel graphs, relative neighborhood graphs, minimum spanning trees, unit disk graphs, alpha shapes, and gamma graphs with a small experiment framework and bio-inspired graph models.
+ProximityGraphs is a Python-based computational geometry package for constructing and analyzing proximity and biological graphs, facilitating computational experimentation. It provides tools to generate and transform random and structured point sets and to build graphs from them. Its current scope comprises  13 geometric graphs, most of them proximity graphs—such as the Delaunay triangulation, the Gabriel graph, the Relative Neighborhood graph, and the Sphere-of-Influence graph—as well as the complete graph, the Erdős-Rényi random graph and two bio-inspired graphs.
 
-The project is aimed at teaching, exploratory computational geometry, and reproducible experiments on planar point patterns. It builds on NumPy, SciPy, igraph, matplotlib, and pandas while keeping GIS exports optional.
 
 ## Installation
 
-Install the core package in editable mode:
+We are on pipi! https://pypi.org/project/proximitygraphs/
 
 ```bash
-python -m pip install -e .
+pip install proximitygraphs
 ```
 
-Install development tools:
+
+Or the editable on github
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev, docs, gis]"
 ```
 
-Install optional GIS support for GeoPandas/Shapely-based helpers:
-
+and to update the page
 ```bash
-python -m pip install -e ".[gis]"
-```
-
-Install documentation dependencies:
-
-```bash
-python -m pip install -e ".[docs,gis]"
+python -m sphinx -b html docs/source docs/build/html
 ```
 
 ## Quickstart

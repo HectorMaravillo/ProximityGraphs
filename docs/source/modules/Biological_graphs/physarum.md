@@ -17,7 +17,7 @@ A · p = b
 ```
 
 where:
-- `A[i,i] = Σⱼ (Dᵢⱼ / Lᵢⱼ)` (sum of adjacent edge conductances)
+- `A[i,i] = Sigmaⱼ (Dᵢⱼ / Lᵢⱼ)` (sum of adjacent edge conductances)
 - `A[i,j] = -(Dᵢⱼ / Lᵢⱼ)` for adjacent edges
 - `b[i] = 1/|sources|` for source nodes
 - `b[i] = -1/|sinks|` for sink nodes
@@ -26,13 +26,13 @@ where:
 **Conductivity Update:**
 
 ```
-D'ᵢⱼ = Dᵢⱼ + dt · (|Qᵢⱼ|^γ - Dᵢⱼ)
+D'ᵢⱼ = Dᵢⱼ + dt · (|Qᵢⱼ|^gamma - Dᵢⱼ)
 ```
 
 where:
 - `Dᵢⱼ` is the current conductivity
 - `Qᵢⱼ` is the flow through edge (i,j)
-- `γ` controls adaptation strength
+- `gamma` controls adaptation strength
 - `dt` is the time step
 
 ## Class Definition
@@ -73,9 +73,9 @@ def __init__(self, setpoints, sources=None,
 
 - `gamma` : `float`, optional, default=1.5
   - Exponent controlling adaptation strength
-  - γ < 1: Weak reinforcement, uniform networks
-  - γ ≈ 1-2: Balanced (recommended)
-  - γ > 2: Strong reinforcement, tree-like structures
+  - gamma < 1: Weak reinforcement, uniform networks
+  - gamma ≈ 1-2: Balanced (recommended)
+  - gamma > 2: Strong reinforcement, tree-like structures
 
 - `eps` : `float`, optional, default=1e-3
   - Threshold for edge removal (minimum conductivity)
@@ -165,7 +165,7 @@ Performs one iteration of the Physarum dynamics.
 2. Set up source/sink vector b
 3. Solve A·p = b for pressures p
 4. Calculate flows Q = D·(∇p)/L
-5. Update conductivities D' = D + dt·(|Q|^γ - D)
+5. Update conductivities D' = D + dt·(|Q|^gamma - D)
 6. Enforce minimum conductivity
 
 **Handles:**
@@ -269,7 +269,7 @@ exp = Experiment(
 for gamma in [0.5, 1.0, 1.5, 2.0, 2.5]:
     exp.add_graph_config(
         pg.PhysarumGraph,
-        name=f'Physarum-γ{gamma}',
+        name=f'Physarum-gamma{gamma}',
         sources=[0],
         gamma=gamma,
         steps=200
@@ -356,9 +356,9 @@ print(f"After 300 total steps: {graph.m} edges")
    - Single source creates radial/tree structures
 
 2. **Parameter Tuning**
-   - Start with defaults (γ=1.5, dt=0.1, steps=200)
-   - Increase γ for sparser networks
-   - Decrease γ for denser networks
+   - Start with defaults (gamma=1.5, dt=0.1, steps=200)
+   - Increase gamma for sparser networks
+   - Decrease gamma for denser networks
    - More steps if network hasn't converged
 
 3. **Base Graph Choice**

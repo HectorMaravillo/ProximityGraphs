@@ -1,14 +1,14 @@
 # poissonprocess_inhomogeneus
 
 Generates points according to an inhomogeneous Poisson point process in a square region using the thinning algorithm.
-An inhomogeneous Poisson point process is characterized by an intensity function λ(x,y) that varies spatially, determining the likelihood of finding points at different locations.
+An inhomogeneous Poisson point process is characterized by an intensity function lambda(x,y) that varies spatially, determining the likelihood of finding points at different locations.
 
 Uses the thinning (acceptance-rejection) algorithm:
-1. **Find Maximum Intensity**: Numerically minimize -λ(x,y) to find λ_max = max λ(x,y) over the simulation window.
-2. **Generate Homogeneous Proposal Points**: Generate N_prop ~ Poisson(λ_max × area) proposal points uniformly in [0, limit]².
-3. **Thinning**: For each proposal point (x_i, y_i), keep it with probability p(x_i, y_i) = λ(x_i, y_i) / λ_max by generating u_i ~ U(0,1) and keeping the point if u_i < p(x_i, y_i).
+1. **Find Maximum Intensity**: Numerically minimize -lambda(x,y) to find lambda_max = max lambda(x,y) over the simulation window.
+2. **Generate Homogeneous Proposal Points**: Generate N_prop ~ Poisson(lambda_max × area) proposal points uniformly in [0, limit]².
+3. **Thinning**: For each proposal point (x_i, y_i), keep it with probability p(x_i, y_i) = lambda(x_i, y_i) / lambda_max by generating u_i ~ U(0,1) and keeping the point if u_i < p(x_i, y_i).
 
-The resulting retained points follow the inhomogeneous Poisson process defined by λ(x,y).
+The resulting retained points follow the inhomogeneous Poisson process defined by lambda(x,y).
 
 ## Parameters
 

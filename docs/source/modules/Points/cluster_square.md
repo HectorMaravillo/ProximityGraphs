@@ -7,8 +7,8 @@ A Neyman-Scott process is a cluster point process where "parent" points are gene
 The generation process:
 1. **Parent Point Generation**: Generate parent points from a homogeneous Poisson process with intensity[0] in an extended window (larger than [0, limit]² to mitigate edge effects).
 2. **Daughter Point Generation**: For each parent, generate a Poisson(intensity[1]) number of daughter points:
-   - **"Matern"**: Daughter points uniformly distributed within a disk of radius = cluster["param"] centered at the parent. Uses polar coordinates where θ ~ U(0, 2π) and ρ = radius × √U(0,1).
-   - **"Thomas"**: Daughter points follow an isotropic bivariate Gaussian centered at the parent with standard deviation σ = cluster["param"].
+   - **"Matern"**: Daughter points uniformly distributed within a disk of radius = cluster["param"] centered at the parent. Uses polar coordinates where theta ~ U(0, 2pi) and rho = radius × √U(0,1).
+   - **"Thomas"**: Daughter points follow an isotropic bivariate Gaussian centered at the parent with standard deviation sigma = cluster["param"].
 3. **Thinning**: Retain only daughter points falling within [0, limit]².
 
 ## Parameters
@@ -18,7 +18,7 @@ The generation process:
   - intensity[1]: Mean number of daughter points per parent.
 - **cluster** (dict): Dictionary specifying the clustering mechanism.
   - "name" (str): Either "Matern" or "Thomas".
-  - "param" (float): Disk radius for Matern or standard deviation σ for Thomas.
+  - "param" (float): Disk radius for Matern or standard deviation sigma for Thomas.
 - **limit** (float): The side length of the square simulation window [0, limit]². Must be positive.
 - **seed** (int, optional): A seed for the random number generator. If None, uses entropy from the OS.
 

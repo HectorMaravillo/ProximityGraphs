@@ -141,9 +141,9 @@ Proximity Graphs
 
 .. code-block:: python
 
-    # β-Skeleton family
-    gabriel = GG(points, closed=True)  # β=1
-    rng = RNG(points, closed=False)  # β=2
+    # beta-Skeleton family
+    gabriel = GG(points, closed=True)  # beta=1
+    rng = RNG(points, closed=False)  # beta=2
     beta_1_5 = Beta_Skeleton(points, beta=1.5, type_region="lune")
 
     # Distance-based
@@ -328,7 +328,7 @@ Parameter Sweeps
 
 .. code-block:: python
 
-    # Sweep over β parameter
+    # Sweep over beta parameter
     points = SetPoints.uniform_square(n=50, dims=2, seed=42)
 
     for beta in [0.5, 1.0, 1.5, 2.0, 2.5]:
@@ -336,7 +336,7 @@ Parameter Sweeps
             g = Beta_Skeleton(points, beta=beta, type_region="intersection")
         else:
             g = Beta_Skeleton(points, beta=beta, type_region="lune")
-        print(f"β={beta}: {g.m} edges, {g.cc} components")
+        print(f"beta={beta}: {g.m} edges, {g.cc} components")
 
 Network Analysis
 ~~~~~~~~~~~~~~~~
@@ -363,7 +363,7 @@ Shape Extraction
 
     for alpha in [0.1, 0.5, 1.0, 2.0]:
         shape = Alpha_Shape(points, alpha=alpha)
-        print(f"α={alpha}: {shape.m} boundary edges")
+        print(f"alpha={alpha}: {shape.m} boundary edges")
         shape.draw(save=f'shape_alpha_{alpha}')
 
 ----------
@@ -416,7 +416,7 @@ Performance Considerations
 - **Medium datasets** (1000 < n < 10000): Use Delaunay-based filtering
 - **Large datasets** (n > 10000):
   
-  - Avoid all-pairs methods (β < 1, complete graph)
+  - Avoid all-pairs methods (beta < 1, complete graph)
   - Use spatial indexing
   - Consider working with subsets
 
@@ -443,7 +443,7 @@ Issue: "TypeError: Input 'setpoints' must be an instance of SetPoints"
 Issue: Graph has no edges
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Solution**: Check parameters (dist_max too small, β too large, etc.)
+**Solution**: Check parameters (dist_max too small, beta too large, etc.)
 
 .. code-block:: python
 

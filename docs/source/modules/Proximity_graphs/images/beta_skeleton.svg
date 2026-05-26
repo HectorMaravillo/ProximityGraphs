@@ -1564,7 +1564,7 @@ L 21.182647 284.142394
 " clip-path="url(#p842076b04f)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_1">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(122.800394 14.860937) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-3b2" d="M 1178 216 
@@ -1746,7 +1746,7 @@ z
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=0.8, closed=False, type=intersection -->
+    <!-- beta=0.8, closed=False, type=intersection -->
     <g transform="translate(49.91055 26.13375) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-3d" d="M 678 2906 
@@ -2848,7 +2848,7 @@ L 381.582487 284.142394
 " clip-path="url(#p52c179d2e9)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_2">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(483.200234 14.860937) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(63.818359 0)"/>
@@ -2861,7 +2861,7 @@ L 381.582487 284.142394
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=1.0, closed=False, type=lune -->
+    <!-- beta=1.0, closed=False, type=lune -->
     <g transform="translate(429.165078 26.13375) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-31" d="M 794 531 
@@ -3557,7 +3557,7 @@ L 741.982327 284.142394
 " clip-path="url(#pff0e96219c)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_3">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(843.600074 14.860937) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(63.818359 0)"/>
@@ -3570,7 +3570,7 @@ L 741.982327 284.142394
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=1.5, closed=False, type=lune -->
+    <!-- beta=1.5, closed=False, type=lune -->
     <g transform="translate(789.564918 26.13375) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-35" d="M 691 4666 
@@ -4192,7 +4192,7 @@ L 21.182647 608.382154
 " clip-path="url(#p80b818cc27)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_4">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(122.800394 339.100698) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(63.818359 0)"/>
@@ -4205,7 +4205,7 @@ L 21.182647 608.382154
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=2.0, closed=False, type=lune -->
+    <!-- beta=2.0, closed=False, type=lune -->
     <g transform="translate(68.765238 350.37351) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-32" d="M 1228 531 
@@ -4784,7 +4784,7 @@ L 381.582487 608.382154
 " clip-path="url(#pa6b2f39dd4)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_5">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(483.200234 339.100698) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(63.818359 0)"/>
@@ -4797,7 +4797,7 @@ L 381.582487 608.382154
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=2.5, closed=False, type=lune -->
+    <!-- beta=2.5, closed=False, type=lune -->
     <g transform="translate(429.165078 350.37351) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-3d" transform="translate(63.818359 0)"/>
@@ -5116,7 +5116,7 @@ L 814.575562 387.944187
 " clip-path="url(#pe42aff9a91)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_6">
-    <!-- β-Skeleton -->
+    <!-- beta-Skeleton -->
     <g transform="translate(843.600074 339.100698) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(63.818359 0)"/>
@@ -5129,7 +5129,7 @@ L 814.575562 387.944187
      <use xlink:href="#DejaVuSans-6f" transform="translate(407.703125 0)"/>
      <use xlink:href="#DejaVuSans-6e" transform="translate(468.884766 0)"/>
     </g>
-    <!-- β=1.5, closed=False, type=circle -->
+    <!-- beta=1.5, closed=False, type=circle -->
     <g transform="translate(787.071949 350.37351) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b2"/>
      <use xlink:href="#DejaVuSans-3d" transform="translate(63.818359 0)"/>

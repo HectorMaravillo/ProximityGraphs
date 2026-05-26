@@ -1090,7 +1090,7 @@ L 167.081907 61.003982
 " clip-path="url(#ped586274f8)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_1">
-    <!-- γ-Neighborhood Graph -->
+    <!-- gamma-Neighborhood Graph -->
     <g transform="translate(113.585855 14.798437) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-3b3" d="M 1128 2950 
@@ -1417,7 +1417,7 @@ z
      <use xlink:href="#DejaVuSans-70" transform="translate(1011.140625 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(1074.617188 0)"/>
     </g>
-    <!-- γ0=-0.5, γ1=0.5, closed=True -->
+    <!-- gamma0=-0.5, gamma1=0.5, closed=True -->
     <g transform="translate(94.903043 25.99625) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-30" d="M 2034 4250 
@@ -2637,7 +2637,7 @@ L 527.681667 61.003982
 " clip-path="url(#p7163e711ea)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_2">
-    <!-- γ-Neighborhood Graph -->
+    <!-- gamma-Neighborhood Graph -->
     <g transform="translate(474.185615 14.798437) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b3"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(59.179688 0)"/>
@@ -2660,7 +2660,7 @@ L 527.681667 61.003982
      <use xlink:href="#DejaVuSans-70" transform="translate(1011.140625 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(1074.617188 0)"/>
     </g>
-    <!-- γ0=-0.2, γ1=0.5, closed=True -->
+    <!-- gamma0=-0.2, gamma1=0.5, closed=True -->
     <g transform="translate(455.502803 25.99625) scale(0.1 -0.1)">
      <defs>
       <path id="DejaVuSans-32" d="M 1228 531 
@@ -3483,7 +3483,7 @@ L 167.081907 421.603742
 " clip-path="url(#pc68449bcce)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_3">
-    <!-- γ-Neighborhood Graph -->
+    <!-- gamma-Neighborhood Graph -->
     <g transform="translate(113.585855 375.398197) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b3"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(59.179688 0)"/>
@@ -3506,7 +3506,7 @@ L 167.081907 421.603742
      <use xlink:href="#DejaVuSans-70" transform="translate(1011.140625 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(1074.617188 0)"/>
     </g>
-    <!-- γ0=0.2, γ1=0.5, closed=True -->
+    <!-- gamma0=0.2, gamma1=0.5, closed=True -->
     <g transform="translate(96.706949 386.59601) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b3"/>
      <use xlink:href="#DejaVuSans-30" transform="translate(59.179688 0)"/>
@@ -4065,7 +4065,7 @@ L 437.014243 580.769898
 " clip-path="url(#p5eaa07abc8)" style="fill: none; stroke: #4a6fa5"/>
    </g>
    <g id="text_4">
-    <!-- γ-Neighborhood Graph -->
+    <!-- gamma-Neighborhood Graph -->
     <g transform="translate(474.185615 375.398197) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b3"/>
      <use xlink:href="#DejaVuSans-2d" transform="translate(59.179688 0)"/>
@@ -4088,7 +4088,7 @@ L 437.014243 580.769898
      <use xlink:href="#DejaVuSans-70" transform="translate(1011.140625 0)"/>
      <use xlink:href="#DejaVuSans-68" transform="translate(1074.617188 0)"/>
     </g>
-    <!-- γ0=0.5, γ1=0.5, closed=True -->
+    <!-- gamma0=0.5, gamma1=0.5, closed=True -->
     <g transform="translate(457.306709 386.59601) scale(0.1 -0.1)">
      <use xlink:href="#DejaVuSans-3b3"/>
      <use xlink:href="#DejaVuSans-30" transform="translate(59.179688 0)"/>

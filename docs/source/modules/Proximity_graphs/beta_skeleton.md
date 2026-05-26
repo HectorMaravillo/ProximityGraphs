@@ -1,6 +1,6 @@
 # Class: Beta_Skeleton
 
-A parameterized family of proximity graphs where β controls the neighborhood shape.
+A parameterized family of proximity graphs where beta controls the neighborhood shape.
 
 ## Constructor
 
@@ -10,7 +10,7 @@ Beta_Skeleton(setpoints, beta=1.5, type_region="lune", closed=False)
 
 **Parameters:**
 - **setpoints** (SetPoints): The set of points.
-- **beta** (float): The β parameter (must be $\beta > 0$).
+- **beta** (float): The beta parameter (must be $\beta > 0$).
   - $\beta < 1$: Intersection of circles (requires type_region="intersection")
   - $\beta = 1$: Gabriel Graph (lune or circle)
   - $1 < \beta < 2$: Intermediate lune-shaped regions
@@ -64,16 +64,16 @@ $$L_\beta(p, q) \cap P \subseteq \{p, q\} \quad \text{(for closed=True)}$$
 Beta_Skeleton.from_graph(geom_graph, beta=1.5, type_region="lune", closed=False)
 ```
 
-Constructs a β-skeleton using an existing graph's edges as candidates.
+Constructs a beta-skeleton using an existing graph's edges as candidates.
 
 **Parameters:**
 - **geom_graph** (GeometricGraph): Base graph providing edge candidates
-- **beta** (float): The β parameter (must be $> 0$)
+- **beta** (float): The beta parameter (must be $> 0$)
 - **type_region** (str): Region type
 - **closed** (bool): Region closure
 
 **Returns:**
-- **Beta_Skeleton**: A new β-skeleton graph
+- **Beta_Skeleton**: A new beta-skeleton graph
 
 ## Mathematical Definition:
 

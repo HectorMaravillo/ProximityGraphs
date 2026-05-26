@@ -69,6 +69,7 @@ docs = [
   "Sphinx>=8",
   "sphinx-autodoc-typehints>=3",
   "sphinx-book-theme>=1.1",
+  "sphinxcontrib-bibtex>=2.6",
 ]
 
 gis = [
@@ -119,9 +120,4 @@ select = [
   "RUF",
   "PT",
   "NPY",
-]
-ignore = [
-  "RUF001",  # allow Greek/math symbols in strings
-  "RUF002",  # allow Greek/math symbols in docstrings
-  "RUF003",  # allow Greek/math symbols in comments
 ]

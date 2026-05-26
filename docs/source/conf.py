@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "Proximity Graphs"
 copyright = "2025, Héctor Maravillo"
 author = "Héctor Maravillo , Diego Villarreal , Heriberto Espino"
-release = "v.0.1"
+release = "v0.1.0a1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -25,7 +25,10 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.bibtex",
 ]
+
+bibtex_bibfiles = ["biblio.bib"]
 
 myst_enable_extensions = [
     "deflist",

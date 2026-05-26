@@ -1,6 +1,6 @@
 # Gabriel Graph
 
-The Gabriel Graph is a β-skeleton with β=1.
+The Gabriel Graph is a beta-skeleton with beta=1.
 
 Two points p and q are connected if the circle with diameter pq contains no other points.
 

@@ -4,13 +4,13 @@
 
 Applies a 2D rotation to the set of points around the origin (0,0).
 
-This method rotates points counter-clockwise by a given angle θ. The transformation uses a 2D rotation matrix:
+This method rotates points counter-clockwise by a given angle theta. The transformation uses a 2D rotation matrix:
 
 $$M = \begin{bmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{bmatrix}$$
 
 For each point P_i = (x_i, y_i), the rotated point $P'_i = (x'_i, y'_i)$ is:
-- $x'_{i} = x_{i} cos(θ) - y_{i} sin(θ)$
-- $y'_{i} = x_{i} sin(θ) + y_{i} cos(θ)$
+- $x'_{i} = x_{i} cos(theta) - y_{i} sin(theta)$
+- $y'_{i} = x_{i} sin(theta) + y_{i} cos(theta)$
 
 ### Parameters
 
@@ -37,7 +37,7 @@ grid = SetPoints.grid(shape=(5, 5))
 rotated = grid.rotation(45, degree=True)
 rotated.draw(figsize=(8, 8), v_color='red')
 
-# Rotate by π/4 radians
+# Rotate by pi/4 radians
 import numpy as np
 rotated_rad = grid.rotation(np.pi/4, degree=False)
 ```

@@ -300,17 +300,17 @@ Proximity Graphs
 - ``GG``: Gabriel Graph
 - ``RNG``: Relative Neighborhood Graph
 - ``MST``: Minimum Spanning Tree
-- ``Beta_Skeleton``: β-skeleton (β ≥ 0)
+- ``Beta_Skeleton``: beta-skeleton (beta ≥ 0)
 - ``Stepping_Stone``: Stepping Stone Graph
 - ``NNG``: k-Nearest Neighbors
-- ``Sigma_Graph``: σ-graph
+- ``Sigma_Graph``: sigma-graph
 - ``Unit_Disk``: Unit Disk Graph
 - ``SIG``: Sphere of Influence Graph
 - ``Convex_Hull``: Convex Hull
 - ``Elliptic_GabrielG``: Elliptic Gabriel Graph
-- ``Alpha_Shape``: α-shape
-- ``Alpha_Hull``: α-hull
-- ``Gamma_Graph``: γ-graph
+- ``Alpha_Shape``: alpha-shape
+- ``Alpha_Hull``: alpha-hull
+- ``Gamma_Graph``: gamma-graph
 
 Biological Graphs
 ^^^^^^^^^^^^^^^^^
@@ -336,7 +336,7 @@ Biological Graphs
             'name': 'RNG'
         },
         
-        # Beta-Skeleton with β=1.5
+        # Beta-Skeleton with beta=1.5
         {
             'class': pg.Beta_Skeleton,
             'params': {'beta': 1.5, 'type_region': 'lune'},
