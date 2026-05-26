@@ -7,7 +7,6 @@ pytest.importorskip("shapely")
 
 import proximitygraphs as pg
 
-
 pytestmark = pytest.mark.gis
 
 

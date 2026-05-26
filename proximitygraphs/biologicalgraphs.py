@@ -1,7 +1,9 @@
-from .points import SetPoints
-from .geometricgraphs import GeometricGraph
+import contextlib
 
 import numpy as np
+
+from .geometricgraphs import GeometricGraph
+from .points import SetPoints
 from .proximitygraphs import DelaunayG
 
 # ===========================================================
@@ -89,10 +91,8 @@ class PhysarumGraph(BiologicalGraph):
     def evolve(self, steps=100):
         """Run dynamic adaptation of conductivities for a given number of steps."""
         for _ in range(int(steps)):
-            try:
+            with contextlib.suppress(np.linalg.LinAlgError):
                 self._update_step()
-            except np.linalg.LinAlgError:
-                pass
 
             if self.reconnect:
                 comps = self.graph.components()
@@ -116,7 +116,7 @@ class PhysarumGraph(BiologicalGraph):
 
         # Build Laplacian-like conductance matrix
         A = np.zeros((n, n), dtype=float)
-        for (i, j), Dij, Lij in zip(edges, D, L_safe):
+        for (i, j), Dij, Lij in zip(edges, D, L_safe, strict=False):
             c = Dij / Lij
             A[i, i] += c
             A[j, j] += c
@@ -318,7 +318,7 @@ class FungalGraph(BiologicalGraph):
 
         candidate_edges.sort(key=lambda x: x[2])
 
-        for iteration in range(growth_iterations):
+        for _iteration in range(growth_iterations):
             if not candidate_edges:
                 break
 

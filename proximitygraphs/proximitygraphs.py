@@ -1,16 +1,14 @@
-import numpy as np
-from collections import Counter, defaultdict
-from scipy.spatial import Delaunay
-from scipy.spatial import ConvexHull
-from scipy.spatial import QhullError
-from scipy.spatial import cKDTree
-from scipy.spatial.distance import cdist, pdist
-from itertools import combinations
-from igraph import Graph
 import warnings
+from collections import Counter, defaultdict
+from itertools import combinations
 
-from .points import SetPoints
+import numpy as np
+from igraph import Graph
+from scipy.spatial import ConvexHull, Delaunay, QhullError, cKDTree
+from scipy.spatial.distance import cdist, pdist
+
 from .geometricgraphs import GeometricGraph
+from .points import SetPoints
 
 
 class ProximityGraph(GeometricGraph):
@@ -80,25 +78,22 @@ class ProximityGraph(GeometricGraph):
         range_min=None,
         range_max=None,
         strict=False,
-        data_type=[int, float, np.float64],
+        data_type=None,
     ):
+        if data_type is None:
+            data_type = [int, float, np.float64]
         if type(parameter) not in data_type:
             raise TypeError()
         inequality = cls.__closed_region(strict)
-        if strict:
-            strict_text = " or equal "
-        else:
-            strict_text = " "
-        if range_min is not None:
-            if inequality(parameter, range_min):
-                raise ValueError(
-                    f"The parameter is less{strict_text}than " + str(range_min)
-                )
-        if range_max is not None:
-            if inequality(range_max, parameter):
-                raise ValueError(
-                    f"The parameter is greater{strict_text}than " + str(range_max)
-                )
+        strict_text = " or equal " if strict else " "
+        if range_min is not None and inequality(parameter, range_min):
+            raise ValueError(
+                f"The parameter is less{strict_text}than " + str(range_min)
+            )
+        if range_max is not None and inequality(range_max, parameter):
+            raise ValueError(
+                f"The parameter is greater{strict_text}than " + str(range_max)
+            )
 
     def __closed_region(cls, strict):
         if strict is True:
@@ -326,7 +321,11 @@ class Beta_Skeleton(ProximityGraph):
         if beta < 1:
             if type_region != "intersection":
                 warnings.warn(
-                    f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead."
+                    (
+                        f"For beta < 1, the region type {type_region!r} is undefined. "
+                        "Use type_region='intersection' instead."
+                    ),
+                    stacklevel=2,
                 )
             skeleton.__empty_region = lambda p, q: skeleton.__intersection(p, q, beta)
             skeleton.__test = lambda test_1, test_2: test_1 * test_2
@@ -358,7 +357,11 @@ class Beta_Skeleton(ProximityGraph):
         if beta < 1:
             if type_region != "intersection":
                 warnings.warn(
-                    f"For β<1, the region type {type_region} is undefined.\nUse type_region='intersection'instead."
+                    (
+                        f"For beta < 1, the region type {type_region!r} is undefined. "
+                        "Use type_region='intersection' instead."
+                    ),
+                    stacklevel=2,
                 )
             pairs = self.__pairs_by_combinations()
             self.__empty_region = lambda p, q: self.__intersection(p, q, beta)
@@ -1167,9 +1170,7 @@ class Alpha_Shape(ProximityGraph):
         n = self.n
         edges_to_add = []
 
-        if n == 0:
-            pass
-        elif n == 1:
+        if n == 0 or n == 1:
             pass
         elif n == 2:
             if np.isclose(alpha, 0.0):
@@ -1189,7 +1190,7 @@ class Alpha_Shape(ProximityGraph):
                 if tris.size > 0:
                     R = self._batch_circumradius(pts, tris)
                     R_alpha = 1.0 / abs(alpha)
-                    keep = R <= (R_alpha + tol)
+                    keep = (R_alpha + tol) >= R
                     kept = tris[keep]
                     if kept.size > 0:
                         all_edges = self._edges_from_triangles(kept)
@@ -1554,14 +1555,14 @@ class Alpha_Hull(ProximityGraph):
 
         # vertices
         if getattr(self, "n", 0) > 0 and v_size > 0:
-            scatter_kwargs = dict(s=v_size, c=v_color, alpha=v_alpha)
+            scatter_kwargs = {"s": v_size, "c": v_color, "alpha": v_alpha}
             scatter_kwargs.update(v_kwargs)  # user overrides defaults
             ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
 
         # arcs (same "edges" slot, but drawn as curves)
         arcs = getattr(self, "arcs", None)
         if arcs:
-            line_kwargs = dict(linewidth=e_size, color=e_color, alpha=e_alpha)
+            line_kwargs = {"linewidth": e_size, "color": e_color, "alpha": e_alpha}
             line_kwargs.update(e_kwargs)  # user overrides defaults
             for arc in arcs:
                 # arc expected shape (m, 2)
@@ -1572,7 +1573,7 @@ class Alpha_Hull(ProximityGraph):
             plot_title = getattr(self, "name", self.__class__.__name__)
             if details and getattr(self, "details", None):
                 plot_title += f"\n{self.details}"
-            title_args = dict(fontsize=fontsize)
+            title_args = {"fontsize": fontsize}
             title_args.update(title_kwargs)
             ax.set_title(plot_title, **title_args)
 

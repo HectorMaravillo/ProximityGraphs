@@ -1,13 +1,15 @@
+import warnings
+from collections.abc import Callable
+from typing import Any
+
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Callable, Any, Optional, Tuple
-import warnings
 from matplotlib import pyplot as plt
-from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
-from .points import SetPoints
 from .geometricgraphs import GeometricGraph
+from .points import SetPoints
 
 
 class Experiment:
@@ -42,10 +44,10 @@ class Experiment:
     def __init__(
         self,
         name: str = "Unnamed Experiment",
-        point_config: Optional[Dict[str, Any]] = None,
-        graph_configs: Optional[List[Dict[str, Any]]] = None,
+        point_config: dict[str, Any] | None = None,
+        graph_configs: list[dict[str, Any]] | None = None,
         n_simulations: int = 30,
-        seed: Optional[int] = None,
+        seed: int | None = None,
         verbose: bool = True,
     ):
         """
@@ -89,12 +91,12 @@ class Experiment:
         self.verbose = verbose
 
         # Storage for results
-        self.results: Optional[pd.DataFrame] = None
-        self.aggregated: Optional[pd.DataFrame] = None
-        self._raw_graphs: List[Dict[str, Any]] = []
+        self.results: pd.DataFrame | None = None
+        self.aggregated: pd.DataFrame | None = None
+        self._raw_graphs: list[dict[str, Any]] = []
 
         # Custom metrics registry
-        self._custom_metrics: Dict[str, Callable] = {}
+        self._custom_metrics: dict[str, Callable] = {}
 
         # Validation
         self._validate_config()
@@ -108,10 +110,10 @@ class Experiment:
     def _validate_config(self):
         """Validate experiment configuration."""
         if not self.point_config:
-            warnings.warn("No point configuration provided. Use add_point_config().")
+            warnings.warn("No point configuration provided. Use add_point_config().", stacklevel=2)
 
         if not self.graph_configs:
-            warnings.warn("No graph configurations provided. Use add_graph_config().")
+            warnings.warn("No graph configurations provided. Use add_graph_config().", stacklevel=2)
 
         if self.n_simulations < 1:
             raise ValueError("n_simulations must be at least 1.")
@@ -135,7 +137,7 @@ class Experiment:
     def add_point_config(
         self,
         method: str,
-        transformations: Optional[List[Dict[str, Any]]] = None,
+        transformations: list[dict[str, Any]] | None = None,
         **params,
     ):
         """
@@ -189,7 +191,7 @@ class Experiment:
         }
         self._validate_config()
 
-    def add_graph_config(self, graph_class, name: Optional[str] = None, **params):
+    def add_graph_config(self, graph_class, name: str | None = None, **params):
         """
         Add a graph configuration to the experiment.
 
@@ -285,7 +287,7 @@ class Experiment:
             try:
                 points = self._generate_points(sim_seed)
             except Exception as e:
-                warnings.warn(f"Failed to generate points in simulation {sim}: {e}")
+                warnings.warn(f"Failed to generate points in simulation {sim}: {e}", stacklevel=2)
                 continue
 
             # Build graphs for this point set
@@ -307,7 +309,7 @@ class Experiment:
 
                 except Exception as e:
                     warnings.warn(
-                        f"Failed to build {graph_config['name']} in simulation {sim}: {e}"
+                        f"Failed to build {graph_config['name']} in simulation {sim}: {e}", stacklevel=2
                     )
                     continue
 
@@ -323,7 +325,7 @@ class Experiment:
 
         return self.results
 
-    def _generate_points(self, seed: Optional[int]) -> SetPoints:
+    def _generate_points(self, seed: int | None) -> SetPoints:
         """Generate a point set according to configuration and apply transformations."""
         method_name = self.point_config["method"]
         params = self.point_config["params"].copy()
@@ -346,13 +348,13 @@ class Experiment:
             transform_params = transform.get("params", {})
 
             if not transform_method:
-                warnings.warn("Transformation missing 'method' key, skipping.")
+                warnings.warn("Transformation missing 'method' key, skipping.", stacklevel=2)
                 continue
 
             # Check if the transformation method exists
             if not hasattr(points, transform_method):
                 warnings.warn(
-                    f"SetPoints has no transformation method '{transform_method}', skipping."
+                    f"SetPoints has no transformation method '{transform_method}', skipping.", stacklevel=2
                 )
                 continue
 
@@ -362,13 +364,13 @@ class Experiment:
                 points = transform_func(**transform_params)
             except Exception as e:
                 warnings.warn(
-                    f"Failed to apply transformation '{transform_method}': {e}"
+                    f"Failed to apply transformation '{transform_method}': {e}", stacklevel=2
                 )
                 continue
 
         return points
 
-    def _build_graph(self, points: SetPoints, config: Dict[str, Any]) -> GeometricGraph:
+    def _build_graph(self, points: SetPoints, config: dict[str, Any]) -> GeometricGraph:
         """Build a graph according to configuration."""
         graph_class = config["class"]
         params = config["params"].copy()
@@ -378,7 +380,7 @@ class Experiment:
 
     def _extract_metrics(
         self, graph: GeometricGraph, simulation: int, graph_type: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extract all metrics from a graph."""
         metrics = {
             "simulation": simulation,
@@ -450,13 +452,13 @@ class Experiment:
             try:
                 metrics[metric_name] = float(metric_func(graph))
             except Exception as e:
-                warnings.warn(f"Custom metric '{metric_name}' failed: {e}")
+                warnings.warn(f"Custom metric '{metric_name}' failed: {e}", stacklevel=2)
                 metrics[metric_name] = np.nan
 
         return metrics
 
     def aggregate(
-        self, groupby: str = "graph_type", metrics: Optional[List[str]] = None
+        self, groupby: str = "graph_type", metrics: list[str] | None = None
     ) -> pd.DataFrame:
         """
         Aggregate results across simulations.
@@ -523,10 +525,10 @@ class Experiment:
         self,
         metric: str,
         kind: str = "bar",
-        figsize: Tuple[int, int] = (10, 6),
-        title: Optional[str] = None,
+        figsize: tuple[int, int] = (10, 6),
+        title: str | None = None,
         **kwargs,
-    ) -> Tuple[Figure, Axes]:
+    ) -> tuple[Figure, Axes]:
         """
         Plot a specific metric across graph types.
 
@@ -611,8 +613,8 @@ class Experiment:
         return fig, ax
 
     def compare_metrics(
-        self, metrics: List[str], figsize: Tuple[int, int] = (14, 10), **kwargs
-    ) -> Tuple[Figure, np.ndarray]:
+        self, metrics: list[str], figsize: tuple[int, int] = (14, 10), **kwargs
+    ) -> tuple[Figure, np.ndarray]:
         """
         Create a grid of plots comparing multiple metrics.
 
@@ -641,7 +643,7 @@ class Experiment:
 
         for idx, metric in enumerate(metrics):
             if metric not in self.results.columns:
-                warnings.warn(f"Metric '{metric}' not found, skipping.")
+                warnings.warn(f"Metric '{metric}' not found, skipping.", stacklevel=2)
                 continue
 
             ax = axes[idx]
@@ -689,7 +691,7 @@ class Experiment:
         if self.verbose:
             print(f"Results exported to {filepath}")
 
-    def get_graph(self, simulation: int, graph_type: str) -> Optional[GeometricGraph]:
+    def get_graph(self, simulation: int, graph_type: str) -> GeometricGraph | None:
         """
         Retrieve a specific graph from stored results.
 
@@ -707,7 +709,7 @@ class Experiment:
         """
         if not self._raw_graphs:
             warnings.warn(
-                "Graphs were not stored. Run experiment with store_graphs=True."
+                "Graphs were not stored. Run experiment with store_graphs=True.", stacklevel=2
             )
             return None
 

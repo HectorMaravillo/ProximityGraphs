@@ -1,10 +1,9 @@
 # https://hpaulkeeler.com/ para point process
 
 import numpy as np
-
-from scipy.stats import poisson, uniform
-from scipy.optimize import minimize
 from matplotlib.pyplot import savefig, subplots
+from scipy.optimize import minimize
+from scipy.stats import poisson, uniform
 
 from .utils import points_on_sphere
 
@@ -68,9 +67,11 @@ class SetPoints:
         attributes:
         ----------
         points : numpy.ndarray
-            A 2D numpy array of shape (n, dim) where n is the number of points and dim is the dimension of each point.
+            A 2D numpy array of shape (n, dim) where n is the number of points
+            and dim is the dimension of each point.
         seed : int, optional
-            A seed for the random number generator to ensure reproducibility. If None, a default random generator is used.
+            A seed for the random number generator to ensure reproducibility.
+            If None, a default random generator is used.
         Raises:
         ------
         TypeError: If points is not a numpy.ndarray.
@@ -267,7 +268,8 @@ class SetPoints:
 
         The method first generates a base grid (`grid_1`). The x-coordinates in
         this grid are spaced by alternating increments (e.g., 1, 2, 1, 2,...),
-        and y-coordinates are spaced by `sqrt(3)` (or `2*sqrt(3)` depending on interpretation).
+        and y-coordinates are spaced by `sqrt(3)` (or `2*sqrt(3)`
+        depending on interpretation).
         A second grid (`grid_2`) is then generated. Its x-coordinates are also
         spaced by alternating increments but offset from `grid_1` (e.g., by -0.5
         relative to a scaled version of `grid_1`'s x-pattern). The y-coordinates
@@ -301,14 +303,14 @@ class SetPoints:
         y = np.cumsum(np.array([np.sqrt(3)] * 2 * n_y))
         y = np.insert(y, 0, 0)
         xv, yv = np.meshgrid(x, y)
-        grid_1 = np.array(list(zip(xv.flat, yv.flat)))
+        grid_1 = np.array(list(zip(xv.flat, yv.flat, strict=False)))
         x = np.cumsum(np.array([2, 1] * n_x))
         x = np.insert(x, 0, 0) - 0.5
         y = np.cumsum(np.array([np.sqrt(3)] * 2 * n_y))
         y = np.insert(y, 0, 0)
         y = y + 0.5 * np.sqrt(3)
         xv, yv = np.meshgrid(x, y)
-        grid_2 = np.array(list(zip(xv.flat, yv.flat)))
+        grid_2 = np.array(list(zip(xv.flat, yv.flat, strict=False)))
         points = np.concatenate((grid_1, grid_2))
         return cls(points)
 
@@ -359,18 +361,19 @@ class SetPoints:
         x = np.arange(0, n_x + 1)
         y = np.arange(0, np.sqrt(3) * np.floor(n_y / 2) + 1, np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
-        grid_1 = np.array(list(zip(xv.flat, yv.flat)))
+        grid_1 = np.array(list(zip(xv.flat, yv.flat, strict=False)))
         x = x + 0.5
         y = np.arange(np.sqrt(3) / 2, np.sqrt(3) * np.ceil(n_y / 2), np.sqrt(3))
         xv, yv = np.meshgrid(x, y)
-        grid_2 = np.array(list(zip(xv.flat, yv.flat)))
+        grid_2 = np.array(list(zip(xv.flat, yv.flat, strict=False)))
         points = np.concatenate((grid_1, grid_2))
         return cls(points)
 
     @classmethod
     def poissonprocess_square(cls, intensity=10, limit=1, seed=None):
         """
-        Generates points according to a homogeneous Poisson point process in a square region.
+        Generates points according to a homogeneous Poisson point process
+        in a square region.
 
         A 2D homogeneous Poisson point process is characterized by a constant intensity
         (lambda, denoted as `intensity` here) which represents the average number of
@@ -381,7 +384,8 @@ class SetPoints:
             from a Poisson distribution with mean `L = intensity * area`. The `area`
             is calculated as `(xmax - xmin) * (ymax - ymin)`, where the simulation
             window is defined by `(xmin, ymin)` to `(xmax, ymax)`. In this method,
-            `xmin` and `ymin` are 0, and `xmax` and `ymax` are `limit`. So, `area = limit^2`.
+            `xmin` and `ymin` are 0, and `xmax` and `ymax` are `limit`.
+            So, `area = limit^2`.
         2.  Given `N` points, their x-coordinates are drawn independently from a
             uniform distribution U(0, `limit`), and their y-coordinates are drawn
             independently from a uniform distribution U(0, `limit`).
@@ -424,10 +428,13 @@ class SetPoints:
     @classmethod
     def poissonprocess_circle(cls, intensity=10, radius=1, seed=None):
         """
-        Generates points according to a homogeneous Poisson point process on the circumference of a circle.
+        Generates points according to a homogeneous Poisson point process on
+        the circumference of a circle.
 
-        This method simulates points positioned on the perimeter of a circle of a given `radius`.
-        The process is homogeneous, meaning the intensity of points is uniform along the circumference.
+        This method simulates points positioned on the perimeter of a circle
+        of a given `radius`.
+        The process is homogeneous, meaning the intensity of points is uniform
+        along the circumference.
 
         The generation process involves two main steps:
         1.  The number of points, `N`, to be placed on the circumference is drawn
@@ -474,7 +481,8 @@ class SetPoints:
         seed=None,
     ):
         """
-        Generates points according to an inhomogeneous Poisson point process in a square region using thinning.
+        Generates points according to an inhomogeneous Poisson point process
+        in a square region using thinning.
 
         An inhomogeneous (or nonhomogeneous) Poisson point process is characterized by an
         intensity function `fun_lambda(x,y)` that varies spatially. The value of
@@ -557,7 +565,7 @@ class SetPoints:
     def cluster_square(
         cls,
         intensity=(10, 10),
-        cluster={"name": "Matern", "param": 0.1},
+        cluster=None,
         limit=1,
         seed=None,
     ):
@@ -618,6 +626,8 @@ class SetPoints:
             A seed for the random number generator to ensure reproducibility.
             If None, the RNG is initialized without a specific seed. Defaults to None.
         """
+        if cluster is None:
+            cluster = {"name": "Matern", "param": 0.1}
         rng = np.random.default_rng(seed=seed)
         limits = ((0, limit), (0, limit))
         # intensity[0] - density of parent Poisson point process
@@ -786,13 +796,13 @@ class SetPoints:
 
         # points (same naming as vertices)
         if self.points.shape[0] > 0 and v_size > 0:
-            scatter_kwargs = dict(
-                s=v_size,
-                c=v_color,
-                alpha=v_alpha,
-                linewidths=0,  # no outline
-                edgecolors="none",  # no outline
-            )
+            scatter_kwargs = {
+                "s": v_size,
+                "c": v_color,
+                "alpha": v_alpha,
+                "linewidths": 0,  # no outline
+                "edgecolors": "none",  # no outline
+            }
             scatter_kwargs.update(v_kwargs)  # user overrides defaults
             ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
 
@@ -801,7 +811,7 @@ class SetPoints:
             plot_title = getattr(self, "name", self.__class__.__name__)
             if details and getattr(self, "details", None):
                 plot_title += f"\n{self.details}"
-            title_args = dict(fontsize=fontsize)
+            title_args = {"fontsize": fontsize}
             title_args.update(title_kwargs)
             ax.set_title(plot_title, **title_args)
 
@@ -879,7 +889,9 @@ class SetPoints:
         is calculated as:
           x'_i = x_i * cos(theta) - y_i * sin(theta)
           y'_i = x_i * sin(theta) + y_i * cos(theta)
-        This corresponds to `P' = P @ M.T` if using row vectors for points, or `P' = M @ P` if using column vectors.
+
+        This corresponds to `P' = P @ M.T`
+        if using row vectors for points, or `P' = M @ P` if using column vectors.
         The code implements `P @ matrix` where `matrix` is as defined above.
 
         Parameters:

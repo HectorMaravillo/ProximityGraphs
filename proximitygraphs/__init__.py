@@ -44,104 +44,98 @@ Example (pseudocode)::
 __version__ = "0.1.0a1"
 
 # Re-export selected symbols from submodules
-from .points import SetPoints
-
-from .envelops import (
-    circle_centroid,
-    circle_smallest,
-    slope,
-    is_in_circle,
-    circle_through_two_points,
-    circle_through_three_points,
-    trivial_circle,
-    smallest_circle_helper,
-    smallest_circle,
+# Re-export the submodules themselves
+from . import (
+    biologicalgraphs,
+    envelops,
+    experiments,
+    geometricgraphs,
+    points,
+    proximitygraphs,
 )
-
-from .geometricgraphs import (
-    GeometricGraph,
-    load_graph,
-    draw_grid,
-)
-
-from .proximitygraphs import (
-    ProximityGraph,
-    DelaunayG,
-    Convex_Hull,
-    MST,
-    Beta_Skeleton,
-    Stepping_Stone,
-    NNG,
-    Sigma_Graph,
-    Unit_Disk,
-    SIG,
-    RNG,
-    GG,
-    Elliptic_GabrielG,
-    Alpha_Shape,
-    Alpha_Hull,
-    Gamma_Graph,
-)
-
-from .experiments import Experiment
-
 from .biologicalgraphs import (
     PhysarumGraph,
 )
-
-# Re-export the submodules themselves
-from . import (
-    points,
-    envelops,
-    geometricgraphs,
-    proximitygraphs,
-    experiments,
-    biologicalgraphs,
+from .envelops import (
+    circle_centroid,
+    circle_smallest,
+    circle_through_three_points,
+    circle_through_two_points,
+    is_in_circle,
+    slope,
+    smallest_circle,
+    smallest_circle_helper,
+    trivial_circle,
+)
+from .experiments import Experiment
+from .geometricgraphs import (
+    GeometricGraph,
+    draw_grid,
+    load_graph,
+)
+from .points import SetPoints
+from .proximitygraphs import (
+    GG,
+    MST,
+    NNG,
+    RNG,
+    SIG,
+    Alpha_Hull,
+    Alpha_Shape,
+    Beta_Skeleton,
+    Convex_Hull,
+    DelaunayG,
+    Elliptic_GabrielG,
+    Gamma_Graph,
+    ProximityGraph,
+    Sigma_Graph,
+    Stepping_Stone,
+    Unit_Disk,
 )
 
 __all__ = [
-    # Submodules
-    "points",
-    "envelops",
-    "geometricgraphs",
-    "proximitygraphs",
-    "experiments",
-    "biologicalgraphs",
+    "GG",
+    "MST",
+    "NNG",
+    "RNG",
+    "SIG",
+    "Alpha_Hull",
+    "Alpha_Shape",
+    "Beta_Skeleton",
+    "Convex_Hull",
+    "DelaunayG",
+    "Elliptic_GabrielG",
+    # experiments
+    "Experiment",
+    "Gamma_Graph",
+    # geometricgraphs
+    "GeometricGraph",
+    # biologicalgraphs
+    "PhysarumGraph",
+    # proximitygraphs
+    "ProximityGraph",
     # points
     "SetPoints",
+    "Sigma_Graph",
+    "Stepping_Stone",
+    "Unit_Disk",
+    "biologicalgraphs",
     # envelops
     "circle_centroid",
     "circle_smallest",
-    "slope",
-    "is_in_circle",
-    "circle_through_two_points",
     "circle_through_three_points",
-    "trivial_circle",
-    "smallest_circle_helper",
-    "smallest_circle",
-    # geometricgraphs
-    "GeometricGraph",
-    "load_graph",
+    "circle_through_two_points",
     "draw_grid",
-    # proximitygraphs
-    "ProximityGraph",
-    "DelaunayG",
-    "Convex_Hull",
-    "MST",
-    "Beta_Skeleton",
-    "Stepping_Stone",
-    "NNG",
-    "Sigma_Graph",
-    "Unit_Disk",
-    "SIG",
-    "RNG",
-    "GG",
-    "Elliptic_GabrielG",
-    "Alpha_Shape",
-    "Alpha_Hull",
-    "Gamma_Graph",
-    # experiments
-    "Experiment",
-    # biologicalgraphs
-    "PhysarumGraph",
+    "envelops",
+    "experiments",
+    "geometricgraphs",
+    "is_in_circle",
+    "load_graph",
+    # Submodules
+    "points",
+    "proximitygraphs",
+    "slope",
+    "smallest_circle",
+    "smallest_circle_helper",
+    "trivial_circle",
 ]

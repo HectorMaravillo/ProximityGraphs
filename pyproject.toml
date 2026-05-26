@@ -28,11 +28,14 @@ dependencies = [
 keywords = [
   "proximity graphs",
   "computational geometry",
-  "random geometric graphs",
-  "gabriel graph",
-  "relative neighborhood graph",
-  "delaunay triangulation",
-  "geometric networks",
+  "beta skeleton",
+  "gamma neighborhood",
+  "alpha shapes",
+  "stepping stone",
+  "nng",
+  "eliptic gabriel graph",
+  "physarum graph",
+  "fungal graph"
 ]
 
 classifiers = [
@@ -99,9 +102,26 @@ target-version = "py310"
 exclude = [
   "article",
   "docs/build",
-  "generate_all_doc_images.py",
+  "docs/scripts/generate_all_doc_images.py",
   "*.ipynb",
 ]
 
 [tool.ruff.lint]
-select = ["F"]
+select = [
+  "E",
+  "W",
+  "F",
+  "I",
+  "B",
+  "UP",
+  "SIM",
+  "C4",
+  "RUF",
+  "PT",
+  "NPY",
+]
+ignore = [
+  "RUF001",  # allow Greek/math symbols in strings
+  "RUF002",  # allow Greek/math symbols in docstrings
+  "RUF003",  # allow Greek/math symbols in comments
+]

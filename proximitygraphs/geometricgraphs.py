@@ -1,13 +1,13 @@
+import warnings
+
 import igraph as ig
 import numpy as np
-
-from scipy.spatial.distance import cdist
-from matplotlib.pyplot import subplots
-from scipy.stats import entropy
 from matplotlib.collections import LineCollection
+from matplotlib.pyplot import subplots
+from scipy.spatial.distance import cdist
+from scipy.stats import entropy
 
 from .points import SetPoints
-import warnings
 
 
 def _require_gis_dependencies():
@@ -83,7 +83,10 @@ class GeometricGraph:
 
     @property
     def f(self):
-        """int: The number of faces, calculated using Euler's formula: V-E+F=C+1 for general planar graphs, or V-E+F=1 for a single connected component on a sphere/plane if graph is connected).
+        """int: The number of faces, calculated using
+        Euler's formula: V-E+F=C+1for general planar graphs,
+        or V-E+F=1 for a single connected component on a sphere/plane
+        if graph is connected).
         Here it's simplified as C - V + E + 1, assuming one exterior face.
         """
         return self.cc - self.n + self.m + 1
@@ -137,8 +140,10 @@ class GeometricGraph:
 
     @property
     def orientation(self):
-        """numpy.ndarray: An array containing the orientation (angle in degrees, typically CCW from positive x-axis) of all edges.
-        Calculated on demand if not already present. Returns an empty array if no edges or if not applicable.
+        """numpy.ndarray: An array containing the orientation
+        (angle in degrees, typically CCW from positive x-axis) of all edges.
+        Calculated on demand if not already present. Returns an empty array if no edges
+        or if not applicable.
         """
         if (
             not hasattr(self.graph, "es")
@@ -199,7 +204,7 @@ class GeometricGraph:
         return geometric_graph_instance
 
     @classmethod
-    def random_graph(cls, setpoints, p: float, seed: int = None):
+    def random_graph(cls, setpoints, p: float, seed: int | None = None):
         if not isinstance(setpoints, SetPoints):
             raise TypeError("Input 'setpoints' must be an instance of SetPoints.")
         if not (0.0 <= p <= 1.0):
@@ -262,7 +267,8 @@ class GeometricGraph:
                 or points_arr.shape[1] < 2
             ):
                 warnings.warn(
-                    "Orientation calculation requires a NumPy array of at least 2 points in at least 2 dimensions."
+                    "Orientation calculation requires a NumPy array of at least 2" \
+                    "points in at least 2 dimensions.", stacklevel=2
                 )
                 return np.array([])
             dim = points_arr.shape[1]
@@ -289,14 +295,14 @@ class GeometricGraph:
                 calculated_orientations = np.column_stack((azimuth, elevation))
             else:
                 warnings.warn(
-                    f"Orientation is defined only for 2‑D or 3‑D layouts (received {dim}‑D). No values were written."
+                    f"Orientation is defined only for 2‑D or 3‑D layouts (received {dim}‑D). No values were written.", stacklevel=2
                 )
             if calculated_orientations.size > 0 and hasattr(self.graph, "es"):
                 self.graph.es["orientation"] = calculated_orientations.tolist()
             return calculated_orientations
         except Exception as exc:
             warnings.warn(
-                f"Could not compute edge orientations due to exception: {exc}"
+                f"Could not compute edge orientations due to exception: {exc}", stacklevel=2
             )
             return np.array([])
 
@@ -345,12 +351,12 @@ class GeometricGraph:
                 angles = (angles + 90) % 180
         else:
             warnings.warn(
-                f"Orientation array has unexpected shape {orientation.shape}; cannot plot."
+                f"Orientation array has unexpected shape {orientation.shape}; cannot plot.", stacklevel=2
             )
             return None, None
 
         if angles.size == 0:
-            warnings.warn("No orientation data to plot for draw_orientation.")
+            warnings.warn("No orientation data to plot for draw_orientation.", stacklevel=2)
             fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
             ax.set_title("Edge orientation distribution (No data)")
             return fig, ax
@@ -360,7 +366,7 @@ class GeometricGraph:
 
         bin_counts, bin_edges = np.histogram(angles_all, range=(0, 360), bins=num_bins)
         if bin_counts.sum() == 0:
-            warnings.warn("All bin counts are zero in draw_orientation.")
+            warnings.warn("All bin counts are zero in draw_orientation.", stacklevel=2)
             fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
             ax.set_title("Edge orientation distribution (All bins empty)")
             return fig, ax
@@ -489,7 +495,7 @@ class GeometricGraph:
 
         # vertices
         if self.n > 0 and v_size > 0:
-            scatter_kwargs = dict(s=v_size, c=v_color, alpha=v_alpha)
+            scatter_kwargs = {"s": v_size, "c": v_color, "alpha": v_alpha}
             scatter_kwargs.update(v_kwargs)  # user overrides defaults
             ax.scatter(self.points[:, 0], self.points[:, 1], **scatter_kwargs)
 
@@ -499,7 +505,7 @@ class GeometricGraph:
             segs = np.array(
                 [[self.points[i], self.points[j]] for (i, j) in edges], dtype=float
             )
-            line_kwargs = dict(linewidths=e_size, colors=e_color, alpha=e_alpha)
+            line_kwargs = {"linewidths": e_size, "colors": e_color, "alpha": e_alpha}
             line_kwargs.update(e_kwargs)  # user overrides defaults
             lc = LineCollection(segs, **line_kwargs)
             ax.add_collection(lc)
@@ -509,7 +515,7 @@ class GeometricGraph:
             plot_title = self.name
             if details and getattr(self, "details", None):
                 plot_title += f"\n{self.details}"
-            title_args = dict(fontsize=fontsize)
+            title_args = {"fontsize": fontsize}
             title_args.update(title_kwargs)
             ax.set_title(plot_title, **title_args)
 
@@ -524,7 +530,7 @@ class GeometricGraph:
         if save is None:
             return fig, ax
         else:
-            savefig_args = dict(bbox_inches="tight", transparent=transparent)
+            savefig_args = {"bbox_inches": "tight", "transparent": transparent}
             savefig_args.update(savefig_kwargs)
             fig.savefig(save + ".png", **savefig_args)
             fig.canvas.draw_idle()
@@ -654,7 +660,8 @@ class GeometricGraph:
 
         if self.setpoints.dim != 2:
             raise ValueError(
-                "Points must be a 2D array with shape (n, dim) where n is the number of points and dim is the dimension."
+                "Points must be a 2D array with shape (n, dim) where n"
+                "is the number of points and dim is the dimension."
             )
 
         lines_geom = []
@@ -696,7 +703,8 @@ class GeometricGraph:
         polygons = list(polygonize(gpd_lines["geometry"]))
         if not polygons:
             raise ValueError(
-                "Polygonization did not result in any polygons. Ensure the graph forms closed regions."
+                "Polygonization did not result in any polygons." \
+                "Ensure the graph forms closed regions."
             )
         return GeoDataFrame(geometry=polygons)
 
@@ -758,7 +766,7 @@ def draw_grid(
 
     axs_flat = axs.flat  # works for (nrows,ncols) and for 1D cases
 
-    for ax, G in zip(axs_flat, graphs):
+    for ax, G in zip(axs_flat, graphs, strict=False):
         G = _unwrap_singleton(G)
         if not hasattr(G, "draw"):
             raise TypeError(

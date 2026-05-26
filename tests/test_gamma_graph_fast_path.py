@@ -6,7 +6,6 @@ import numpy as np
 
 import proximitygraphs as pg
 
-
 FAST_METHOD = "_Gamma_Graph__assign_edges_planar_fast"
 FALLBACK_METHOD = "_Gamma_Graph__assign_edges"
 CAN_USE_METHOD = "_Gamma_Graph__can_use_planar_fast_gamma"

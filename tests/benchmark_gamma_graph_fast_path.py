@@ -5,7 +5,6 @@ from unittest.mock import patch
 
 import proximitygraphs as pg
 
-
 CAN_USE_METHOD = "_Gamma_Graph__can_use_planar_fast_gamma"
 
 
