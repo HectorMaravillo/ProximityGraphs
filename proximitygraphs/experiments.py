@@ -79,7 +79,8 @@ class Experiment:
         n_simulations : int, optional
             Number of independent simulations to run. Default 30.
         seed : int, optional
-            Master random seed for reproducibility. If None, results are non-deterministic.
+            Master random seed for reproducibility. If None, results are
+            non-deterministic.
         verbose : bool, optional
             If True, print progress information. Default True.
         """
@@ -110,10 +111,15 @@ class Experiment:
     def _validate_config(self):
         """Validate experiment configuration."""
         if not self.point_config:
-            warnings.warn("No point configuration provided. Use add_point_config().", stacklevel=2)
+            warnings.warn(
+                "No point configuration provided. Use add_point_config().", stacklevel=2
+            )
 
         if not self.graph_configs:
-            warnings.warn("No graph configurations provided. Use add_graph_config().", stacklevel=2)
+            warnings.warn(
+                "No graph configurations provided. Use add_graph_config().",
+                stacklevel=2,
+            )
 
         if self.n_simulations < 1:
             raise ValueError("n_simulations must be at least 1.")
@@ -148,8 +154,10 @@ class Experiment:
         method : str
             Name of SetPoints class method (e.g., 'uniform_square', 'normal_dist').
         transformations : list of dict, optional
-            List of transformations to apply after point generation. Each dict must contain:
-            - 'method': str, name of transformation method ('rotation', 'scaling', 'traslation', 'perturb')
+            List of transformations to apply after point generation. Each dict
+            must contain:
+            - 'method': str, name of transformation method ('rotation',
+              'scaling', 'traslation', 'perturb')
             - 'params': dict, parameters for the transformation
             Example: [
                 {'method': 'rotation', 'params': {'angle': 45}},
@@ -287,7 +295,9 @@ class Experiment:
             try:
                 points = self._generate_points(sim_seed)
             except Exception as e:
-                warnings.warn(f"Failed to generate points in simulation {sim}: {e}", stacklevel=2)
+                warnings.warn(
+                    f"Failed to generate points in simulation {sim}: {e}", stacklevel=2
+                )
                 continue
 
             # Build graphs for this point set
@@ -308,8 +318,13 @@ class Experiment:
                         )
 
                 except Exception as e:
+                    msg = (
+                        f"Failed to build {graph_config['name']} in simulation "
+                        f"{sim}: {e}"
+                    )
                     warnings.warn(
-                        f"Failed to build {graph_config['name']} in simulation {sim}: {e}", stacklevel=2
+                        msg,
+                        stacklevel=2,
                     )
                     continue
 
@@ -348,13 +363,20 @@ class Experiment:
             transform_params = transform.get("params", {})
 
             if not transform_method:
-                warnings.warn("Transformation missing 'method' key, skipping.", stacklevel=2)
+                warnings.warn(
+                    "Transformation missing 'method' key, skipping.", stacklevel=2
+                )
                 continue
 
             # Check if the transformation method exists
             if not hasattr(points, transform_method):
+                msg = (
+                    f"SetPoints has no transformation method "
+                    f"'{transform_method}', skipping."
+                )
                 warnings.warn(
-                    f"SetPoints has no transformation method '{transform_method}', skipping.", stacklevel=2
+                    msg,
+                    stacklevel=2,
                 )
                 continue
 
@@ -364,7 +386,8 @@ class Experiment:
                 points = transform_func(**transform_params)
             except Exception as e:
                 warnings.warn(
-                    f"Failed to apply transformation '{transform_method}': {e}", stacklevel=2
+                    f"Failed to apply transformation '{transform_method}': {e}",
+                    stacklevel=2,
                 )
                 continue
 
@@ -424,17 +447,17 @@ class Experiment:
         # Entropy metrics (if applicable)
         try:
             metrics["entropy_degree"] = graph.entropy("degree", bins=10)
-        except:
+        except Exception:
             metrics["entropy_degree"] = 0.0
 
         try:
             metrics["entropy_length"] = graph.entropy("length", bins=10)
-        except:
+        except Exception:
             metrics["entropy_length"] = 0.0
 
         try:
             metrics["entropy_orientation"] = graph.entropy("orientation", bins=36)
-        except:
+        except Exception:
             metrics["entropy_orientation"] = 0.0
 
         # Graph connectivity
@@ -452,7 +475,9 @@ class Experiment:
             try:
                 metrics[metric_name] = float(metric_func(graph))
             except Exception as e:
-                warnings.warn(f"Custom metric '{metric_name}' failed: {e}", stacklevel=2)
+                warnings.warn(
+                    f"Custom metric '{metric_name}' failed: {e}", stacklevel=2
+                )
                 metrics[metric_name] = np.nan
 
         return metrics
@@ -586,10 +611,11 @@ class Experiment:
                 )
                 ax.set_ylabel(metric.replace("_", " ").title())
                 ax.set_xlabel("Graph Type")
-            except ImportError:
+            except ImportError as exc:
                 raise ImportError(
-                    "Seaborn required for violin plots. Install with: pip install seaborn"
-                )
+                    "Seaborn required for violin plots. Install with: "
+                    "pip install seaborn"
+                ) from exc
 
         elif kind == "line":
             # Line plot (useful for showing trends across simulations)
@@ -709,7 +735,8 @@ class Experiment:
         """
         if not self._raw_graphs:
             warnings.warn(
-                "Graphs were not stored. Run experiment with store_graphs=True.", stacklevel=2
+                "Graphs were not stored. Run experiment with store_graphs=True.",
+                stacklevel=2,
             )
             return None
 
@@ -722,4 +749,7 @@ class Experiment:
     def __repr__(self) -> str:
         """String representation of the experiment."""
         status = "Not run" if self.results is None else f"{len(self.results)} results"
-        return f"Experiment('{self.name}', simulations={self.n_simulations}, status={status})"
+        return (
+            f"Experiment('{self.name}', simulations={self.n_simulations}, "
+            f"status={status})"
+        )

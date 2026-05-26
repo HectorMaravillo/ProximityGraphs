@@ -255,7 +255,10 @@ class FungalGraph(BiologicalGraph):
         super().__init__(setpoints)
 
         self.name = "Fungal Graph"
-        self.details = f"max_deg={max_degree}, thresh={distance_threshold_percentile}%, prune={prune_weak_factor}"
+        self.details = (
+            f"max_deg={max_degree}, thresh={distance_threshold_percentile}%, "
+            f"prune={prune_weak_factor}"
+        )
         self.max_degree = max_degree
 
         self.sources = sources if sources is not None else [0]
@@ -312,9 +315,10 @@ class FungalGraph(BiologicalGraph):
         candidate_edges = []
         for i in range(n):
             for j in range(i + 1, n):
-                if dist_matrix[i, j] <= threshold_dist:
-                    if not self.graph.are_connected(i, j):
-                        candidate_edges.append((i, j, dist_matrix[i, j]))
+                if dist_matrix[i, j] <= threshold_dist and not self.graph.are_connected(
+                    i, j
+                ):
+                    candidate_edges.append((i, j, dist_matrix[i, j]))
 
         candidate_edges.sort(key=lambda x: x[2])
 
@@ -338,7 +342,7 @@ class FungalGraph(BiologicalGraph):
                     path = self.graph.get_shortest_paths(i, j)[0]
                     current_path_length = len(path) - 1
                     shortcut_benefit = max(0, current_path_length - 1) / n
-                except:
+                except Exception:
                     shortcut_benefit = 1.0  # Not connected yet
 
                 benefit = (

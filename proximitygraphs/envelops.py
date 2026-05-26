@@ -250,6 +250,6 @@ def smallest_circle(points):
         Minimum Enclosing Circle radius.
     """
     points_copy = points.copy()
-    np.random.shuffle(points_copy)
+    np.random.default_rng().shuffle(points_copy)
     center, radius = smallest_circle_helper(points_copy, [])
     return center, radius

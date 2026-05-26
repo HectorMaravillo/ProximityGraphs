@@ -23,12 +23,12 @@ def _edges(graph):
     ],
 )
 def test_invalid_point_constructors_raise_meaningful_errors(factory):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r"positive|shape"):
         factory()
 
 
 def test_setpoints_requires_numpy_array():
-    with pytest.raises(TypeError, match="numpy.ndarray"):
+    with pytest.raises(TypeError, match=r"numpy\.ndarray"):
         pg.SetPoints([[0.0, 0.0], [1.0, 0.0]])
 
 
@@ -46,7 +46,7 @@ def test_unit_disk_rejects_invalid_parameters():
 def test_beta_and_gamma_reject_invalid_parameters():
     points = pg.SetPoints.grid(shape=(2, 2))
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="less"):
         pg.Beta_Skeleton(points, beta=0)
     with pytest.raises(TypeError, match="closed"):
         pg.Gamma_Graph(points, closed="yes")

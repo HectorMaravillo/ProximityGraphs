@@ -46,24 +46,26 @@ class GeometricGraph:
         n (int): The number of vertices in the graph.
         m (int): The number of edges in the graph.
         cc (int): The number of connected components in the graph.
-        f (int): The number of faces in a planar embedding (calculated by Euler's formula).
+        f (int): The number of faces in a planar embedding (calculated by
+            Euler's formula).
         graph (igraph.Graph): The underlying igraph Graph object.
         name (str): A name for the graph (e.g., "Gabriel Graph").
         details (str): Additional details or parameters used to construct the graph.
         degrees (numpy.ndarray): The degree sequence of the graph.
         lengths (numpy.ndarray): An array of Euclidean lengths for all edges.
-        orientation (numpy.ndarray): An array of orientations (angles in degrees) for all edges.
+        orientation (numpy.ndarray): Orientations (angles in degrees) for all
+            edges.
     """
 
     # ATTRIBUTES
     @property
     def points(self):
-        """numpy.ndarray: The coordinates of the points (vertices) as an n x dim array."""
+        """numpy.ndarray: Coordinates of vertices as an n x dim array."""
         return self.__setpoints.points
 
     @property
     def setpoints(self):
-        """SetPoints: The underlying SetPoints object containing vertex coordinates and RNG."""
+        """SetPoints: Underlying object containing vertex coordinates and RNG."""
         return self.__setpoints
 
     @property
@@ -128,7 +130,8 @@ class GeometricGraph:
 
     @property
     def lengths(self):
-        """numpy.ndarray: An array containing the Euclidean lengths of all edges in the graph.
+        """numpy.ndarray: Euclidean lengths of all edges in the graph.
+
         Returns an empty array if the graph has no edges.
         """
         if self.m == 0:
@@ -267,8 +270,9 @@ class GeometricGraph:
                 or points_arr.shape[1] < 2
             ):
                 warnings.warn(
-                    "Orientation calculation requires a NumPy array of at least 2" \
-                    "points in at least 2 dimensions.", stacklevel=2
+                    "Orientation calculation requires a NumPy array of at least 2"
+                    "points in at least 2 dimensions.",
+                    stacklevel=2,
                 )
                 return np.array([])
             dim = points_arr.shape[1]
@@ -294,15 +298,21 @@ class GeometricGraph:
                 elevation[vertical_mask] = np.copysign(90.0, dz[vertical_mask])
                 calculated_orientations = np.column_stack((azimuth, elevation))
             else:
+                msg = (
+                    "Orientation is defined only for 2-D or 3-D layouts "
+                    f"(received {dim}-D). No values were written."
+                )
                 warnings.warn(
-                    f"Orientation is defined only for 2‑D or 3‑D layouts (received {dim}‑D). No values were written.", stacklevel=2
+                    msg,
+                    stacklevel=2,
                 )
             if calculated_orientations.size > 0 and hasattr(self.graph, "es"):
                 self.graph.es["orientation"] = calculated_orientations.tolist()
             return calculated_orientations
         except Exception as exc:
             warnings.warn(
-                f"Could not compute edge orientations due to exception: {exc}", stacklevel=2
+                f"Could not compute edge orientations due to exception: {exc}",
+                stacklevel=2,
             )
             return np.array([])
 
@@ -317,7 +327,9 @@ class GeometricGraph:
             data = self.graph.degree()
         else:
             raise ValueError(
-                f"Unsupported variable_name for entropy: {variable_name}. Choose from 'orientation', 'length', 'degree'."
+                "Unsupported variable_name for entropy: "
+                f"{variable_name}. Choose from 'orientation', 'length', "
+                "'degree'."
             )
         if len(data) == 0:
             return 0.0
@@ -344,19 +356,27 @@ class GeometricGraph:
             comp_idx = {"azimuth": 0, "elevation": 1}.get(component)
             if comp_idx is None:
                 raise ValueError(
-                    f"component must be 'azimuth', 'elevation' or 'auto' (received {component!r})"
+                    "component must be 'azimuth', 'elevation' or 'auto' "
+                    f"(received {component!r})"
                 )
             angles = orientation[:, comp_idx]
             if component == "elevation":
                 angles = (angles + 90) % 180
         else:
+            msg = (
+                f"Orientation array has unexpected shape {orientation.shape}; "
+                "cannot plot."
+            )
             warnings.warn(
-                f"Orientation array has unexpected shape {orientation.shape}; cannot plot.", stacklevel=2
+                msg,
+                stacklevel=2,
             )
             return None, None
 
         if angles.size == 0:
-            warnings.warn("No orientation data to plot for draw_orientation.", stacklevel=2)
+            warnings.warn(
+                "No orientation data to plot for draw_orientation.", stacklevel=2
+            )
             fig, ax = subplots(figsize=figsize, subplot_kw={"projection": "polar"})
             ax.set_title("Edge orientation distribution (No data)")
             return fig, ax
@@ -438,13 +458,15 @@ class GeometricGraph:
         v_color : str, optional
             Vertex color passed to Matplotlib. Default ``"black"``.
         v_alpha : float, optional
-            Vertex alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+            Vertex alpha level between 0 (transparent) and 1 (opaque).
+            Default 1.
         e_size : float, optional
             Line width for boundary edges. Default 1.
         e_color : str, optional
             Color for boundary edges. Default ``"black"``.
         e_alpha : float, optional
-            Edge alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+            Edge alpha level between 0 (transparent) and 1 (opaque).
+            Default 1.
         title : bool, optional
             Whether to set a title. Default True.
         fontsize : float, optional
@@ -695,7 +717,8 @@ class GeometricGraph:
             raise ValueError("Points must be a 2D array with shape (n, dim) ")
         if (self.cc - self.n + self.m) <= 0:
             raise TypeError(
-                "The graph has no internal faces to polygonize (e.g., it's a tree or a line)."
+                "The graph has no internal faces to polygonize "
+                "(e.g., it's a tree or a line)."
             )
         gpd_lines = self.to_gpd_lines()
         if gpd_lines.empty:
@@ -703,7 +726,7 @@ class GeometricGraph:
         polygons = list(polygonize(gpd_lines["geometry"]))
         if not polygons:
             raise ValueError(
-                "Polygonization did not result in any polygons." \
+                "Polygonization did not result in any polygons."
                 "Ensure the graph forms closed regions."
             )
         return GeoDataFrame(geometry=polygons)

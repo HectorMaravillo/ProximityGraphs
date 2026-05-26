@@ -2,10 +2,10 @@
 
 import pytest
 
+import proximitygraphs as pg
+
 geopandas = pytest.importorskip("geopandas")
 pytest.importorskip("shapely")
-
-import proximitygraphs as pg
 
 pytestmark = pytest.mark.gis
 

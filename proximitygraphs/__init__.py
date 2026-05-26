@@ -20,7 +20,7 @@ proximitygraphs
     Proximity-based graph families (Delaunay, RNG, GG, MST, unit disk,
     beta-skeletons, gamma-graphs, alpha-shapes/hulls, etc.).
 biologicalgraphs
-    Bio-inspired geometric graphs (PhysarumGraph, AntColonyGraph).
+    Bio-inspired geometric graphs (PhysarumGraph, FungalGraph).
 experiments
     Experiment helpers for constructing, running, and comparing graph
     models on shared point sets.
@@ -54,6 +54,7 @@ from . import (
     proximitygraphs,
 )
 from .biologicalgraphs import (
+    FungalGraph,
     PhysarumGraph,
 )
 from .envelops import (
@@ -105,22 +106,17 @@ __all__ = [
     "Convex_Hull",
     "DelaunayG",
     "Elliptic_GabrielG",
-    # experiments
     "Experiment",
+    "FungalGraph",
     "Gamma_Graph",
-    # geometricgraphs
     "GeometricGraph",
-    # biologicalgraphs
     "PhysarumGraph",
-    # proximitygraphs
     "ProximityGraph",
-    # points
     "SetPoints",
     "Sigma_Graph",
     "Stepping_Stone",
     "Unit_Disk",
     "biologicalgraphs",
-    # envelops
     "circle_centroid",
     "circle_smallest",
     "circle_through_three_points",
@@ -131,7 +127,6 @@ __all__ = [
     "geometricgraphs",
     "is_in_circle",
     "load_graph",
-    # Submodules
     "points",
     "proximitygraphs",
     "slope",

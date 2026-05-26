@@ -457,7 +457,8 @@ class SetPoints:
             The intensity (lambda) of the Poisson process, representing the average
             number of points per unit length along the circumference.
         radius : float
-            The radius of the circle on whose circumference the points will be generated.
+            The radius of the circle on whose circumference the points will be
+            generated.
             Must be a positive value.
         seed : int, optional
             A seed for the random number generator to ensure reproducibility.
@@ -484,24 +485,29 @@ class SetPoints:
         Generates points according to an inhomogeneous Poisson point process
         in a square region using thinning.
 
-        An inhomogeneous (or nonhomogeneous) Poisson point process is characterized by an
-        intensity function `fun_lambda(x,y)` that varies spatially. The value of
+        An inhomogeneous (or nonhomogeneous) Poisson point process is
+        characterized by an intensity function `fun_lambda(x,y)` that varies
+        spatially. The value of
         `fun_lambda(x,y)` at a point (x,y) dictates the likelihood of finding a point
         in the infinitesimal area around (x,y).
 
-        This method uses the thinning algorithm (also known as acceptance-rejection sampling):
-        1.  **Find Maximum Intensity (`lambda_max`)**: The maximum value of the intensity
-            function `fun_lambda(x,y)` within the simulation window `(0, limit) x (0, limit)`
+        This method uses the thinning algorithm (also known as
+        acceptance-rejection sampling):
+        1.  **Find Maximum Intensity (`lambda_max`)**: The maximum value of the
+            intensity function `fun_lambda(x,y)` within the simulation window
+            `(0, limit) x (0, limit)`
             is determined. This is done by numerically minimizing `-fun_lambda(x,y)`
             using `scipy.optimize.minimize`.
-        2.  **Generate Homogeneous Proposal Points**: A set of proposal points is generated
-            from a homogeneous Poisson point process with constant intensity `lambda_max`
-            over the square simulation window (area = `limit`*`limit`). The number of these
-            proposal points, `N_prop`, is drawn from Poisson(`lambda_max` * area).
+        2.  **Generate Homogeneous Proposal Points**: A set of proposal points is
+            generated from a homogeneous Poisson point process with constant
+            intensity `lambda_max` over the square simulation window (area =
+            `limit`*`limit`). The number of these proposal points, `N_prop`,
+            is drawn from Poisson(`lambda_max` * area).
             Their coordinates are uniformly distributed within the square.
         3.  **Thinning**: Each proposal point `(x_i, y_i)` is "kept" or "thinned"
             (discarded) based on a spatially dependent probability. The probability of
-            keeping a point at `(x_i, y_i)` is `p(x_i, y_i) = fun_lambda(x_i, y_i) / lambda_max`.
+            keeping a point at `(x_i, y_i)` is
+            `p(x_i, y_i) = fun_lambda(x_i, y_i) / lambda_max`.
             This is achieved by generating a random number `u_i` from U(0,1) for each
             proposal point and keeping the point if `u_i < p(x_i, y_i)`.
 
@@ -580,8 +586,8 @@ class SetPoints:
 
         The generation process involves:
         1.  **Parent Point Generation**:
-            *   Parent points are generated from a homogeneous Poisson point process with
-                intensity `intensity[0]`.
+            *   Parent points are generated from a homogeneous Poisson point
+                process with intensity `intensity[0]`.
             *   This generation occurs in an "extended window" larger than the final
                 simulation window `(0, limit) x (0, limit)`. The extension size depends
                 on the cluster type (`radius` for Matern, `5*sigma` for Thomas) to
@@ -593,18 +599,20 @@ class SetPoints:
                 Poisson distribution with mean `intensity[1]`.
             *   The spatial distribution of these daughter points around their parent
                 depends on the `cluster["name"]`:
-                *   **"Matern"**: Daughter points are uniformly distributed within a disk
-                    of `radius = cluster["param"]` centered at the parent point. This is
-                    achieved by generating points in polar coordinates (rho, theta) where
-                    theta is U(0, 2*pi) and rho is `radius * sqrt(U(0,1))`.
-                *   **"Thomas"**: Daughter points are distributed according to an isotropic
-                    bivariate Gaussian (Normal) distribution centered at the parent point,
-                    with standard deviation `sigma = cluster["param"]` for both x and y
-                    directions.
+                *   **"Matern"**: Daughter points are uniformly distributed
+                    within a disk of `radius = cluster["param"]` centered at
+                    the parent point. This is achieved by generating points in
+                    polar coordinates (rho, theta) where theta is U(0, 2*pi)
+                    and rho is `radius * sqrt(U(0,1))`.
+                *   **"Thomas"**: Daughter points are distributed according to
+                    an isotropic bivariate Gaussian (Normal) distribution
+                    centered at the parent point, with standard deviation
+                    `sigma = cluster["param"]` for both x and y directions.
 
         3.  **Thinning to Final Window**:
-            *   All generated daughter points are considered. Only those points that fall
-                within the original simulation window defined by `(0, limit) x (0, limit)`
+            *   All generated daughter points are considered. Only those
+                points that fall within the original simulation window defined
+                by `(0, limit) x (0, limit)`
                 are retained in the final output.
 
         Parameters:
@@ -711,7 +719,8 @@ class SetPoints:
 
         if not all(isinstance(geom, Point) for geom in geoseries):
             raise ValueError(
-                "All geometries in 'geoseries' must be shapely.geometry.Point instances."
+                "All geometries in 'geoseries' must be shapely.geometry.Point "
+                "instances."
             )
 
         coords = np.array([(point.x, point.y) for point in geoseries])
@@ -788,7 +797,8 @@ class SetPoints:
             raise AttributeError("Object has no attribute 'points'")
         if self.points.ndim != 2 or self.points.shape[1] != 2:
             raise ValueError(
-                f"draw() is 2D-only: expected points with shape (n, 2); got {self.points.shape}"
+                "draw() is 2D-only: expected points with shape (n, 2); got "
+                f"{self.points.shape}"
             )
 
         # figure and axes (same as geometric graphs)
@@ -885,8 +895,8 @@ class SetPoints:
         rotation matrix and no translation. The 2D counter-clockwise rotation matrix is:
           M = [[cos(theta),  sin(theta)],
                [-sin(theta), cos(theta)]]
-        If `P_i = (x_i, y_i)` is an original point, the rotated point `P'_i = (x'_i, y'_i)`
-        is calculated as:
+        If `P_i = (x_i, y_i)` is an original point, the rotated point
+        `P'_i = (x'_i, y'_i)` is calculated as:
           x'_i = x_i * cos(theta) - y_i * sin(theta)
           y'_i = x_i * sin(theta) + y_i * cos(theta)
 
@@ -1014,7 +1024,8 @@ class SetPoints:
             c = np.asarray(c)
             if c.shape != (self.dim,):
                 raise ValueError(
-                    f"Translation vector must have shape ({self.dim},), but got {c.shape}"
+                    f"Translation vector must have shape ({self.dim},), "
+                    f"but got {c.shape}"
                 )
 
         return self.__affin_transformation(c=c)
@@ -1038,27 +1049,34 @@ class SetPoints:
             To ensure uniform distribution *within* the sphere (not concentrated towards
             the center or edge for higher dimensions), this raw radius is transformed:
             `m = r_raw^(1/dim)`, where `dim` is the number of dimensions.
-            Actually, looking at the code `r = np.random.uniform(0, radius, self.n)**(1/self.dim)`,
-            it seems `r_raw` is `U(0, radius^dim)` if we want `m` to be `U(0,radius)`.
-            Or, more standardly, if `r_sample` is `U(0,1)`, then actual random radius for uniform
-            distribution in a d-ball of radius R is `R * r_sample^(1/d)`.
-            The code is `r_scalar_factors = np.random.uniform(0, radius, self.n)**(1/self.dim)`.
-            This means each point `i` gets a scalar factor `s_i = unif(0, radius)^(1/dim)`.
+            Actually, looking at the code
+            `r = np.random.uniform(0, radius, self.n)**(1/self.dim)`,
+            it seems `r_raw` is `U(0, radius^dim)` if we want `m` to be
+            `U(0,radius)`.
+            Or, more standardly, if `r_sample` is `U(0,1)`, then actual
+            random radius for uniform distribution in a d-ball of radius R is
+            `R * r_sample^(1/d)`.
+            The code is
+            `r_scalar_factors = np.random.uniform(0, radius, self.n)**(1/self.dim)`.
+            This means each point `i` gets a scalar factor
+            `s_i = unif(0, radius)^(1/dim)`.
             This is not standard for uniform distribution *within* a sphere of `radius`.
             If `radius` is, say, 5, then `unif(0,5)^(1/dim)` is taken.
             Let's stick to describing what the code does:
-            A scalar `s_i` is generated for each point `i` as `s_i = U_i^(1/dim)`, where `U_i` is
-            drawn from `Uniform(0, radius)`. This `s_i` is used as the magnitude for the
+            A scalar `s_i` is generated for each point `i` as
+            `s_i = U_i^(1/dim)`, where `U_i` is drawn from
+            `Uniform(0, radius)`. This `s_i` is used as the magnitude for the
             perturbation of point `i`. So `v_i = s_i * u_i`.
 
         The effect is that each original point is displaced to a new random position.
         The displacement vectors are such that their directions are isotropic, and
         their magnitudes `s_i` are distributed according to `(U(0, radius))^(1/dim)`.
-        This means points are more likely to be perturbed by a larger fraction of `radius`
-        than a smaller fraction, especially in higher dimensions.
+        This means points are more likely to be perturbed by a larger fraction
+        of `radius` than a smaller fraction, especially in higher dimensions.
 
-        Note: The docstring of the code `unit_sphere_surface = points_on_sphere(self.n, self.dim)`
-        implies `points_on_sphere` is called once for all points.
+        Note: The docstring of the code
+        `unit_sphere_surface = points_on_sphere(self.n, self.dim)` implies
+        `points_on_sphere` is called once for all points.
 
         Parameters:
         ----------

@@ -79,9 +79,11 @@ def test_gamma_graph_negative_gamma1_uses_fallback():
         calls["fallback"] += 1
         return original_fallback(self, pairs)
 
-    with patch.object(pg.Gamma_Graph, FAST_METHOD, new=tracked_fast):
-        with patch.object(pg.Gamma_Graph, FALLBACK_METHOD, new=tracked_fallback):
-            pg.Gamma_Graph(points, gamma0=-0.25, gamma1=-0.75, closed=False)
+    with (
+        patch.object(pg.Gamma_Graph, FAST_METHOD, new=tracked_fast),
+        patch.object(pg.Gamma_Graph, FALLBACK_METHOD, new=tracked_fallback),
+    ):
+        pg.Gamma_Graph(points, gamma0=-0.25, gamma1=-0.75, closed=False)
 
     assert calls["fast"] == 0
     assert calls["fallback"] == 1
@@ -126,9 +128,11 @@ def test_gamma_graph_degenerate_planar_input_falls_back_cleanly():
         calls["fallback"] += 1
         return original_fallback(self, pairs)
 
-    with patch.object(pg.Gamma_Graph, FAST_METHOD, new=tracked_fast):
-        with patch.object(pg.Gamma_Graph, FALLBACK_METHOD, new=tracked_fallback):
-            graph = pg.Gamma_Graph(points, gamma0=0.25, gamma1=0.5, closed=False)
+    with (
+        patch.object(pg.Gamma_Graph, FAST_METHOD, new=tracked_fast),
+        patch.object(pg.Gamma_Graph, FALLBACK_METHOD, new=tracked_fallback),
+    ):
+        graph = pg.Gamma_Graph(points, gamma0=0.25, gamma1=0.5, closed=False)
 
     with patch.object(pg.Gamma_Graph, CAN_USE_METHOD, return_value=False):
         fallback_graph = pg.Gamma_Graph(points, gamma0=0.25, gamma1=0.5, closed=False)

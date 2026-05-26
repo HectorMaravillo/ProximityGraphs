@@ -64,5 +64,9 @@ def test_quickstart_main_prints_expected_summary(capsys):
         "points: 9",
         "mst edges: 8",
         "unit disk edges: 12",
-        "unit disk edge list: [(0, 1), (0, 3), (1, 2), (1, 4), (2, 5), (3, 4), (3, 6), (4, 5), (4, 7), (5, 8), (6, 7), (7, 8)]",
+        (
+            "unit disk edge list: [(0, 1), (0, 3), (1, 2), (1, 4), "
+            "(2, 5), (3, 4), (3, 6), (4, 5), (4, 7), (5, 8), "
+            "(6, 7), (7, 8)]"
+        ),
     ]

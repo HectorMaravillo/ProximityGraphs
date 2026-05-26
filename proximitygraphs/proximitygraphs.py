@@ -1502,13 +1502,15 @@ class Alpha_Hull(ProximityGraph):
         v_color : str, optional
             Vertex color passed to Matplotlib. Default "#00072D".
         v_alpha : float, optional
-            Vertex alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+            Vertex alpha level between 0 (transparent) and 1 (opaque).
+            Default 1.
         e_size : float, optional
             Line width for arcs. Default 1.
         e_color : str, optional
             Color for arcs. Default "#0A2472".
         e_alpha : float, optional
-            Arc alpha (transparency) level between 0 (transparent) and 1 (opaque). Default 1.
+            Arc alpha level between 0 (transparent) and 1 (opaque).
+            Default 1.
         title : bool, optional
             Whether to set a title. Default True.
         fontsize : float, optional
@@ -1905,7 +1907,8 @@ class Gamma_Graph(ProximityGraph):
 
         Safe pruning:
         - If |gamma|=1 or gamma1<0 we cannot guarantee DT supersets -> all pairs.
-        - Otherwise (finite radii, gamma1>=0) the γ-graph is a DT subgraph -> use DT edges.
+        - Otherwise (finite radii, gamma1>=0) the γ-graph is a DT subgraph
+          -> use DT edges.
         """
         g0, g1 = self.__gamma0, self.__gamma1
         dim = self.points.shape[1]
