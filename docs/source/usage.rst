@@ -10,7 +10,7 @@ To use the library, first install it using pip:
 
 .. code-block:: console
 
-   (.venv) $ pip install proximity_graphs
+   (.venv) $ pip install proximitygraphs
 
 Quick Reference Guide
 =====================
