@@ -55,14 +55,14 @@ also contributing into the development of the documentation and this website.
 Heriberto Espino Montelongo
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: /_static/heriberto.jpg
+.. image:: _static//heri.jpg
    :width: 140px
    :align: left
    :alt: Heriberto Espino
    :class: author-photo
    :target: #
 
-Heriberto is a dual-degree student in Data Science and Actuarial Science at Universidad de las Américas Puebla (UDLAP), with a strong research interest in computational geometry. Within the Proximity Graphs library, he contributes proximity graph constructions---including gamma-graphs and alpha-hulls. 
+Heriberto is a dual-degree student in Data Science and Actuarial Science at Universidad de las Américas Puebla (UDLAP) with research interest in computational geometry. Within the Proximity Graphs library, he contributes proximity graph constructions---including gamma-graphs and alpha-hulls. 
 
 .. raw:: html
 
