@@ -1,14 +1,12 @@
-"""Beta-skeleton, Gabriel, and relative-neighborhood graph construction.
+"""Beta-skeleton graph construction.
 
-This module implements beta-skeleton empty-region graphs and the classical
-Gabriel graph and relative-neighborhood graph special cases. For each pair of
+This module implements beta-skeleton empty-region graphs. For each pair of
 sites p and q, an edge is added when the beta-dependent region associated with
 the pair is empty of other sites.
 
-The Gabriel graph was introduced for geographic variation analysis. The
-relative-neighborhood graph connects pairs whose lune contains no closer
-intermediate point, and beta-skeletons generalize these ideas through a
-parameterized family of empty regions.
+The Gabriel graph and relative-neighborhood graph special cases live in
+``gabriel.py`` and ``relateve.py`` respectively, but are re-exported here for
+backward compatibility.
 
 References
 ----------
@@ -27,6 +25,7 @@ their relatives. Proceedings of the IEEE, 80(9), 1502-1517.
 
 import warnings
 from itertools import combinations
+from typing import TYPE_CHECKING
 
 import numpy as np
 from igraph import Graph
@@ -34,13 +33,47 @@ from igraph import Graph
 from .base import ProximityGraph
 from .delaunay import DelaunayG
 
+if TYPE_CHECKING:
+    from .gabriel import GG
+    from .relateve import RNG
+
 
 class Beta_Skeleton(ProximityGraph):
-    # Atributos de clase
+    """
+    Constructs the beta-skeleton of a set of points.
+
+    Two points p and q are connected if the beta-dependent region associated with
+    the pair is empty of other points. The shape of the region depends on the
+    value of beta and the specified type.
+
+    Attributes
+    ----------
+    name : str
+        The name of the graph, set to "beta-Skeleton".
+    details : str
+        Additional information including beta, closed, and type_region.
+    """
+
     matrix_r = np.array([[0, -1], [1, 0]])
 
     # CONSTRUCTOR
     def __init__(self, setpoints, beta=1.5, type_region="lune", closed=False):
+        """
+        Initializes a Beta_Skeleton object.
+
+        Parameters
+        ----------
+        setpoints : SetPoints
+            An object containing the set of points.
+        beta : float, optional
+            The parameter that defines the shape of the empty region. Must be >= 0.
+        type_region : str, optional
+            The type of empty region to use. Must be 'lune', 'circle',
+            or 'intersection'.
+        closed : bool, optional
+            Whether to use closed or open regions for edge inclusion.
+            Default is False (open).
+        """
         self._ProximityGraph__check_parameter(beta, range_min=0, strict=True)
         ProximityGraph.__init__(self, setpoints)
         self.name = "beta-Skeleton"
@@ -53,6 +86,22 @@ class Beta_Skeleton(ProximityGraph):
 
     @classmethod
     def from_graph(cls, geom_graph, beta=1.5, type_region="lune", closed=False):
+        """
+        Creates an instance of Beta_Skeleton from an existing GeometricGraph.
+
+        Parameters
+        ----------
+        geom_graph : GeometricGraph
+            An existing geometric graph from which to construct the beta-skeleton.
+        beta : float, optional
+            The parameter that defines the shape of the empty region. Must be >= 0.
+        type_region : str, optional
+            The type of empty region to use. Must be 'lune', 'circle',
+            or 'intersection'.
+        closed : bool, optional
+            Whether to use closed or open regions for edge inclusion.
+            Default is False (open).
+        """
         skeleton = cls.__new__(cls)
         skeleton._ProximityGraph__check_parameter(beta, range_min=0, strict=True)
         skeleton.name = "beta-Skeleton"
@@ -176,17 +225,20 @@ class Beta_Skeleton(ProximityGraph):
         return center_1, center_2
 
 
-class RNG(Beta_Skeleton):
-    # CONSTRUCTOR
-    def __init__(self, setpoints, closed=False):
-        Beta_Skeleton.__init__(self, setpoints, beta=2, closed=closed)
-        self.name = "Relative Neighborhood Graph"
-        self.details = f"closed={closed}"
+__all__ = [
+    "GG",
+    "RNG",
+    "Beta_Skeleton",
+]
 
 
-class GG(Beta_Skeleton):
-    # CONSTRUCTOR
-    def __init__(self, setpoints, closed=True):
-        Beta_Skeleton.__init__(self, setpoints, beta=1, closed=closed)
-        self.name = "Gabriel Graph"
-        self.details = f"closed={closed}"
+def __getattr__(name):
+    if name == "GG":
+        from .gabriel import GG
+
+        return GG
+    if name == "RNG":
+        from .relateve import RNG
+
+        return RNG
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

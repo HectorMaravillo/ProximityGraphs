@@ -32,7 +32,7 @@ from .hull import Convex_Hull
 
 class Gamma_Graph(ProximityGraph):
     """
-    Constructs the gamma-Neighborhood Graph (y-Graph) as defined by Veltkamp (1992).
+    Constructs the gamma-Neighborhood Graph as defined by Veltkamp (1992).
 
     Two points p and q are connected if at least one gamma-neighborhood
     N_{gamma0,gamma1}(p, q) is empty of all other sites.

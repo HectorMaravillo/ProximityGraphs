@@ -1,4 +1,4 @@
-# Class: Beta_Skeleton
+# Beta Skeleton
 
 A parameterized family of proximity graphs where beta controls the neighborhood shape.
 

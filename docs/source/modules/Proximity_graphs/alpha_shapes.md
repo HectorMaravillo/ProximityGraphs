@@ -1,4 +1,4 @@
-# Alpha_Shape
+# Alpha-Shape
 
 Constructs the alpha-shape boundary of a planar point set.
 

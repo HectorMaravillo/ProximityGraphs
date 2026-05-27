@@ -1,7 +1,5 @@
 """
-Backward-compatible imports for proximity graph constructors.
-
-The implementations now live in ``proximitygraphs.proximity``.
+The implementations live in ``proximitygraphs.proximity``.
 """
 
 from .proximity import (

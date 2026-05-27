@@ -50,6 +50,16 @@ def test_import_from_proximitygraphs_wrapper():
         assert getattr(wrapper, class_name) is getattr(proximity, class_name)
 
 
+def test_beta_special_cases_import_from_new_modules_and_beta_wrapper():
+    from proximitygraphs.proximity.beta import GG as WrappedGG
+    from proximitygraphs.proximity.beta import RNG as WrappedRNG
+    from proximitygraphs.proximity.gabriel import GG
+    from proximitygraphs.proximity.relateve import RNG
+
+    assert WrappedGG is GG
+    assert WrappedRNG is RNG
+
+
 def test_construct_unit_disk_graph():
     from proximitygraphs.proximity import Unit_Disk
 

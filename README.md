@@ -26,6 +26,12 @@ and to update the page
 python -m sphinx -b html docs/source docs/build/html
 ```
 
+Before pushing
+```bash
+python -m pytest
+python -m ruff check .
+```
+
 ## Quickstart
 
 ```python

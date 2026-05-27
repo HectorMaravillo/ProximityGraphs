@@ -1,7 +1,5 @@
 """
-Backward-compatible imports for biologically-inspired graph constructors.
-
-The implementations now live in ``proximitygraphs.biological``.
+The implementations live in ``proximitygraphs.biological``.
 """
 
 from .biological import BiologicalGraph, FungalGraph, PhysarumGraph

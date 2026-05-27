@@ -1,4 +1,4 @@
-# Relative Neighborhood Graph)
+# Relative Neighborhood Graph (RNG)
 
 The RNG is a beta-skeleton with beta=2.
 

@@ -1,4 +1,4 @@
-# Alpha Hull
+# Alpha-Hull
 
 Constructs the alpha-hull with circular arc boundaries.
 

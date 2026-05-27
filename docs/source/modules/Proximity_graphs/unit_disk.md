@@ -1,4 +1,4 @@
-# Class: Unit_Disk
+# Unit Disk
 
 The Unit Disk Graph connects points within a specified distance.
 

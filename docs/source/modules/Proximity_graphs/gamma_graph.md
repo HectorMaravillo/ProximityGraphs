@@ -1,4 +1,4 @@
-# Gamma_Graph
+# Gamma Graph
 
 A two-parameter family of planar proximity graphs based on **gamma-neighborhood emptiness** (Veltkamp, 1992).
 

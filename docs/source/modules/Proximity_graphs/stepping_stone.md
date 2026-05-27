@@ -1,4 +1,4 @@
-# Stepping_Stone
+# Stepping Stone
 
 A **d-diversion / stepping-stone proximity graph** defined by **d-neighborhood emptiness**: two sites $p,q$ are adjacent when a super-elliptic “lens” neighborhood around segment $pq$ contains at most $k$ other sites.
 
