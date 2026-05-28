@@ -1,8 +1,13 @@
-name: Publish to PyPI
+name: Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -12,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -23,13 +30,13 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install build twine
 
-      - name: Build package
+      - name: Build distributions
         run: python -m build
 
-      - name: Check package
+      - name: Check distributions
         run: python -m twine check dist/*
 
-      - name: Upload distributions artifact
+      - name: Upload distributions as artifact
         uses: actions/upload-artifact@v6
         with:
           name: python-package-distributions
@@ -39,17 +46,19 @@ jobs:
     name: Publish to PyPI
     needs: build
     runs-on: ubuntu-latest
-    environment: pypi
-
+    environment:
+      name: pypi
+      url: https://pypi.org/p/proximitygraphs
     permissions:
       id-token: write
+      contents: read
 
     steps:
-      - name: Download distributions artifact
+      - name: Download distributions
         uses: actions/download-artifact@v6
         with:
           name: python-package-distributions
           path: dist/
 
-      - name: Publish package distributions to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

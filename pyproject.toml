@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=80", "wheel", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -77,15 +77,16 @@ gis = [
   "shapely>=2.0",
 ]
 
-[tool.setuptools.dynamic]
-version = { attr = "proximitygraphs.__version__" }
-
 [tool.setuptools.package-dir]
 "" = "src"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["proximitygraphs*"]
+
+[tool.setuptools_scm]
+version_file = "src/proximitygraphs/_version.py"
+fallback_version = "0.0.0"
 
 [tool.pytest.ini_options]
 addopts = "-q"

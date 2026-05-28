@@ -40,7 +40,10 @@ Example (pseudocode)::
   >>> G_p = pg.PhysarumGraph(pts)   # physarum-inspired graph
 """
 
-__version__ = "0.1.0a1"
+try:
+    from ._version import version as __version__
+except Exception:
+    __version__ = "0.0.0+unknown"
 
 # Re-export selected symbols from submodules
 # Re-export the submodules themselves

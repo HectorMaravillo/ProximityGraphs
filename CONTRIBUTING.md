@@ -44,6 +44,22 @@ Build the documentation:
 python -m sphinx -b html docs/source docs/build/html
 ```
 
+## Releasing
+
+Versions are derived from Git tags via setuptools-scm.
+
+To release version 0.1.0:
+
+```bash
+git checkout main
+git pull
+git tag -a v0.1.0 -m "Release v0.1.0"
+git push origin v0.1.0
+```
+
+The publish workflow runs on tags matching `v*`. Do not edit `__version__`
+manually.
+
 ## Style Rules
 
 - Keep changes focused and well-scoped.

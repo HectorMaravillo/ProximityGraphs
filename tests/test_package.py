@@ -7,7 +7,9 @@ import proximitygraphs as pg
 
 
 def test_import_smoke():
-    assert pg.__version__ == "0.1.0a1"
+    assert isinstance(pg.__version__, str)
+    assert pg.__version__
+    assert pg.__version__ != "0.0.0+unknown"
     assert hasattr(pg, "SetPoints")
     assert hasattr(pg, "Unit_Disk")
 
