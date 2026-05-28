@@ -68,6 +68,9 @@ This repository is configured and tested for:
 - GitHub Actions on Ubuntu
 - Python 3.10, 3.11, 3.12, 3.13 and 3.14
 
+The project uses a `src` layout: source code lives in `src/proximitygraphs/`,
+while the public import remains `import proximitygraphs as pg`.
+
 The recommended validation sequence is:
 
 ```bash

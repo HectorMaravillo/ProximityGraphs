@@ -8,6 +8,9 @@ Clone the repository and install the package in editable mode with development t
 python -m pip install -e ".[dev]"
 ```
 
+The project uses a `src` layout: source code lives in `src/proximitygraphs/`,
+while the public import remains `import proximitygraphs as pg`.
+
 If you need GeoPandas/Shapely integrations:
 
 ```bash

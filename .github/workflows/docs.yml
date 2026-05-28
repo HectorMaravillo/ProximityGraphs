@@ -6,7 +6,7 @@ on:
     paths:
       - ".github/workflows/docs.yml"
       - "docs/**"
-      - "proximitygraphs/**"
+      - "src/proximitygraphs/**"
       - "pyproject.toml"
       - "requirements.txt"
   workflow_dispatch:

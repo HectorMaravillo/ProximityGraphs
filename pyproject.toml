@@ -80,7 +80,11 @@ gis = [
 [tool.setuptools.dynamic]
 version = { attr = "proximitygraphs.__version__" }
 
+[tool.setuptools.package-dir]
+"" = "src"
+
 [tool.setuptools.packages.find]
+where = ["src"]
 include = ["proximitygraphs*"]
 
 [tool.pytest.ini_options]
