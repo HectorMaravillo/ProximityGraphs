@@ -2,23 +2,29 @@ include README.md
 include LICENSE
 include pyproject.toml
 include CITATION.cff
+include CODE_OF_CONDUCT.md
+include CONTRIBUTING.md
+include SECURITY.md
 
 recursive-include src/proximitygraphs *.py
 recursive-include tests *.py
 
+prune examples
+prune notebooks
+prune scripts
 prune docs
 prune article
 prune paper
 prune .github
-prune docs/build
-prune docs/scripts
+prune dist
+prune build
 
-exclude .gitignore
-exclude .readthedocs.yaml
-exclude mkdocs.yml
-exclude tox.ini
-exclude uv.lock
+exclude environment.yml
+exclude requirements.txt
+exclude setup.cfg
+exclude PKG-INFO
 
 global-exclude *.py[cod]
 global-exclude __pycache__
 global-exclude .DS_Store
+global-exclude *.ipynb
