@@ -13,7 +13,7 @@ authors:
   - name: Diego Villarreal De La Cerda
     affiliation: 2
     orcid: Universidad de las Américas Puebla, México
-  - name: Heriberto Espino-Montelongo
+  - name: Heriberto Espino Montelongo
     affiliation: 2
     orcid: Universidad de las Américas Puebla, México
 date: 28 February 2026
@@ -49,20 +49,7 @@ However, these libraries are not primarily organized around proximity graph fami
 
 The package also includes simple bio-inspired graph models motivated by adaptive transport networks, including a Physarum-like graph class related to biologically inspired network design rules [@Tero2010]. These models are included as exploratory tools rather than as a claim of biological completeness.
 
-# Software design and functionality
 
-The package is centered on a small set of classes. `SetPoints` stores planar coordinates and provides random and structured point generators. `GeometricGraph` wraps an igraph object together with the embedding coordinates, exposing operations such as graph unions, intersections, distance-style comparisons, geometric summaries, and plotting. `ProximityGraph` then specializes this base for graph families whose edges are determined by spatial neighborhood rules. Concrete classes implement individual constructions such as `MST`, `GG`, `RNG`, `Unit_Disk`, `Alpha_Shape`, and `Gamma_Graph`.
-
-This design gives users a consistent workflow:
-
-1. generate or load a planar point set;
-2. construct one or more graph families on that same set;
-3. compute or compare summary statistics; and
-4. visualize or export the resulting geometry.
-
-The package also includes an `Experiment` helper for repeated simulations. Rather than forcing each user to write one-off loops for parameter sweeps or repeated random trials, the helper stores graph configurations and point-generation settings together, then aggregates metrics across runs. This is useful in classroom demonstrations and exploratory studies where the relative behavior of several graph classes matters more than a single optimized implementation.
-
-Optional GIS support is kept separate from the core install. Users who need GeoPandas or Shapely can enable that extra and export edge or polygon geometries, while basic package imports and core graph algorithms remain available without the heavier geospatial stack. This separation helps keep editable installs and automated testing lighter.
 
 # Research impact / intended use
 
