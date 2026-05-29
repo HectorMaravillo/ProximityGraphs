@@ -82,11 +82,7 @@ GRAPH_SPECS = [
     ),
 ]
 
-EXPERIMENT_SPECS = [
-    spec
-    for spec in GRAPH_SPECS
-    if spec.name != "Complete"
-]
+EXPERIMENT_SPECS = [spec for spec in GRAPH_SPECS if spec.name != "Complete"]
 
 EUCLIDEAN_COVARIANT_SPECS = [
     spec
@@ -344,8 +340,8 @@ def test_experiment_results_are_deterministic_for_fixed_seed():
             seed=123,
             verbose=False,
         )
-        return exp.run().sort_values(["simulation", "graph_type"]).reset_index(
-            drop=True
+        return (
+            exp.run().sort_values(["simulation", "graph_type"]).reset_index(drop=True)
         )
 
     first = run_once()

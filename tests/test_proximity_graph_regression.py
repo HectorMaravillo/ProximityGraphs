@@ -25,6 +25,16 @@ GRAPH_SPECS = [
         "name": "beta_skeleton_circle",
         "params": {"beta": 1.5, "type_region": "circle", "closed": False},
     },
+    {
+        "class": pg.Beta_Skeleton,
+        "name": "beta_skeleton_lune",
+        "params": {"beta": 1.5, "type_region": "lune", "closed": False},
+    },
+    {
+        "class": pg.Beta_Skeleton,
+        "name": "beta_skeleton_intersection",
+        "params": {"beta": 0.75, "type_region": "intersection", "closed": False},
+    },
     {"class": pg.RNG, "name": "rng", "params": {"closed": False}},
     {"class": pg.GG, "name": "gg", "params": {"closed": True}},
     {
@@ -32,7 +42,13 @@ GRAPH_SPECS = [
         "name": "stepping_stone",
         "params": {"d": 1.5, "k": 0, "closed": False},
     },
+    {
+        "class": pg.Stepping_Stone,
+        "name": "stepping_stone_d2_k1",
+        "params": {"d": 2.0, "k": 1, "closed": False},
+    },
     {"class": pg.NNG, "name": "nng", "params": {"k": 1}},
+    {"class": pg.NNG, "name": "nng_k2", "params": {"k": 2}},
     {
         "class": pg.Sigma_Graph,
         "name": "sigma_graph",
@@ -50,15 +66,51 @@ GRAPH_SPECS = [
         "params": {"alpha": 1.5, "closed": False},
     },
     {"class": pg.Alpha_Shape, "name": "alpha_shape", "params": {"alpha": -1.5}},
+    {"class": pg.Alpha_Shape, "name": "alpha_shape_convex", "params": {"alpha": 0.0}},
     {
         "class": pg.Alpha_Hull,
         "name": "alpha_hull",
         "params": {"alpha": -1.5, "n_points_per_arc": 20},
     },
     {
+        "class": pg.Alpha_Hull,
+        "name": "alpha_hull_convex",
+        "params": {"alpha": 0.0, "n_points_per_arc": 20},
+    },
+    {
         "class": pg.Gamma_Graph,
         "name": "gamma_graph",
         "params": {"gamma0": 0.25, "gamma1": 0.75, "closed": False, "block_size": 16},
+    },
+    {
+        "class": pg.Gamma_Graph,
+        "name": "gamma_graph_complete",
+        "params": {"gamma0": -1.0, "gamma1": -1.0, "closed": False},
+    },
+    {
+        "class": pg.Gamma_Graph,
+        "name": "gamma_graph_void",
+        "params": {"gamma0": 1.0, "gamma1": 1.0, "closed": False},
+    },
+    {
+        "class": pg.Gamma_Graph,
+        "name": "gamma_graph_convex_hull",
+        "params": {"gamma0": -1.0, "gamma1": 1.0, "closed": False},
+    },
+    {
+        "class": pg.PhysarumGraph,
+        "name": "physarum_complete_base",
+        "params": {"steps": 2, "base_graph": "complete"},
+    },
+    {
+        "class": pg.FungalGraph,
+        "name": "fungal_seeded",
+        "params": {
+            "steps": 2,
+            "growth_iterations": 2,
+            "prune_weak_factor": 0.0,
+            "seed": 20260328,
+        },
     },
 ]
 

@@ -11,17 +11,28 @@
     "convex_hull",
     "mst",
     "beta_skeleton_circle",
+    "beta_skeleton_lune",
+    "beta_skeleton_intersection",
     "rng",
     "gg",
     "stepping_stone",
+    "stepping_stone_d2_k1",
     "nng",
+    "nng_k2",
     "sigma_graph",
     "unit_disk",
     "sig",
     "elliptic_gabriel",
     "alpha_shape",
+    "alpha_shape_convex",
     "alpha_hull",
-    "gamma_graph"
+    "alpha_hull_convex",
+    "gamma_graph",
+    "gamma_graph_complete",
+    "gamma_graph_void",
+    "gamma_graph_convex_hull",
+    "physarum_complete_base",
+    "fungal_seeded"
   ],
   "points": [
     [
@@ -132,6 +143,56 @@
         ]
       ]
     },
+    "alpha_hull_convex": {
+      "metrics": {
+        "graph_type": "alpha_hull_convex",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 6,
+        "n_components": 7,
+        "n_faces": 2,
+        "mean_degree": 1.0,
+        "std_degree": 1.0,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.465355972344,
+        "std_length": 0.314639000895,
+        "min_length": 0.071895203088,
+        "max_length": 0.909884705119,
+        "total_length": 2.792135834066,
+        "entropy_degree": 1.0,
+        "entropy_length": 1.918295834054,
+        "entropy_orientation": 2.584962500721,
+        "density": 0.090909090909,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ]
+      ]
+    },
     "alpha_shape": {
       "metrics": {
         "graph_type": "alpha_shape",
@@ -190,6 +251,56 @@
         ]
       ]
     },
+    "alpha_shape_convex": {
+      "metrics": {
+        "graph_type": "alpha_shape_convex",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 6,
+        "n_components": 7,
+        "n_faces": 2,
+        "mean_degree": 1.0,
+        "std_degree": 1.0,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.465355972344,
+        "std_length": 0.314639000895,
+        "min_length": 0.071895203088,
+        "max_length": 0.909884705119,
+        "total_length": 2.792135834066,
+        "entropy_degree": 1.0,
+        "entropy_length": 1.918295834054,
+        "entropy_orientation": 2.584962500721,
+        "density": 0.090909090909,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ]
+      ]
+    },
     "beta_skeleton_circle": {
       "metrics": {
         "graph_type": "beta_skeleton_circle",
@@ -232,6 +343,222 @@
         ],
         [
           6,
+          11
+        ]
+      ]
+    },
+    "beta_skeleton_intersection": {
+      "metrics": {
+        "graph_type": "beta_skeleton_intersection",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 30,
+        "n_components": 1,
+        "n_faces": 20,
+        "mean_degree": 5.0,
+        "std_degree": 1.471960144388,
+        "min_degree": 3.0,
+        "max_degree": 8.0,
+        "mean_length": 0.356058405844,
+        "std_length": 0.213294697409,
+        "min_length": 0.041023816652,
+        "max_length": 0.766901858377,
+        "total_length": 10.681752175308,
+        "entropy_degree": 2.054585169338,
+        "entropy_length": 2.898929563691,
+        "entropy_orientation": 4.240223928942,
+        "density": 0.454545454545,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "beta_skeleton_lune": {
+      "metrics": {
+        "graph_type": "beta_skeleton_lune",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 11,
+        "n_components": 1,
+        "n_faces": 1,
+        "mean_degree": 1.833333333333,
+        "std_degree": 0.687184270936,
+        "min_degree": 1.0,
+        "max_degree": 3.0,
+        "mean_length": 0.188006700661,
+        "std_length": 0.11731632165,
+        "min_length": 0.041023816652,
+        "max_length": 0.416180154483,
+        "total_length": 2.068073707276,
+        "entropy_degree": 1.459147917027,
+        "entropy_length": 2.368522527728,
+        "entropy_orientation": 3.459431618637,
+        "density": 0.166666666667,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          10,
           11
         ]
       ]
@@ -490,6 +817,160 @@
         ]
       ]
     },
+    "fungal_seeded": {
+      "metrics": {
+        "graph_type": "fungal_seeded",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 32,
+        "n_components": 1,
+        "n_faces": 22,
+        "mean_degree": 5.333333333333,
+        "std_degree": 1.027402333828,
+        "min_degree": 3.0,
+        "max_degree": 6.0,
+        "mean_length": 0.372519513461,
+        "std_length": 0.215096509671,
+        "min_length": 0.041023816652,
+        "max_length": 0.909884705119,
+        "total_length": 11.920624430747,
+        "entropy_degree": 1.418295834054,
+        "entropy_length": 2.980337797403,
+        "entropy_orientation": 4.390319531115,
+        "density": 0.484848484848,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
     "gamma_graph": {
       "metrics": {
         "graph_type": "gamma_graph",
@@ -535,6 +1016,371 @@
           11
         ]
       ]
+    },
+    "gamma_graph_complete": {
+      "metrics": {
+        "graph_type": "gamma_graph_complete",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 66,
+        "n_components": 1,
+        "n_faces": 56,
+        "mean_degree": 11.0,
+        "std_degree": 0.0,
+        "min_degree": 11.0,
+        "max_degree": 11.0,
+        "mean_length": 0.536652479955,
+        "std_length": 0.265682834245,
+        "min_length": 0.041023816652,
+        "max_length": 1.152265965661,
+        "total_length": 35.419063677002,
+        "entropy_degree": 0.0,
+        "entropy_length": 3.090864528345,
+        "entropy_orientation": 4.484762347093,
+        "density": 1.0,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          10
+        ],
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          3,
+          10
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          5,
+          10
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "gamma_graph_convex_hull": {
+      "metrics": {
+        "graph_type": "gamma_graph_convex_hull",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 6,
+        "n_components": 7,
+        "n_faces": 2,
+        "mean_degree": 1.0,
+        "std_degree": 1.0,
+        "min_degree": 0.0,
+        "max_degree": 2.0,
+        "mean_length": 0.465355972344,
+        "std_length": 0.314639000895,
+        "min_length": 0.071895203088,
+        "max_length": 0.909884705119,
+        "total_length": 2.792135834066,
+        "entropy_degree": 1.0,
+        "entropy_length": 1.918295834054,
+        "entropy_orientation": 2.584962500721,
+        "density": 0.090909090909,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          6,
+          11
+        ]
+      ]
+    },
+    "gamma_graph_void": {
+      "metrics": {
+        "graph_type": "gamma_graph_void",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 0,
+        "n_components": 12,
+        "n_faces": 1,
+        "mean_degree": 0.0,
+        "std_degree": 0.0,
+        "min_degree": 0.0,
+        "max_degree": 0.0,
+        "mean_length": 0.0,
+        "std_length": 0.0,
+        "min_length": 0.0,
+        "max_length": 0.0,
+        "total_length": 0.0,
+        "entropy_degree": 0.0,
+        "entropy_length": 0.0,
+        "entropy_orientation": 0.0,
+        "density": 0.0,
+        "is_connected": false
+      },
+      "edges": []
     },
     "gg": {
       "metrics": {
@@ -747,6 +1593,386 @@
         [
           7,
           10
+        ]
+      ]
+    },
+    "nng_k2": {
+      "metrics": {
+        "graph_type": "nng_k2",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 16,
+        "n_components": 2,
+        "n_faces": 7,
+        "mean_degree": 2.666666666667,
+        "std_degree": 1.027402333828,
+        "min_degree": 2.0,
+        "max_degree": 5.0,
+        "mean_length": 0.2209498132,
+        "std_length": 0.136384280062,
+        "min_length": 0.041023816652,
+        "max_length": 0.4665433403,
+        "total_length": 3.535197011207,
+        "entropy_degree": 1.418295834054,
+        "entropy_length": 2.899397470348,
+        "entropy_orientation": 3.75,
+        "density": 0.242424242424,
+        "is_connected": false
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "physarum_complete_base": {
+      "metrics": {
+        "graph_type": "physarum_complete_base",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 66,
+        "n_components": 1,
+        "n_faces": 56,
+        "mean_degree": 11.0,
+        "std_degree": 0.0,
+        "min_degree": 11.0,
+        "max_degree": 11.0,
+        "mean_length": 0.536652479955,
+        "std_length": 0.265682834245,
+        "min_length": 0.041023816652,
+        "max_length": 1.152265965661,
+        "total_length": 35.419063677002,
+        "entropy_degree": 0.0,
+        "entropy_length": 3.090864528345,
+        "entropy_orientation": 4.484762347093,
+        "density": 1.0,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          11
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          10
+        ],
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          3,
+          10
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          5,
+          10
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          10,
+          11
         ]
       ]
     },
@@ -1047,6 +2273,124 @@
         [
           7,
           8
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    "stepping_stone_d2_k1": {
+      "metrics": {
+        "graph_type": "stepping_stone_d2_k1",
+        "simulation": 0,
+        "n_vertices": 12,
+        "n_edges": 23,
+        "n_components": 1,
+        "n_faces": 13,
+        "mean_degree": 3.833333333333,
+        "std_degree": 1.280190957978,
+        "min_degree": 2.0,
+        "max_degree": 6.0,
+        "mean_length": 0.28501772541,
+        "std_length": 0.171234158453,
+        "min_length": 0.041023816652,
+        "max_length": 0.741398616844,
+        "total_length": 6.555407684423,
+        "entropy_degree": 2.084962500721,
+        "entropy_length": 2.876853130799,
+        "entropy_orientation": 4.1757358691,
+        "density": 0.348484848485,
+        "is_connected": true
+      },
+      "edges": [
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
         ],
         [
           7,
