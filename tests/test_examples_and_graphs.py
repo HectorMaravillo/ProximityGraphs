@@ -86,15 +86,16 @@ def test_quickstart_main_prints_expected_summary(capsys):
 
     quickstart.main()
     captured = capsys.readouterr()
+    output_dir = Path("examples") / "output" / "quickstart"
 
     assert captured.out.splitlines() == [
         "points: 9",
         "graphs: MST, Unit disk, Gabriel, Relative neighborhood, Delaunay, Voronoi",
         "mst edges: 8",
         "unit disk edges: 12",
-        r"saved figure: examples\output\quickstart\graph_gallery.png",
-        r"saved metrics: examples\output\quickstart\metrics.csv",
-        r"saved markdown: examples\output\quickstart\metrics.md",
+        f"saved figure: {output_dir / 'graph_gallery.png'}",
+        f"saved metrics: {output_dir / 'metrics.csv'}",
+        f"saved markdown: {output_dir / 'metrics.md'}",
     ]
 
 
