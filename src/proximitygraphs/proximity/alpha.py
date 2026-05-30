@@ -414,6 +414,7 @@ class Alpha_Hull(ProximityGraph):
         axis=False,
         save=None,
         *,
+        ax=None,
         fig_kwargs=None,
         v_kwargs=None,
         e_kwargs=None,
@@ -468,6 +469,8 @@ class Alpha_Hull(ProximityGraph):
             These override fontsize if duplicated.
         savefig_kwargs : dict, optional
             Extra keyword arguments passed to matplotlib.pyplot.savefig.
+        ax : matplotlib.axes.Axes or None, optional
+            Existing axes to draw into. If omitted, a new figure and axes are created.
 
         Returns
         -------
@@ -483,7 +486,10 @@ class Alpha_Hull(ProximityGraph):
         # figure and axes
         from matplotlib.pyplot import gcf, subplots
 
-        fig, ax = subplots(figsize=figsize, **fig_kwargs)
+        if ax is None:
+            fig, ax = subplots(figsize=figsize, **fig_kwargs)
+        else:
+            fig = ax.figure
 
         # vertices
         if getattr(self, "n", 0) > 0 and v_size > 0:
