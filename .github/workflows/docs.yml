@@ -1,14 +1,6 @@
 name: Deploy docs to GitHub Pages
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/docs.yml"
-      - "docs/**"
-      - "src/proximitygraphs/**"
-      - "pyproject.toml"
-      - "requirements.txt"
   workflow_dispatch:
 
 permissions:
