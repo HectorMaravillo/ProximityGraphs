@@ -48,6 +48,7 @@ GRAPH_SPECS = [
     GraphSpec("Complete", pg.GeometricGraph.complete, {}),
     GraphSpec("Unit_Disk", pg.Unit_Disk, {"dist_max": 1.25}),
     GraphSpec("DelaunayG", pg.DelaunayG, {}),
+    GraphSpec("Voronoi", pg.Voronoi, {}),
     GraphSpec("GG", pg.GG, {}),
     GraphSpec("RNG", pg.RNG, {}),
     GraphSpec("MST", pg.MST, {}),
@@ -91,6 +92,7 @@ EUCLIDEAN_COVARIANT_SPECS = [
     in {
         "Unit_Disk",
         "DelaunayG",
+        "Voronoi",
         "GG",
         "RNG",
         "MST",
@@ -175,6 +177,7 @@ def test_graph_registry_tracks_public_graph_exports():
         "Beta_Skeleton",
         "Convex_Hull",
         "DelaunayG",
+        "Voronoi",
         "Elliptic_GabrielG",
         "FungalGraph",
         "GG",
@@ -238,9 +241,11 @@ def test_rng_gabriel_delaunay_inclusion_chain():
     rng_edges = edge_set(pg.RNG(as_points(GENERAL_POSITION)))
     gabriel_edges = edge_set(pg.GG(as_points(GENERAL_POSITION)))
     delaunay_edges = edge_set(pg.DelaunayG(as_points(GENERAL_POSITION)))
+    voronoi_edges = edge_set(pg.Voronoi(as_points(GENERAL_POSITION)))
 
     assert rng_edges <= gabriel_edges
     assert gabriel_edges <= delaunay_edges
+    assert voronoi_edges == delaunay_edges
 
 
 def test_gabriel_empty_diameter_disk_invariant_and_non_edge():

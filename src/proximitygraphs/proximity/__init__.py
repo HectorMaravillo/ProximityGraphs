@@ -15,6 +15,7 @@ from .sigma import Sigma_Graph
 from .spanning import MST
 from .stepping import Stepping_Stone
 from .unit_disk import Unit_Disk
+from .voronoi import Voronoi
 
 __all__ = [
     "GG",
@@ -33,4 +34,5 @@ __all__ = [
     "Sigma_Graph",
     "Stepping_Stone",
     "Unit_Disk",
+    "Voronoi",
 ]

@@ -19,6 +19,7 @@ PUBLIC_CLASSES = [
     "Sigma_Graph",
     "Stepping_Stone",
     "Unit_Disk",
+    "Voronoi",
 ]
 
 

@@ -29,6 +29,7 @@ Submodules
    :maxdepth: 1
    
    Proximity_graphs/delaunay
+   Proximity_graphs/voronoi
    Proximity_graphs/convex_hull
    Proximity_graphs/MST
    Proximity_graphs/beta_skeleton 

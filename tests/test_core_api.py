@@ -102,6 +102,7 @@ def test_grid_graph_invariants_and_expected_counts():
             (pg.GG, {}),
             (pg.RNG, {}),
             (pg.DelaunayG, {}),
+            (pg.Voronoi, {}),
             (pg.Gamma_Graph, {"gamma0": -1.0, "gamma1": -1.0}),
         ]
         for graph_class, kwargs in graph_specs:
@@ -123,6 +124,7 @@ def test_repeated_graph_construction_is_deterministic():
         (pg.GG, {}),
         (pg.RNG, {}),
         (pg.DelaunayG, {}),
+        (pg.Voronoi, {}),
         (pg.Gamma_Graph, {"gamma0": 0.25, "gamma1": 0.75, "block_size": 8}),
     ]
 

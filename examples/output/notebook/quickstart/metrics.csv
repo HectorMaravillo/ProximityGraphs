@@ -1,0 +1,6 @@
+graph,vertices,edges,components,density,total_length
+MST,9,8,1,0.2222,8.0
+Unit disk,9,12,1,0.3333,12.0
+Gabriel,9,12,1,0.3333,12.0
+Relative neighborhood,9,12,1,0.3333,12.0
+Delaunay,9,16,1,0.4444,17.6569

@@ -101,6 +101,7 @@ from .proximitygraphs import (
     Sigma_Graph,
     Stepping_Stone,
     Unit_Disk,
+    Voronoi,
 )
 
 __all__ = [
@@ -125,6 +126,7 @@ __all__ = [
     "Sigma_Graph",
     "Stepping_Stone",
     "Unit_Disk",
+    "Voronoi",
     "biological",
     "biologicalgraphs",
     "circle_centroid",

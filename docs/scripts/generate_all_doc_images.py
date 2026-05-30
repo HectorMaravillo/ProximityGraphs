@@ -257,6 +257,14 @@ def _graph_jobs(graphs_dir: Path) -> List[Job]:
 
     jobs.append(Job("Proximity_graphs/delaunay", outdir, _delaunay))
 
+    def _voronoi() -> None:
+        pts = pg.SetPoints.uniform_square(n=200, seed=42)
+        _save_points(pts, outdir, "voronoi_points", figsize=(6, 6), details=True)
+        G = pg.Voronoi(pts)
+        _save_graph_single(G, outdir, "voronoi", figsize=(7, 7), details=True)
+
+    jobs.append(Job("Proximity_graphs/voronoi", outdir, _voronoi))
+
     def _convex_hull() -> None:
         pts = pg.SetPoints.uniform_square(n=200, seed=42)
         _save_points(pts, outdir, "convex_hull_points", figsize=(6, 6), details=True)

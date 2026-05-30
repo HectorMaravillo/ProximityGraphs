@@ -18,6 +18,7 @@ POINT_CONFIG = {
 
 GRAPH_SPECS = [
     {"class": pg.DelaunayG, "name": "delaunay", "params": {}},
+    {"class": pg.Voronoi, "name": "voronoi", "params": {}},
     {"class": pg.Convex_Hull, "name": "convex_hull", "params": {}},
     {"class": pg.MST, "name": "mst", "params": {}},
     {

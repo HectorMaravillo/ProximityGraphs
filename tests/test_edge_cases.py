@@ -55,7 +55,7 @@ def test_beta_and_gamma_reject_invalid_parameters():
 def test_delaunay_based_graphs_raise_qhull_error_for_too_few_points():
     points = pg.SetPoints(np.array([[0.0, 0.0], [1.0, 0.0]]))
 
-    for graph_class in [pg.DelaunayG, pg.MST, pg.GG, pg.RNG]:
+    for graph_class in [pg.DelaunayG, pg.Voronoi, pg.MST, pg.GG, pg.RNG]:
         with pytest.raises(QhullError):
             graph_class(points)
 
@@ -63,7 +63,7 @@ def test_delaunay_based_graphs_raise_qhull_error_for_too_few_points():
 def test_collinear_points_raise_qhull_error_for_delaunay_based_graphs():
     points = pg.SetPoints(np.array([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]]))
 
-    for graph_class in [pg.DelaunayG, pg.MST, pg.GG, pg.RNG]:
+    for graph_class in [pg.DelaunayG, pg.Voronoi, pg.MST, pg.GG, pg.RNG]:
         with pytest.raises(QhullError):
             graph_class(points)
 
