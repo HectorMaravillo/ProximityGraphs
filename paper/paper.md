@@ -9,7 +9,6 @@ tags:
 authors:
   - name: Héctor Maravillo
     affiliation: 1
-    corresponding: true
   - name: Diego Villarreal De La Cerda
     affiliation: 2
   - name: Heriberto Espino Montelongo
@@ -20,7 +19,7 @@ affiliations:
     index: 1
   - name: Universidad de las Américas Puebla, México
     index: 2
-date: 28 May 2026
+date: 
 bibliography: paper.bib
 ---
 
@@ -67,7 +66,7 @@ computational experiment about Asymptotic properties of $\beta$-skeletons [Adama
 
 The package is centered on a small set of classes. `SetPoints` stores planar coordinates and provides random and structured point generators. `GeometricGraph` wraps an igraph object together with the embedding coordinates, exposing operations such as graph unions, intersections, distance-style comparisons, geometric summaries, and plotting. `ProximityGraph` then specializes this base for graph families whose edges are determined by spatial neighborhood rules. Concrete classes implement individual constructions such as `MST`, `GG`, `RNG`, `Unit_Disk`, `Alpha_Shape`, and `Gamma_Graph`.
 
-This design gives users a consistent workflow:
+This design gives users a workflow:
 
 1. generate or load a planar point set;
 2. construct one or more graph families on that same set;
@@ -86,10 +85,6 @@ ProximityGraphs is complementary to these tools. Its focus is to provide a domai
 
 # Acknowledgements
 
-The authors received no external funding for this work.
-
 # AI usage disclosure
-
-The authors used ChatGPT for assistance with software engineering discussion, documentation drafting, manuscript editing, JOSS-preparation planning, and copy-editing. All AI-assisted outputs were reviewed, edited, and validated by the human authors. The authors made the core design decisions, implemented and tested the software, verified the mathematical and computational claims, and remain fully responsible for the accuracy, originality, licensing, and ethical/legal compliance of the submitted materials.
 
 # References
