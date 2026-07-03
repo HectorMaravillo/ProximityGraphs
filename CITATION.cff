@@ -2,30 +2,38 @@ cff-version: 1.2.0
 message: "If you use ProximityGraphs, please cite the software using this metadata."
 title: "ProximityGraphs"
 type: software
-version: "0.1.0"
+version: "0.1.0a2"
 abstract: "ProximityGraphs is a Python package for constructing, comparing, and experimenting with planar proximity graphs and related geometric graph models."
 url: "https://github.com/HectorMaravillo/ProximityGraphs"
 repository-code: "https://github.com/HectorMaravillo/ProximityGraphs"
 license: "MIT"
-date-released: "2026-05-28"
+date-released: "2026-07-01"
+
+identifiers:
+
+* type: doi
+  value: "10.5281/zenodo.21088183"
 
 authors:
-  - family-names: "Maravillo"
-    given-names: "Héctor"
-    affiliation: "Universidad Autónoma de la Ciudad de México, Mexico"
 
-  - family-names: "Villarreal De La Cerda"
-    given-names: "Diego"
-    affiliation: "Universidad de las Américas Puebla, México"
+* family-names: "Maravillo"
+  given-names: "Héctor"
+  affiliation: "Universidad Autónoma de la Ciudad de México, Mexico"
+  orcid: "https://orcid.org/0000-0002-6101-1964"
 
-  - family-names: "Espino Montelongo"
-    given-names: "Heriberto"
-    affiliation: "Universidad de las Américas Puebla, México"
-    orcid: "https://orcid.org/0009-0009-1230-2931"
+* family-names: "Villarreal De La Cerda"
+  given-names: "Diego"
+  affiliation: "Universidad de las Américas Puebla, México"
+
+* family-names: "Espino-Montelongo"
+  given-names: "Heriberto"
+  affiliation: "Universidad de las Américas Puebla, México"
+  orcid: "https://orcid.org/0009-0009-1230-2931"
 
 keywords:
-  - "proximity graphs"
-  - "computational geometry"
-  - "geometric graphs"
-  - "biological graphs"
-  - "Python"
+
+* "proximity graphs"
+* "computational geometry"
+* "geometric graphs"
+* "biological graphs"
+* "Python"
