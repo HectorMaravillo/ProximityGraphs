@@ -58,7 +58,7 @@ degrees = hull.graph.degree()
 print(f"All degrees are 2: {all(d == 2 for d in degrees if d > 0)}")
 
 # Visualize
-hull.draw(figsize=(8, 8), e_color='red', e_size=2)
+hull.draw(figsize=(8, 8), e_color="red", e_size=2)
 ```
 
 ---

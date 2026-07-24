@@ -30,7 +30,7 @@ ig_graph = ig.Graph.Famous("Petersen")
 
 # Create corresponding points (circular layout)
 n = ig_graph.vcount()
-theta = np.linspace(0, 2*np.pi, n, endpoint=False)
+theta = np.linspace(0, 2 * np.pi, n, endpoint=False)
 points = np.column_stack([np.cos(theta), np.sin(theta)])
 
 # Import into GeometricGraph

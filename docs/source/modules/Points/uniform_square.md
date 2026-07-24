@@ -27,7 +27,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.uniform_square(n=200, seed=73)
 
-pts.draw(figsize=(8, 8), v_color='#1f77b4')
+pts.draw(figsize=(8, 8), v_color="#1f77b4")
 ```
 
 ![Example point set](images/uniform_square.svg)

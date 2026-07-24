@@ -61,8 +61,8 @@ shortcut_benefit = max(0, current_path_length - 1) / n
 class FungalGraph(BiologicalGraph):
     """
     Fungal network constructed using a bio-inspired expansion metaheuristic.
-    
-    This class mimics the growth pattern of fungal networks to create 
+
+    This class mimics the growth pattern of fungal networks to create
     efficient, connected networks that:
     - Prioritize short edges for efficiency
     - Find shortest paths between node pairs
@@ -251,11 +251,7 @@ points = pg.SetPoints.uniform_square(n=100, seed=42)
 
 # Create Fungal graph with default parameters
 graph = pg.FungalGraph(
-    points,
-    max_degree=6,
-    growth_iterations=100,
-    prune_weak_factor=0.3,
-    seed=42
+    points, max_degree=6, growth_iterations=100, prune_weak_factor=0.3, seed=42
 )
 
 # Analyze result
@@ -277,18 +273,20 @@ points = pg.SetPoints.uniform_square(n=80, seed=123)
 strict_graph = pg.FungalGraph(
     points,
     max_degree=4,  # Very restrictive
-    seed=42
+    seed=42,
 )
 
 # Relaxed degree constraint
 relaxed_graph = pg.FungalGraph(
     points,
     max_degree=8,  # More permissive
-    seed=42
+    seed=42,
 )
 
 print(f"Strict - Edges: {strict_graph.m}, Max deg: {max(strict_graph.graph.degree())}")
-print(f"Relaxed - Edges: {relaxed_graph.m}, Max deg: {max(relaxed_graph.graph.degree())}")
+print(
+    f"Relaxed - Edges: {relaxed_graph.m}, Max deg: {max(relaxed_graph.graph.degree())}"
+)
 ```
 
 ### Example 3: Sparsity Control
@@ -300,16 +298,16 @@ points = pg.SetPoints.normal_dist(n=60, seed=999)
 sparse = pg.FungalGraph(
     points,
     distance_threshold_percentile=60,  # Fewer candidates
-    prune_weak_factor=0.5,             # Remove 50% of added edges
-    seed=42
+    prune_weak_factor=0.5,  # Remove 50% of added edges
+    seed=42,
 )
 
 # Dense network (minimal pruning)
 dense = pg.FungalGraph(
     points,
     distance_threshold_percentile=90,  # More candidates
-    prune_weak_factor=0.1,             # Remove only 10%
-    seed=42
+    prune_weak_factor=0.1,  # Remove only 10%
+    seed=42,
 )
 
 print(f"Sparse: {sparse.m} edges")
@@ -323,31 +321,25 @@ from proximitygraphs import Experiment
 
 exp = Experiment(
     name="FungalGraph Parameter Study",
-    point_config={'method': 'uniform_square', 'params': {'n': 100}},
+    point_config={"method": "uniform_square", "params": {"n": 100}},
     n_simulations=15,
-    seed=42
+    seed=42,
 )
 
 # Vary max_degree
 for deg in [4, 6, 8]:
     exp.add_graph_config(
-        pg.FungalGraph,
-        name=f'Fungal-deg{deg}',
-        max_degree=deg,
-        seed=42
+        pg.FungalGraph, name=f"Fungal-deg{deg}", max_degree=deg, seed=42
     )
 
 # Vary pruning
 for prune in [0.1, 0.3, 0.5]:
     exp.add_graph_config(
-        pg.FungalGraph,
-        name=f'Fungal-prune{prune}',
-        prune_weak_factor=prune,
-        seed=42
+        pg.FungalGraph, name=f"Fungal-prune{prune}", prune_weak_factor=prune, seed=42
     )
 
 results = exp.run()
-exp.compare_metrics(['n_edges', 'mean_degree', 'density'])
+exp.compare_metrics(["n_edges", "mean_degree", "density"])
 ```
 
 ### Example 5: Comparison with Other Graphs
@@ -364,16 +356,18 @@ gabriel = pg.GG(points)
 
 # Compare properties
 graphs = {
-    'Fungal': fungal,
-    'Physarum': physarum,
-    'MST': mst,
-    'Delaunay': delaunay,
-    'Gabriel': gabriel
+    "Fungal": fungal,
+    "Physarum": physarum,
+    "MST": mst,
+    "Delaunay": delaunay,
+    "Gabriel": gabriel,
 }
 
 for name, g in graphs.items():
-    print(f"{name:12} - Edges: {g.m:4}, Mean deg: {sum(g.graph.degree())/g.n:.2f}, "
-          f"Max deg: {max(g.graph.degree()):2}")
+    print(
+        f"{name:12} - Edges: {g.m:4}, Mean deg: {sum(g.graph.degree()) / g.n:.2f}, "
+        f"Max deg: {max(g.graph.degree()):2}"
+    )
 ```
 
 ### Example 6: Reproducibility with Seeds
@@ -387,12 +381,16 @@ g2 = pg.FungalGraph(points, seed=42)
 
 print(f"Graph 1: {g1.m} edges")
 print(f"Graph 2: {g2.m} edges")
-print(f"Identical: {g1.m == g2.m and g1.graph.get_edgelist() == g2.graph.get_edgelist()}")
+print(
+    f"Identical: {g1.m == g2.m and g1.graph.get_edgelist() == g2.graph.get_edgelist()}"
+)
 
 # Different seed → different results
 g3 = pg.FungalGraph(points, seed=99)
 print(f"Graph 3: {g3.m} edges")
-print(f"Different from 1: {g3.m != g1.m or g3.graph.get_edgelist() != g1.graph.get_edgelist()}")
+print(
+    f"Different from 1: {g3.m != g1.m or g3.graph.get_edgelist() != g1.graph.get_edgelist()}"
+)
 ```
 
 ## Performance Characteristics
@@ -449,15 +447,15 @@ print(f"Different from 1: {g3.m != g1.m or g3.graph.get_edgelist() != g1.graph.g
        points,
        distance_threshold_percentile=65,
        growth_iterations=50,
-       prune_weak_factor=0.4
+       prune_weak_factor=0.4,
    )
-   
+
    # Dense network
    dense = pg.FungalGraph(
        points,
        distance_threshold_percentile=85,
        growth_iterations=150,
-       prune_weak_factor=0.1
+       prune_weak_factor=0.1,
    )
    ```
 
@@ -470,34 +468,30 @@ print(f"Different from 1: {g3.m != g1.m or g3.graph.get_edgelist() != g1.graph.g
 4. **Balancing Growth and Pruning**
    ```python
    # Aggressive growth, minimal pruning
-   graph1 = pg.FungalGraph(
-       points,
-       growth_iterations=200,
-       prune_weak_factor=0.1
-   )
-   
+   graph1 = pg.FungalGraph(points, growth_iterations=200, prune_weak_factor=0.1)
+
    # Conservative growth, aggressive pruning
-   graph2 = pg.FungalGraph(
-       points,
-       growth_iterations=50,
-       prune_weak_factor=0.5
-   )
+   graph2 = pg.FungalGraph(points, growth_iterations=50, prune_weak_factor=0.5)
    ```
 
 5. **Monitoring Network Properties**
    ```python
    graph = pg.FungalGraph(points, seed=42)
-   
+
    # Degree distribution
    degrees = graph.graph.degree()
-   print(f"Degree stats: min={min(degrees)}, max={max(degrees)}, "
-         f"mean={sum(degrees)/len(degrees):.2f}")
-   
+   print(
+       f"Degree stats: min={min(degrees)}, max={max(degrees)}, "
+       f"mean={sum(degrees) / len(degrees):.2f}"
+   )
+
    # Edge lengths
    lengths = graph.lengths
-   print(f"Length stats: min={lengths.min():.3f}, max={lengths.max():.3f}, "
-         f"mean={lengths.mean():.3f}")
-   
+   print(
+       f"Length stats: min={lengths.min():.3f}, max={lengths.max():.3f}, "
+       f"mean={lengths.mean():.3f}"
+   )
+
    # Connectivity
    print(f"Connected components: {graph.cc}")
    print(f"Network is connected: {graph.cc == 1}")
@@ -512,8 +506,8 @@ print(f"Different from 1: {g3.m != g1.m or g3.graph.get_edgelist() != g1.graph.g
 graph = pg.FungalGraph(
     points,
     distance_threshold_percentile=85,  # More candidates
-    prune_weak_factor=0.1,             # Less pruning
-    growth_iterations=150               # More growth
+    prune_weak_factor=0.1,  # Less pruning
+    growth_iterations=150,  # More growth
 )
 ```
 
@@ -524,8 +518,8 @@ graph = pg.FungalGraph(
 graph = pg.FungalGraph(
     points,
     distance_threshold_percentile=65,  # Fewer candidates
-    prune_weak_factor=0.4,             # More pruning
-    growth_iterations=50                # Less growth
+    prune_weak_factor=0.4,  # More pruning
+    growth_iterations=50,  # Less growth
 )
 ```
 
@@ -535,7 +529,7 @@ graph = pg.FungalGraph(
 # Solution: Decrease max_degree
 graph = pg.FungalGraph(
     points,
-    max_degree=4  # Stricter constraint
+    max_degree=4,  # Stricter constraint
 )
 ```
 
@@ -546,7 +540,7 @@ graph = pg.FungalGraph(
 graph = pg.FungalGraph(
     points,
     distance_threshold_percentile=70,  # Fewer candidates
-    growth_iterations=75                # Fewer iterations
+    growth_iterations=75,  # Fewer iterations
 )
 ```
 

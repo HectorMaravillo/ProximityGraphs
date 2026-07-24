@@ -94,8 +94,8 @@ pts = pg.SetPoints.uniform_sphere(n=300, seed=7)  # unit disk (2D)
 
 G1 = pg.Gamma_Graph(pts, gamma0=-0.5, gamma1=0.5, k=0, closed=True, block_size=128)
 G2 = pg.Gamma_Graph(pts, gamma0=-0.2, gamma1=0.5, k=0, closed=True, block_size=128)
-G3 = pg.Gamma_Graph(pts, gamma0= 0.2, gamma1=0.5, k=0, closed=True, block_size=128)
-G4 = pg.Gamma_Graph(pts, gamma0= 0.5, gamma1=0.5, k=0, closed=True, block_size=128)
+G3 = pg.Gamma_Graph(pts, gamma0=0.2, gamma1=0.5, k=0, closed=True, block_size=128)
+G4 = pg.Gamma_Graph(pts, gamma0=0.5, gamma1=0.5, k=0, closed=True, block_size=128)
 
 graphs = [G1, G2, G3, G4]
 pg.draw_grid(graphs, 2, 2, figsize=(10, 10), details=True)

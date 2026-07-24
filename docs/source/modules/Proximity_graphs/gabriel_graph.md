@@ -45,7 +45,7 @@ import proximitygraphs as pg
 pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
 G_closed = pg.GG(pts, closed=True)
-G_open   = pg.GG(pts, closed=False)
+G_open = pg.GG(pts, closed=False)
 
 graphs = [G_closed, G_open]
 pg.draw_grid(graphs, 1, 2, figsize=(12, 5), details=True)

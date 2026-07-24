@@ -35,11 +35,12 @@ grid = SetPoints.grid(shape=(5, 5))
 
 # Rotate by 45 degrees
 rotated = grid.rotation(45, degree=True)
-rotated.draw(figsize=(8, 8), v_color='red')
+rotated.draw(figsize=(8, 8), v_color="red")
 
 # Rotate by pi/4 radians
 import numpy as np
-rotated_rad = grid.rotation(np.pi/4, degree=False)
+
+rotated_rad = grid.rotation(np.pi / 4, degree=False)
 ```
 
 ---
@@ -86,7 +87,7 @@ scaled_uniform = points.scaling(2.0)
 
 # Non-uniform scaling (stretch x by 3, y by 0.5)
 scaled_nonuniform = points.scaling([3.0, 0.5])
-scaled_nonuniform.draw(figsize=(8, 8), v_color='green')
+scaled_nonuniform.draw(figsize=(8, 8), v_color="green")
 ```
 
 ---
@@ -128,7 +129,7 @@ translated = points.traslation(5.0)
 
 # Translate by vector (shift x by 3, y by -2)
 translated_vec = points.traslation([3.0, -2.0])
-translated_vec.draw(figsize=(8, 8), v_color='purple')
+translated_vec.draw(figsize=(8, 8), v_color="purple")
 ```
 
 ---
@@ -168,7 +169,7 @@ grid = SetPoints.grid(shape=(10, 10))
 
 # Add small random perturbations
 perturbed = grid.perturb(radius=0.2)
-perturbed.draw(figsize=(8, 8), v_color='orange', v_size=20)
+perturbed.draw(figsize=(8, 8), v_color="orange", v_size=20)
 
 # Create uniformly perturbed version
 points = SetPoints.uniform_square(n=50, seed=1)
@@ -213,9 +214,9 @@ import matplotlib.pyplot as plt
 import proximitygraphs as pg
 
 base = pg.SetPoints.uniform_square(n=300, seed=7)
-rot  = base.rotation(theta=np.pi/6)
-scl  = base.scaling(scale=1.5)
-trn  = base.traslation(shift=(0.4, 0.2))
+rot = base.rotation(theta=np.pi / 6)
+scl = base.scaling(scale=1.5)
+trn = base.traslation(shift=(0.4, 0.2))
 
 fig, axes = plt.subplots(2, 2, figsize=(10, 10), constrained_layout=True)
 

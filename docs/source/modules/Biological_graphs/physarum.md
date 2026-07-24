@@ -221,8 +221,8 @@ points = pg.SetPoints.uniform_square(n=100, seed=42)
 # Create Physarum graph with default parameters
 graph = pg.PhysarumGraph(
     points,
-    sources=[0],      # Flow from first node
-    steps=200         # 200 evolution steps
+    sources=[0],  # Flow from first node
+    steps=200,  # 200 evolution steps
 )
 
 # Analyze result
@@ -244,8 +244,8 @@ points = pg.SetPoints.uniform_square(n=50, seed=123)
 graph = pg.PhysarumGraph(
     points,
     sources=[0, 49],  # Two sources at opposite ends
-    gamma=2.0,        # Stronger adaptation
-    steps=300
+    gamma=2.0,  # Stronger adaptation
+    steps=300,
 )
 
 # All other nodes become sinks
@@ -260,23 +260,23 @@ from proximitygraphs import Experiment
 
 exp = Experiment(
     name="Physarum Parameter Study",
-    point_config={'method': 'uniform_square', 'params': {'n': 80}},
+    point_config={"method": "uniform_square", "params": {"n": 80}},
     n_simulations=20,
-    seed=42
+    seed=42,
 )
 
 # Different gamma values
 for gamma in [0.5, 1.0, 1.5, 2.0, 2.5]:
     exp.add_graph_config(
         pg.PhysarumGraph,
-        name=f'Physarum-gamma{gamma}',
+        name=f"Physarum-gamma{gamma}",
         sources=[0],
         gamma=gamma,
-        steps=200
+        steps=200,
     )
 
 results = exp.run()
-exp.compare_metrics(['n_edges', 'mean_degree', 'mean_length'])
+exp.compare_metrics(["n_edges", "mean_degree", "mean_length"])
 ```
 
 #### Example 4: Complete vs Delaunay Base
@@ -285,20 +285,10 @@ exp.compare_metrics(['n_edges', 'mean_degree', 'mean_length'])
 points = pg.SetPoints.normal_dist(n=60, seed=999)
 
 # Using Delaunay base (faster, recommended)
-graph_delaunay = pg.PhysarumGraph(
-    points,
-    base_graph="delaunay",
-    sources=[0],
-    steps=150
-)
+graph_delaunay = pg.PhysarumGraph(points, base_graph="delaunay", sources=[0], steps=150)
 
 # Using complete base (slower, exact)
-graph_complete = pg.PhysarumGraph(
-    points,
-    base_graph="complete",
-    sources=[0],
-    steps=150
-)
+graph_complete = pg.PhysarumGraph(points, base_graph="complete", sources=[0], steps=150)
 
 print(f"Delaunay base edges: {graph_delaunay.m}")
 print(f"Complete base edges: {graph_complete.m}")
@@ -314,7 +304,7 @@ graph = pg.PhysarumGraph(
     points,
     sources=[0, 39],
     steps=50,  # Short initial evolution
-    gamma=1.5
+    gamma=1.5,
 )
 
 print(f"After 50 steps: {graph.m} edges")

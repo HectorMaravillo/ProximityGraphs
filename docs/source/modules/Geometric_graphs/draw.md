@@ -50,18 +50,18 @@ fig, ax = delaunay.draw()
 fig, ax = delaunay.draw(
     figsize=(10, 10),
     v_size=50,
-    v_color='red',
+    v_color="red",
     v_alpha=0.7,
     e_size=2,
-    e_color='blue',
+    e_color="blue",
     e_alpha=0.5,
     title=True,
     details=True,
-    axis=True
+    axis=True,
 )
 
 # Save to file
-delaunay.draw(save='my_delaunay_graph')
+delaunay.draw(save="my_delaunay_graph")
 ```
 ## code
 
@@ -100,9 +100,6 @@ delaunay = DelaunayG(points)
 
 # Plot orientation distribution
 fig, ax = delaunay.draw_orientation(
-    num_bins=36,
-    figsize=(8, 8),
-    color='blue',
-    area=True
+    num_bins=36, figsize=(8, 8), color="blue", area=True
 )
 ```

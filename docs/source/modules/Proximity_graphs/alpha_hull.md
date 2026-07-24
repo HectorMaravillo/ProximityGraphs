@@ -65,7 +65,7 @@ The Alpha_Hull class overrides `draw()` to render circular arcs instead of strai
 **Method:**
 
 ```python
-Alpha_Hull.draw(figsize=(8, 8), ax=None, e_color='blue', e_size=2, v_size=20, **kwargs)
+Alpha_Hull.draw(figsize=(8, 8), ax=None, e_color="blue", e_size=2, v_size=20, **kwargs)
 ```
 
 **Parameters:**
@@ -89,10 +89,10 @@ Instead of drawing straight lines between vertices, the `draw()` method:
 import proximitygraphs as pg
 import numpy as np
 
-theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
-r = 1 + 0.35*np.sin(5*theta)
-x = r * np.cos(theta) + 0.05*np.random.default_rng(42).standard_normal(theta.size)
-y = r * np.sin(theta) + 0.05*np.random.default_rng(43).standard_normal(theta.size)
+theta = np.linspace(0, 2 * np.pi, 200, endpoint=False)
+r = 1 + 0.35 * np.sin(5 * theta)
+x = r * np.cos(theta) + 0.05 * np.random.default_rng(42).standard_normal(theta.size)
+y = r * np.sin(theta) + 0.05 * np.random.default_rng(43).standard_normal(theta.size)
 pts = pg.SetPoints(np.column_stack([x, y]))
 
 A01 = pg.Alpha_Hull(pts, alpha=0.1)

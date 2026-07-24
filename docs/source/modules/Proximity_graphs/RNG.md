@@ -47,7 +47,7 @@ pts = pg.SetPoints.uniform_square(n=200, seed=42)
 
 G_mst = pg.MST(pts)
 G_rng = pg.RNG(pts, closed=False)
-G_gg  = pg.GG(pts, closed=True)
+G_gg = pg.GG(pts, closed=True)
 
 graphs = [G_mst, G_rng, G_gg]
 

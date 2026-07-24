@@ -21,7 +21,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.normal_dist(n=300, seed=42)
 
-pts.draw(figsize=(8, 8), v_color='#9467bd')
+pts.draw(figsize=(8, 8), v_color="#9467bd")
 ```
 
 ![Example point set](images/normal_dist.svg)

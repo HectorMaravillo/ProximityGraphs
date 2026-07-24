@@ -31,9 +31,11 @@ The generation process:
 ```python
 import proximitygraphs as pg
 
-pts = pg.SetPoints.cluster_square(intensity=(12, 12), cluster={"name": "Matern", "param": 0.1}, limit=1, seed=7)
+pts = pg.SetPoints.cluster_square(
+    intensity=(12, 12), cluster={"name": "Matern", "param": 0.1}, limit=1, seed=7
+)
 
-pts.draw(figsize=(8, 8), v_color='#e377c2')
+pts.draw(figsize=(8, 8), v_color="#e377c2")
 ```
 
 ![Example point set](images/cluster_square.svg)

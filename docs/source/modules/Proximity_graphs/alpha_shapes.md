@@ -53,10 +53,10 @@ The $\alpha$-shape is the boundary of the union of simplices in $C_\alpha(P)$.
 import proximitygraphs as pg
 import numpy as np
 
-theta = np.linspace(0, 2*np.pi, 200, endpoint=False)
-r = 1 + 0.35*np.sin(5*theta)
-x = r * np.cos(theta) + 0.05*np.random.default_rng(42).standard_normal(theta.size)
-y = r * np.sin(theta) + 0.05*np.random.default_rng(43).standard_normal(theta.size)
+theta = np.linspace(0, 2 * np.pi, 200, endpoint=False)
+r = 1 + 0.35 * np.sin(5 * theta)
+x = r * np.cos(theta) + 0.05 * np.random.default_rng(42).standard_normal(theta.size)
+y = r * np.sin(theta) + 0.05 * np.random.default_rng(43).standard_normal(theta.size)
 pts = pg.SetPoints(np.column_stack([x, y]))
 
 A01 = pg.Alpha_Shape(pts, alpha=0.1)

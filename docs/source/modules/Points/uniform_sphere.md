@@ -23,7 +23,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.uniform_sphere(n=200, seed=99)
 
-pts.draw(figsize=(8, 8), v_color='#2ca02c')
+pts.draw(figsize=(8, 8), v_color="#2ca02c")
 ```
 
 ![Example point set](images/uniform_sphere.svg)

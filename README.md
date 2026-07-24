@@ -55,8 +55,8 @@ points = pg.SetPoints.grid(shape=(3, 3))
 mst = pg.MST(points)
 unit_disk = pg.Unit_Disk(points, dist_max=1.01)
 
-print(points.n)                   # 9 vertices
-print(mst.m)                      # 8 edges
+print(points.n)  # 9 vertices
+print(mst.m)  # 8 edges
 print(unit_disk.graph.get_edgelist())
 ```
 

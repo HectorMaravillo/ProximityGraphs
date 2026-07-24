@@ -25,7 +25,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.triangular(n_x=10, n_y=10)
 
-pts.draw(figsize=(8, 8), v_color='#d62728', v_size=18)
+pts.draw(figsize=(8, 8), v_color="#d62728", v_size=18)
 ```
 
 ![Example point set](images/triangular.svg)

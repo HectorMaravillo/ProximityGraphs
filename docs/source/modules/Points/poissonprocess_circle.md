@@ -28,7 +28,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.poissonprocess_circle(intensity=150, radius=1, seed=7)
 
-pts.draw(figsize=(8, 8), v_color='#17becf')
+pts.draw(figsize=(8, 8), v_color="#17becf")
 ```
 
 ![Example point set](images/poissonprocess_circle.svg)

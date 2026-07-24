@@ -44,8 +44,8 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.uniform_square(n=250, seed=42)
 
-G3  = pg.NNG(pts, k=3)
-G5  = pg.NNG(pts, k=5)
+G3 = pg.NNG(pts, k=3)
+G5 = pg.NNG(pts, k=5)
 G10 = pg.NNG(pts, k=10)
 G20 = pg.NNG(pts, k=20)
 

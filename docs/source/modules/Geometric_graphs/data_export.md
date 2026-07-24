@@ -21,7 +21,7 @@ points = SetPoints.uniform_square(n=100, seed=1)
 gabriel = GG(points)
 
 # Save graph
-gabriel.save('/tmp', 'my_gabriel_graph')
+gabriel.save("/tmp", "my_gabriel_graph")
 # Creates: /tmp/my_gabriel_graph and /tmp/my_gabriel_graph.npy
 ```
 
@@ -95,7 +95,7 @@ gdf_polygons = delaunay.to_gpd_polygons()
 print(f"Number of faces: {len(gdf_polygons)}")
 
 # Visualize polygons
-gdf_polygons.plot(figsize=(10, 10), alpha=0.5, edgecolor='black')
+gdf_polygons.plot(figsize=(10, 10), alpha=0.5, edgecolor="black")
 ```
 
 ---
@@ -121,7 +121,7 @@ Loads a previously saved GeometricGraph from disk.
 from proximitygraphs.geometricgraphs import load_graph
 
 # Load previously saved graph
-loaded_graph = load_graph('/tmp', 'my_gabriel_graph')
+loaded_graph = load_graph("/tmp", "my_gabriel_graph")
 print(f"Loaded graph: {loaded_graph.name}")
 print(f"Vertices: {loaded_graph.n}, Edges: {loaded_graph.m}")
 ```

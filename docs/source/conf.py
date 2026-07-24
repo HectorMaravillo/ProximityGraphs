@@ -122,6 +122,7 @@ def _sync_example_notebooks(app):
 def setup(app):
     app.connect("builder-inited", _sync_example_notebooks)
 
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 

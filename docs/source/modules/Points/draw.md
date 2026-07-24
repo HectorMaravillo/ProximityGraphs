@@ -43,16 +43,11 @@ fig, ax = points.draw()
 
 # Customized plot
 fig, ax = points.draw(
-    figsize=(10, 10),
-    v_size=20,
-    v_color='red',
-    v_alpha=0.6,
-    title=True,
-    axis=True
+    figsize=(10, 10), v_size=20, v_color="red", v_alpha=0.6, title=True, axis=True
 )
 
 # Save to file
-points.draw(save='my_points')  # Saves as 'my_points.png'
+points.draw(save="my_points")  # Saves as 'my_points.png'
 ```
 
 ## Example
@@ -62,7 +57,7 @@ import proximitygraphs as pg
 
 pts = pg.SetPoints.uniform_square(n=250, seed=7)
 
-pts.draw(figsize=(8, 8), v_color='#00072D', v_size=10, details=True)
+pts.draw(figsize=(8, 8), v_color="#00072D", v_size=10, details=True)
 ```
 
 ![Example point set](images/draw.svg)
