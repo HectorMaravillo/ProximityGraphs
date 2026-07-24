@@ -32,6 +32,7 @@ Main Components
    modules/proximitygraphs
    modules/biologicalgraphs
    modules/Experiments
+   examples_notebooks/index
    modules/references
    about
 

@@ -18,6 +18,7 @@ htmlcov/
 
 # Documentation build
 docs/build/
+/docs/source/examples_notebooks/
 
 # OS/editor
 .DS_Store
@@ -49,3 +50,5 @@ logs/
 
 .vscode/
 
+# Machine-local Codex instructions
+/AGENTS.md
